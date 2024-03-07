@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:tc:postgresql:15:///databasename?TC_DAEMON=true
+  jpa:
+    properties:
+      hibernate:
+        jdbc.batch_size: 10000
+        generate_statistics: true
+        show_sql: true
+    hibernate: 
+      ddl-auto: validate
+logging:
+  level:
+    org:  
+      hibernate: info 
+
+         
+    
+

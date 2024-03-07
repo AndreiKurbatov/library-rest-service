@@ -1,0 +1,11 @@
+package ua.com.foxmineded.library.dao;
+
+import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import ua.com.foxmineded.library.entities.impl.BookReader;
+
+@Repository
+public interface BookReaderRepository extends JpaRepository<BookReader, Long> {
+	Optional<BookReader> findByBookReaderId(Long bookReaderId);
+}
