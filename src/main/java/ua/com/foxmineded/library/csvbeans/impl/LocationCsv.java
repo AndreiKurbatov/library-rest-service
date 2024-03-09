@@ -16,6 +16,10 @@ public class LocationCsv implements BeanCsv{
 	private String locationName;
 
 	public static CsvToBean<LocationCsv> csvBean(CSVReader csvReader) {
-		return new CsvToBeanBuilder<LocationCsv>(csvReader).withType(LocationCsv.class).withSeparator(';').build();
+		return new CsvToBeanBuilder<LocationCsv>(csvReader)
+				.withQuoteChar('"')
+				.withType(LocationCsv.class)
+				.withSeparator(';')
+				.build();
 	}
 }

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Component;
 import com.opencsv.CSVReader;
-import com.opencsv.bean.CsvToBean;
 import lombok.SneakyThrows;
 import ua.com.foxmineded.library.csvbeans.impl.BookCsv;
 import ua.com.foxmineded.library.utils.BookCsvImporter;
@@ -21,10 +20,8 @@ public class BookCsvImporterImpl implements BookCsvImporter {
 	public List<BookCsv> read() {
 		List<BookCsv> books = new ArrayList<>();
 		try (CSVReader csvReader = new CSVReader(new FileReader(BOOKS_CSV.toFile()))) {
-			CsvToBean<BookCsv> csvToBean = BookCsv.csvBean(csvReader);
-			books = csvToBean.parse();
+			books = BookCsv.csvBean(csvReader);
 		}
-		
 		return books;
 	}
 }
