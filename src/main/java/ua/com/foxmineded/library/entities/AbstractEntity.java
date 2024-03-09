@@ -16,7 +16,7 @@ import lombok.ToString;
 public abstract class AbstractEntity<T> implements Entity<T> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_generator")
-	@SequenceGenerator(name="sequence_generator",schema = "university", sequenceName = "hibernate_sequence", allocationSize=10000)
+	@SequenceGenerator(name="sequence_generator",schema = "library", sequenceName = "hibernate_sequence", allocationSize=10000)
 	protected T id;
 
 	protected AbstractEntity(T id) {

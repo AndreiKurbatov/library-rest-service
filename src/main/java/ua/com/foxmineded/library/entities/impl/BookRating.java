@@ -15,7 +15,7 @@ import lombok.ToString;
 import ua.com.foxmineded.library.entities.AbstractEntity;
 
 @Entity
-@Table(schema = "university", name = "book_ratings")
+@Table(schema = "library", name = "book_ratings")
 @Data
 @ToString(callSuper = true)
 @NoArgsConstructor

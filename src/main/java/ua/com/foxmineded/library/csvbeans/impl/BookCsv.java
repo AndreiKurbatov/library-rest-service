@@ -16,13 +16,13 @@ public class BookCsv implements BeanCsv{
 	private String bookTitle;
 
 	@CsvBindByName(column = "Book-Author")
-	private String bookAuthor;
+	private String authorName;
 
 	@CsvBindByName(column = "Year-Of-Publication")
 	private Integer yearOfPublication;
 
 	@CsvBindByName(column = "Publisher")
-	private String publisher;
+	private String publisherName;
 
 	@CsvBindByName(column = "Image-URL-S")
 	private String imageUrlS;
@@ -33,8 +33,12 @@ public class BookCsv implements BeanCsv{
 	@CsvBindByName(column = "Image-URL-L")
 	private String imageUrlL;
 
-	public static CsvToBean<BookCsv> csvBean(CSVReader csvReader) {
-		return new CsvToBeanBuilder<BookCsv>(csvReader).withType(BookCsv.class).withSeparator(';')
-				.withIgnoreLeadingWhiteSpace(true).withIgnoreEmptyLine(true).withIgnoreQuotations(true).build();
+    public static CsvToBean<BookCsv> csvBean(CSVReader csvReader) {
+        return new CsvToBeanBuilder<BookCsv>(csvReader)
+                .withSeparator(';')
+                .withSkipLines(1)
+                .withType(BookCsv.class)
+                .build();
 	}
 }
+

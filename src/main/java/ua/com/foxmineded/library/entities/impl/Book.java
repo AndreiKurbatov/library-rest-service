@@ -14,7 +14,7 @@ import lombok.ToString;
 import ua.com.foxmineded.library.entities.AbstractEntity;
 
 @Entity
-@Table(schema = "university", name = "books")
+@Table(schema = "library", name = "books")
 @Data
 @NoArgsConstructor
 @ToString(callSuper = true)
@@ -25,25 +25,31 @@ public class Book extends AbstractEntity<Long> {
 	private String bookTitle;
 	@ToString.Exclude
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "author_id")
+	@JoinColumn(name = "author_name")
 	private Author author;
 	@ToString.Exclude
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "publisher_id")
+	@JoinColumn(name = "publisher_name")
 	private Publisher publisher;
 	@Column(name = "publication_year")
 	private Integer publicationYear;
+	@Column(name = "image_url_s")
+	private String imageUrlS;
+	@Column(name = "image_url_m")
+	private String imageUrlM;
 	@Column(name = "image_url_l")
 	private String imageUrlL;
 	
 	public Book(Long id, String isbn, String bookTitle, Author author, Publisher publisher, Integer publicationYear,
-			 String imageUrlL) {
+			String imageUrlS, String imageUrlM, String imageUrlL) {
 		super(id);
 		this.isbn = isbn;
 		this.bookTitle = bookTitle;
 		this.author = author;
 		this.publisher = publisher;
 		this.publicationYear = publicationYear;
+		this.imageUrlS = imageUrlS;
+		this.imageUrlM = imageUrlM;
 		this.imageUrlL = imageUrlL;
 	}
 

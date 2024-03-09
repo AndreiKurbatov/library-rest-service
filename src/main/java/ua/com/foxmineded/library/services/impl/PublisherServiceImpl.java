@@ -1,17 +1,16 @@
 package ua.com.foxmineded.library.services.impl;
 
-import java.util.function.Function;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ua.com.foxmineded.universitycms.exceptions.ServiceException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ua.com.foxmineded.universitycms.dao.PublisherRepository;
-import ua.com.foxmineded.universitycms.dto.PublisherDto;
-import ua.com.foxmineded.universitycms.entities.impl.Publisher;
-import ua.com.foxmineded.universitycms.services.PublisherService;
+import ua.com.foxmineded.library.dao.PublisherRepository;
+import ua.com.foxmineded.library.dto.PublisherDto;
+import ua.com.foxmineded.library.entities.impl.Publisher;
+import ua.com.foxmineded.library.exceptions.ServiceException;
+import ua.com.foxmineded.library.services.PublisherService;
 
 @Service
 @Slf4j
@@ -55,23 +54,13 @@ public class PublisherServiceImpl implements PublisherService {
 	@Override
 	public Page<PublisherDto> findAll(Pageable pageable) {
 		Page<Publisher> publishers = publisherRepository.findAll(pageable);
-		return publishers.map(new Function<Publisher, PublisherDto>() {
-			@Override
-			public PublisherDto apply(Publisher t) {
-				return modelMapper.map(t, PublisherDto.class);
-			}
-		});
+		return publishers.map(publisher -> modelMapper.map(publisher, PublisherDto.class));
 	}
 
 	@Override
 	public Page<PublisherDto> findAllByAuthorName(String name, Pageable pageable) {
 		Page<Publisher> publishers = publisherRepository.findAllByAuthorName(name, pageable);
-		return publishers.map(new Function<Publisher, PublisherDto>() {
-			@Override
-			public PublisherDto apply(Publisher t) {
-				return modelMapper.map(t, PublisherDto.class);
-			}
-		});
+		return publishers.map(publisher -> modelMapper.map(publisher, PublisherDto.class));
 	}
 
 	@Override

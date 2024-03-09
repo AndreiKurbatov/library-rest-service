@@ -2,11 +2,11 @@ package ua.com.foxmineded.library.services;
 
 import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
-import ua.com.foxmineded.library.entities.impl.Location;
+import ua.com.foxmineded.library.entities.impl.BookReader;
 
-public interface LocationGenerationService {
+public interface BookReaderImporterService {
 	@Transactional
-	List<Location> generateLocations();
+	List<BookReader> importBookReaders();
 	
 	@Transactional(readOnly = true)
 	Long countAll();

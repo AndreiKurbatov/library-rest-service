@@ -14,7 +14,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(schema = "university", name = "locations")
+@Table(schema = "library", name = "locations")
 @Data
 @NoArgsConstructor
 @ToString(callSuper = true)

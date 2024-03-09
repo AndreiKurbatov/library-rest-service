@@ -2,11 +2,11 @@ package ua.com.foxmineded.library.services;
 
 import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
-import ua.com.foxmineded.library.entities.impl.Author;
+import ua.com.foxmineded.library.entities.impl.Book;
 
-public interface AuthorGeneratorService {
+public interface BookImporterService {
 	@Transactional
-	List<Author> generateAuthors();
+	List<Book> importBooks();
 	
 	@Transactional(readOnly = true)
 	Long countAll();
