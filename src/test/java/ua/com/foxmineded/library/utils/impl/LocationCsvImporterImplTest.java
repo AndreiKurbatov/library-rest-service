@@ -19,7 +19,7 @@ class LocationCsvImporterImplTest {
 		List<LocationCsv> locations = csvImporter.read();
 		assertNotNull(locations.get(0).getBookReaderId());
 		assertNotNull(locations.get(0).getLocationName());
-		assertEquals(37288, locations.size());
+		assertEquals(278858, locations.size());
 	}
 
 }

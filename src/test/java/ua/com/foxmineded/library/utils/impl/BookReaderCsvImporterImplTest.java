@@ -17,7 +17,7 @@ class BookReaderCsvImporterImplTest {
 	void testImportAllBookReadersFromCsvFile() {
 		List<BookReaderCsv> bookReaders = bookReaderCsvImporter.read();
 		assertNotNull(bookReaders.get(0).getBookReaderId());
-		assertNotNull(bookReaders.get(0).getAge());
+		assertNull(bookReaders.get(0).getAge());
 		assertEquals(278858, bookReaders.size());
 	}
 

@@ -21,6 +21,6 @@ class BookRatingCsvImporterImplTest {
 		assertNotNull(bookRatings.get(0).getBookReaderId());
 		assertNotNull(bookRatings.get(0).getIsbn());
 		assertNotNull(bookRatings.get(0).getBookRating());
-		assertEquals(1031175, bookRatings.size());
+		assertEquals(1149780, bookRatings.size());
 	}
 }

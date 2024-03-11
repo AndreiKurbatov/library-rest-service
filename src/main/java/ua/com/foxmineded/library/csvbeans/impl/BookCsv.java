@@ -3,6 +3,7 @@ package ua.com.foxmineded.library.csvbeans.impl;
 import java.util.List;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.Data;
 import ua.com.foxmineded.library.csvbeans.BeanCsv;
@@ -33,15 +34,11 @@ public class BookCsv implements BeanCsv{
 	@CsvBindByName(column = "Image-URL-L")
 	private String imageUrlL;
 
-    public static List<BookCsv> csvBean(CSVReader csvReader) {
-        return new CsvToBeanBuilder<BookCsv>(csvReader)
-        		.withSeparator(';')
-                .withSkipLines(1)
-                .withEscapeChar('\"')
-                .withQuoteChar('"')
-                .withType(BookCsv.class)
-                .build()
-                .parse();
+    public static CsvToBean<BookCsv> csvBean(CSVReader csvReader) {
+		return new CsvToBeanBuilder<BookCsv>(csvReader)
+				.withType(BookCsv.class)
+				.withSeparator(';')
+				.build();
 	}
 }
 
