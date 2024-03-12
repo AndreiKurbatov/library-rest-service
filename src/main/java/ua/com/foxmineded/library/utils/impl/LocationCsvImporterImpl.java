@@ -1,20 +1,10 @@
 package ua.com.foxmineded.library.utils.impl;
 
-import java.io.FileReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Stream;
-
 import org.springframework.stereotype.Component;
-
-import com.opencsv.CSVReader;
-import com.opencsv.bean.CsvToBean;
-
-import lombok.SneakyThrows;
-import ua.com.foxmineded.library.csvbeans.impl.BookCsv;
 import ua.com.foxmineded.library.csvbeans.impl.LocationCsv;
 import ua.com.foxmineded.library.utils.LocationCsvImporter;
 

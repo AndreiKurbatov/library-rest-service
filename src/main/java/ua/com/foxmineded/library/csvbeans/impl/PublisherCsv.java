@@ -13,10 +13,8 @@ public class PublisherCsv implements BeanCsv {
 	private String publisherName;
 
 	public static CsvToBean<PublisherCsv> csvBean(CSVReader csvReader) {
-		return new CsvToBeanBuilder<PublisherCsv>(csvReader).withType(PublisherCsv.class).withSeparator(';')
-				.withIgnoreLeadingWhiteSpace(true)
-				.withIgnoreEmptyLine(true)
-				.withIgnoreQuotations(true)
+		return new CsvToBeanBuilder<PublisherCsv>(csvReader).withType(PublisherCsv.class)
+				.withSeparator(';')
 				.build();
 	}
 }

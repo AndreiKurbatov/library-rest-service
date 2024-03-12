@@ -1,6 +1,5 @@
 package ua.com.foxmineded.library.csvbeans.impl;
 
-import java.util.List;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvToBean;

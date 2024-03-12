@@ -3,7 +3,6 @@ package ua.com.foxmineded.library.entities.impl;
 import java.util.Objects;
 import org.hibernate.proxy.HibernateProxy;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -21,13 +20,13 @@ import ua.com.foxmineded.library.entities.AbstractEntity;
 @NoArgsConstructor
 public class BookRating extends AbstractEntity<Long> {
 	@ToString.Exclude
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "book_reader_id")
 	private BookReader bookReader;
 	@Column(name = "isbn", length = 10, insertable=false, updatable=false) 
 	private String isbn;
 	@ToString.Exclude
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "isbn")
 	private Book book;
 	private Integer bookRating;

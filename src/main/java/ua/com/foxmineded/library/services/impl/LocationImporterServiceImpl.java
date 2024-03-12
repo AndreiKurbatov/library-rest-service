@@ -1,11 +1,11 @@
 package ua.com.foxmineded.library.services.impl;
 
 import java.util.List;
-import static java.util.stream.Collectors.toCollection;
 import java.util.ArrayList;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
+import ua.com.foxmineded.library.csvbeans.impl.LocationCsv;
 import ua.com.foxmineded.library.dao.LocationRepository;
 import ua.com.foxmineded.library.entities.impl.Location;
 import ua.com.foxmineded.library.services.LocationImporterService;
@@ -20,8 +20,17 @@ public class LocationImporterServiceImpl implements LocationImporterService {
 
 	@Override
 	public List<Location> importLocations() {
-		List<Location> locations = csvReader.read().stream().map(value -> modelMapper.map(value, Location.class)).collect(toCollection(ArrayList::new));
-		return locationRepository.saveAll(locations);
+		List<LocationCsv> locations = csvReader.read();
+		List<Location> result = new ArrayList<>();
+		for (LocationCsv locationCsv : locations) {
+			String[] locationParts = locationCsv.getLocationName().split(", ");
+			for (String locationPart : locationParts) {
+				Location location = modelMapper.map(locationCsv, Location.class);
+				location.setLocationName(locationPart);
+				result.add(location);
+			}
+		}
+		return locationRepository.saveAll(result);
 	}
 
 	@Override

@@ -29,6 +29,10 @@ class BookCsvTest {
 		
 		Book book = modelMapper.map(bookCsv, Book.class);
 		assertNull(book.getId());
+		assertNull(book.getAuthor().getId());
+		assertNull(book.getPublisher().getId());
+		assertEquals(bookCsv.getAuthorName(), book.getAuthorName());
+		assertEquals(bookCsv.getPublisherName(), book.getPublisherName());
 		assertEquals(bookCsv.getIsbn(), book.getIsbn());
 		assertEquals(bookCsv.getBookTitle(), book.getBookTitle());
 		assertEquals(bookCsv.getAuthorName(), book.getAuthor().getAuthorName());

@@ -20,7 +20,6 @@ public class BookRatingCsv implements BeanCsv {
 	private Integer bookRating;
 	
 	public static CsvToBean<BookRatingCsv> csvBean(CSVReader csvReader) {
-		return new CsvToBeanBuilder<BookRatingCsv>(csvReader).withType(BookRatingCsv.class).withSeparator(';')
-				.withIgnoreLeadingWhiteSpace(true).withIgnoreEmptyLine(true).withIgnoreQuotations(true).build();
+		return new CsvToBeanBuilder<BookRatingCsv>(csvReader).withType(BookRatingCsv.class).withSeparator(';').build();
 	}
 }

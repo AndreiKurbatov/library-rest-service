@@ -6,7 +6,7 @@ spring:
       hibernate:
         jdbc.batch_size: 10000
         generate_statistics: true
-        show_sql: true
+        show_sql: false
     hibernate: 
       ddl-auto: validate
 logging:

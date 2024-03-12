@@ -3,6 +3,7 @@ package ua.com.foxmineded.library.entities.impl;
 import java.util.Objects;
 import java.util.Set;
 import org.hibernate.proxy.HibernateProxy;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,7 +23,7 @@ public class BookReader extends AbstractEntity<Long> {
 	@Column(name = "book_reader_id")
 	private Long bookReaderId;
 	@ToString.Exclude
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "bookReader")
+	@OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true, mappedBy = "bookReader")
 	private Set<Location> locations;
 	@Column(name = "age")
 	private Integer age;

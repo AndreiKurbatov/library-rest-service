@@ -2,7 +2,10 @@ package ua.com.foxmineded.library.utils.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import static java.util.stream.Collectors.toCollection;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,9 +19,11 @@ class AuthorCsvImporterImplTest {
 
 	@Test
 	void testImportAllAuthorsFromCsvFile() {
-		Set<AuthorCsv> set = authorCsvImporter.read();
-		AuthorCsv authorCsv = set.stream().findFirst().get();
+		List<AuthorCsv> list = authorCsvImporter.read();
+		Set<String> namesSet = list.stream().map(author -> author.getAuthorName()).collect(toCollection(HashSet::new));
+		AuthorCsv authorCsv = list.stream().findFirst().get();
 		assertNotNull(authorCsv.getAuthorName());
-		assertEquals(102028, set.size());
+		assertEquals(namesSet.size(), list.size());
+		assertEquals(102028, list.size());
 	}
 }
