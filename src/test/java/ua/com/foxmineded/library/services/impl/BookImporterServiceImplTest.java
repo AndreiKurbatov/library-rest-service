@@ -14,13 +14,13 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 
 import ua.com.foxmineded.library.config.TypeMapConfig;
 import ua.com.foxmineded.library.dao.AuthorRepository;
 import ua.com.foxmineded.library.dao.BookRepository;
 import ua.com.foxmineded.library.dao.PublisherRepository;
 import ua.com.foxmineded.library.entities.impl.Book;
-import ua.com.foxmineded.library.services.AuthorImporterService;
 import ua.com.foxmineded.library.services.BookImporterService;
 import ua.com.foxmineded.library.services.PublisherImporterService;
 import ua.com.foxmineded.library.utils.AuthorCsvImporter;
@@ -33,7 +33,7 @@ import ua.com.foxmineded.library.utils.PublisherCsvImporter;
 		BookImporterService.class, BookRepository.class, BookCsvImporter.class}))
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @ActiveProfiles("test")
-@Sql(scripts = { "/test/sql/clear_tables.sql" })
+@Sql(scripts = { "/test/sql/clear_tables.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_CLASS)
 class BookImporterServiceImplTest {
 	@Autowired
 	BookImporterService bookImporterService;

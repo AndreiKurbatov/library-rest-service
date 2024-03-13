@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
+import ua.com.foxmineded.library.csvbeans.impl.BookReaderCsv;
 import ua.com.foxmineded.library.dao.BookReaderRepository;
 import ua.com.foxmineded.library.entities.impl.BookReader;
 import ua.com.foxmineded.library.services.BookReaderImporterService;
@@ -20,7 +21,8 @@ public class BookReaderImporterServiceImpl implements BookReaderImporterService 
 
 	@Override
 	public List<BookReader> importBookReaders() {
-		List<BookReader> bookReaders = bookReaderCsvImporter.read().stream()
+		List<BookReaderCsv> bookReaderCsvs = bookReaderCsvImporter.read();
+		List<BookReader> bookReaders = bookReaderCsvs.stream()
 				.map(value -> modelMapper.map(value, BookReader.class)).collect(toCollection(ArrayList::new));
 		return bookReaderRepository.saveAll(bookReaders);
 	}

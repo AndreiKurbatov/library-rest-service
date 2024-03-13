@@ -1,4 +1,4 @@
-package ua.com.foxmineded.library.services;
+package ua.com.foxmineded.library.services.impl;
 
 import java.util.List;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,9 +1,7 @@
 package ua.com.foxmineded.library.entities.impl;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-
 import org.hibernate.proxy.HibernateProxy;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -21,7 +19,7 @@ import ua.com.foxmineded.library.entities.AbstractEntity;
 @NoArgsConstructor
 @ToString(callSuper = true)
 public class Publisher extends AbstractEntity<Long> {
-	@Column(name = "publisher_name")
+	@Column(name = "publisher_name", unique = true, nullable = false)
 	private String publisherName;
 	@ToString.Exclude
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "publisher")

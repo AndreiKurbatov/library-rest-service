@@ -9,13 +9,13 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ua.com.foxmineded.library.entities.impl.BookRating;
-import ua.com.foxmineded.library.services.AuthorImporterService;
 import ua.com.foxmineded.library.services.BookImporterService;
 import ua.com.foxmineded.library.services.BookRatingImporterService;
 import ua.com.foxmineded.library.services.BookReaderImporterService;
 import ua.com.foxmineded.library.services.ConcurrentDataImporterService;
 import ua.com.foxmineded.library.services.LocationImporterService;
 import ua.com.foxmineded.library.services.PublisherImporterService;
+import ua.com.foxmineded.library.services.impl.AuthorImporterService;
 
 @Profile("!test")
 @Component

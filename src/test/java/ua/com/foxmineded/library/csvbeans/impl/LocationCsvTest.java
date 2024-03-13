@@ -18,12 +18,13 @@ class LocationCsvTest {
 	@Test
 	void testMapLocationCsvToLocation() {
 		LocationCsv locationCsv = new LocationCsv();
-		locationCsv.setBookReaderId(1L);
+		locationCsv.setBookReaderId(123L);
 		locationCsv.setLocationName("location");
 		
 		Location location = modelMapper.map(locationCsv, Location.class);
 		assertNull(location.getId());
-		assertEquals(locationCsv.getBookReaderId(), location.getBookReader().getBookReaderId());
+		assertNull(location.getBookReader());
 		assertEquals(locationCsv.getLocationName(), location.getLocationName());
+		assertEquals(locationCsv.getBookReaderId(), location.getBookReaderId());
 	}
 }

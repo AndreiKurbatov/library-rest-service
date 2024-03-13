@@ -15,7 +15,6 @@ import org.springframework.test.context.jdbc.Sql;
 import ua.com.foxmineded.library.config.TypeMapConfig;
 import ua.com.foxmineded.library.dao.AuthorRepository;
 import ua.com.foxmineded.library.entities.impl.Author;
-import ua.com.foxmineded.library.services.AuthorImporterService;
 import ua.com.foxmineded.library.utils.AuthorCsvImporter;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {AuthorImporterService.class, AuthorRepository.class, TypeMapConfig.class, AuthorCsvImporter.class}))

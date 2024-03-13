@@ -20,17 +20,17 @@ public class LocationImporterServiceImpl implements LocationImporterService {
 
 	@Override
 	public List<Location> importLocations() {
-		List<LocationCsv> locations = csvReader.read();
-		List<Location> result = new ArrayList<>();
-		for (LocationCsv locationCsv : locations) {
+		List<LocationCsv> locationCsvs = csvReader.read();
+		List<Location> locations = new ArrayList<>();
+		for (LocationCsv locationCsv : locationCsvs) {
 			String[] locationParts = locationCsv.getLocationName().split(", ");
 			for (String locationPart : locationParts) {
 				Location location = modelMapper.map(locationCsv, Location.class);
 				location.setLocationName(locationPart);
-				result.add(location);
+				locations.add(location);
 			}
 		}
-		return locationRepository.saveAll(result);
+		return locationRepository.saveAll(locations);
 	}
 
 	@Override

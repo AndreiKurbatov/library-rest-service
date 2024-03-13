@@ -2,6 +2,8 @@ package ua.com.foxmineded.library.entities.impl;
 
 import java.util.Objects;
 import org.hibernate.proxy.HibernateProxy;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -26,7 +28,7 @@ public class Book extends AbstractEntity<Long> {
 	private String authorName;
 	@ToString.Exclude
 	@ManyToOne
-	@JoinColumn(name = "author_name", columnDefinition = "TEXT")
+	@JoinColumn(name = "author_name")
 	private Author author;
 	@Column(name = "publisher_name", insertable = false, updatable = false)
 	private String publisherName;
