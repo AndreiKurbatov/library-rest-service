@@ -9,31 +9,26 @@ import ua.com.foxmineded.library.exceptions.ServiceException;
 
 public interface PublisherService {
 
-	@Secured({ "ROLE_ADMINISTRATOR", "ROLE_TEACHER", "ROLE_STUDENT" })
 	@Transactional(readOnly = true)
 	PublisherDto findByPublisherName(String name) throws ServiceException;
 
-	@Secured({ "ROLE_ADMINISTRATOR", "ROLE_TEACHER", "ROLE_STUDENT" })
 	@Transactional(readOnly = true)
 	PublisherDto findByBookTitle(String bookTitle) throws ServiceException;
 
-	@Secured({ "ROLE_ADMINISTRATOR", "ROLE_TEACHER", "ROLE_STUDENT" })
 	@Transactional(readOnly = true)
 	PublisherDto findByIsbn(String isbn) throws ServiceException;
 
-	@Secured({ "ROLE_ADMINISTRATOR", "ROLE_TEACHER", "ROLE_STUDENT" })
 	@Transactional(readOnly = true)
 	Page<PublisherDto> findAll(Pageable pageable);
 
-	@Secured({ "ROLE_ADMINISTRATOR", "ROLE_TEACHER", "ROLE_STUDENT" })
 	@Transactional(readOnly = true)
 	Page<PublisherDto> findAllByAuthorName(String name, Pageable pageable);
 
-	@Secured({ "ROLE_ADMINISTRATOR", "ROLE_TEACHER"})
+	@Secured({"ROLE_ADMINISTRATOR"})
 	@Transactional
 	PublisherDto save(PublisherDto publisherDto);
 
-	@Secured({ "ROLE_ADMINISTRATOR", "ROLE_TEACHER" })
+	@Secured({"ROLE_ADMINISTRATOR"})
 	@Transactional
 	void deleteById(Long id);
 }

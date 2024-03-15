@@ -49,7 +49,7 @@ public class AuthorServiceImpl implements AuthorService {
 	}
 
 	@Override
-	public AuthorDto findByBookTitle(String bookTitle, Pageable pageable) throws ServiceException {
+	public AuthorDto findByBookTitle(String bookTitle) throws ServiceException {
 		return authorRepository.findByBookTitle(bookTitle).map(value -> modelMapper.map(value, AuthorDto.class))
 				.orElseThrow(() -> {
 					String message = "The book with book title = %s was not found".formatted(bookTitle);
