@@ -9,35 +9,29 @@ import ua.com.foxmineded.library.dto.BookDto;
 import ua.com.foxmineded.library.exceptions.ServiceException;
 
 public interface BookService {
-	@Secured({ "ROLE_ADMINISTRATOR", "ROLE_TEACHER", "ROLE_STUDENT" })
 	@Transactional(readOnly = true)
 	BookDto findById(Long id) throws ServiceException;
 	
-	@Secured({ "ROLE_ADMINISTRATOR", "ROLE_TEACHER", "ROLE_STUDENT" })
 	@Transactional(readOnly = true)
 	BookDto findByIsbn(String isbn) throws ServiceException;
 	
-	@Secured({ "ROLE_ADMINISTRATOR", "ROLE_TEACHER", "ROLE_STUDENT" })
 	@Transactional(readOnly = true)
 	BookDto findByBookTitle(String bookTitle) throws ServiceException;
 	
-	@Secured({ "ROLE_ADMINISTRATOR", "ROLE_TEACHER", "ROLE_STUDENT" })
 	@Transactional(readOnly = true)
 	Page<BookDto> findAll(Pageable pageable);
 	
-	@Secured({ "ROLE_ADMINISTRATOR", "ROLE_TEACHER", "ROLE_STUDENT" })
 	@Transactional(readOnly = true)
 	Page<BookDto> findAllByAuthorName(String name, Pageable pageable);
 	
-	@Secured({ "ROLE_ADMINISTRATOR", "ROLE_TEACHER", "ROLE_STUDENT" })
 	@Transactional(readOnly = true)
 	Page<BookDto> findAllByPublisherName(String name, Pageable pageable);
 	
-	@Secured({ "ROLE_ADMINISTRATOR", "ROLE_TEACHER"})
+	@Secured({ "ROLE_ADMINISTRATOR"})
 	@Transactional
 	BookDto save(BookDto book);
 	
-	@Secured({ "ROLE_ADMINISTRATOR", "ROLE_TEACHER"})
+	@Secured({ "ROLE_ADMINISTRATOR"})
 	@Transactional
 	void deleteById(Long id);
 }

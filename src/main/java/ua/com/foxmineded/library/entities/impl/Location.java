@@ -18,8 +18,6 @@ import jakarta.persistence.Table;
 @NoArgsConstructor
 @ToString(callSuper = true)
 public class Location extends AbstractEntity<Long> {
-	@Column(name = "book_reader_id", updatable = false)
-	private Long bookReaderId;
 	@ToString.Exclude
 	@ManyToOne
 	@JoinColumn(name = "book_reader_id")
