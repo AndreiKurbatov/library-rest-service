@@ -2,10 +2,12 @@ package ua.com.foxmineded.library.controllers;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import java.util.List;
+import java.util.Optional;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
@@ -24,7 +26,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.server.reactive.HttpHandler;
 import org.springframework.test.context.ActiveProfiles;
 import ua.com.foxmineded.library.dto.AuthorDto;
 import ua.com.foxmineded.library.exceptions.ServiceException;
@@ -43,7 +44,7 @@ class AuthorControllerTest {
 	AuthorService authorService;
 
 	@Test
-	void testFindAll_AskFindAllEntities_AllEntitiesShouldBeFoundOK () {
+	void testFindAll_AskFindAllEntities_AllEntitiesShouldBeFound200 () {
 		List<AuthorDto> authors = Instancio.ofList(AuthorDto.class).size(10).create();
 		Page<AuthorDto> authorsPage = new PageImpl<>(authors);
 		
@@ -58,7 +59,7 @@ class AuthorControllerTest {
 	}
 	
 	@Test
-	void testFindAllByPublisherName_AskFindAllEntitiesByPublisherName_AllEntitiesShouldBeFoundOK() {
+	void testFindAllByPublisherName_AskFindAllEntitiesByPublisherName_AllEntitiesShouldBeFound200() {
 		List<AuthorDto> authors = Instancio.ofList(AuthorDto.class).size(10).create();
 		Page<AuthorDto> authorsPage = new PageImpl<>(authors);
 		
@@ -73,10 +74,10 @@ class AuthorControllerTest {
 	}
 	
 	@Test
-	void testFindByAuthorName_AskFindEntityByAuthorName_EntityShouldBeReturnedOK() throws ServiceException {
+	void testFindByAuthorName_AskFindEntityByAuthorName_EntityShouldBeReturned200() throws ServiceException {
 		AuthorDto author = Instancio.create(AuthorDto.class);
 		
-		when(authorService.findByAuthorName(anyString())).thenReturn(author);
+		when(authorService.findByAuthorName(anyString())).thenReturn(Optional.of(author));
 		
 		ResponseEntity<AuthorDto> responseEntity = restTemplate.getForEntity(BASE_URL + PORT + "/api/v1/authors/search/author-name/authorName", AuthorDto.class);
 		AuthorDto authorResponse = responseEntity.getBody();
@@ -86,10 +87,21 @@ class AuthorControllerTest {
 	}
 	
 	@Test
-	void testFindByIsbn_AskFindEntityByIsbn_EntityShouldBeReturnedOK() throws ServiceException {
+	void testFindByAuthorName_AskFindEntityByAuthorNameIfEntityDoesNotExists_ExceptionShouldBeThrown404() {
+		when(authorService.findByAuthorName(anyString())).thenReturn(Optional.empty());
+		String expectedExceptionMessage = "The author with name %s was not found".formatted("authorName");
+		
+		ResponseEntity<String> responseEntity = restTemplate.getForEntity(BASE_URL + PORT + "/api/v1/authors/search/author-name/authorName", String.class);
+		
+		assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+		assertEquals(expectedExceptionMessage ,responseEntity.getBody());
+	}
+	
+	@Test
+	void testFindByIsbn_AskFindEntityByIsbn_EntityShouldBeReturned200() throws ServiceException {
 		AuthorDto author = Instancio.create(AuthorDto.class);
 		
-		when(authorService.findByIsbn(anyString())).thenReturn(author);
+		when(authorService.findByIsbn(anyString())).thenReturn(Optional.of(author));
 		
 		ResponseEntity<AuthorDto> responseEntity = restTemplate.getForEntity(BASE_URL + PORT + "/api/v1/authors/search/isbn/isbn", AuthorDto.class);
 		AuthorDto authorResponse = responseEntity.getBody();
@@ -99,16 +111,38 @@ class AuthorControllerTest {
 	}
 	
 	@Test
-	void testFindByBookTitle_FindEntityByBookTitle_EntityShouldBeReturnedOK() throws ServiceException {
+	void testFindByIsbn_AskFindEntityByIsbnIfEntityDoesNotExists_ExceptionShouldBeThrown404() {
+		when(authorService.findByIsbn(anyString())).thenReturn(Optional.empty());
+		String expectedExceptionMessage = "The author with isbn %s was not found".formatted("isbn");
+		
+		ResponseEntity<String> responseEntity = restTemplate.getForEntity(BASE_URL + PORT + "/api/v1/authors/search/isbn/isbn", String.class);
+		
+		assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+		assertEquals(expectedExceptionMessage ,responseEntity.getBody());
+	}
+	
+	@Test
+	void testFindByBookTitle_FindEntityByBookTitle_EntityShouldBeReturned200() throws ServiceException {
 		AuthorDto author = Instancio.create(AuthorDto.class);
 		
-		when(authorService.findByBookTitle(anyString())).thenReturn(author);
+		when(authorService.findByBookTitle(anyString())).thenReturn(Optional.of(author));
 		
 		ResponseEntity<AuthorDto> responseEntity = restTemplate.getForEntity(BASE_URL + PORT + "/api/v1/authors/search/book-title/bookTitle", AuthorDto.class);
 		AuthorDto authorResponse = responseEntity.getBody();
 		
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		assertEquals(author, authorResponse);
+	}
+	
+	@Test
+	void testFindByBookTitle_AskFindEntityByBookTitleIfEntityDoesNotExists_ExceptionShouldBeThrown404() {
+		when(authorService.findByBookTitle(anyString())).thenReturn(Optional.empty());
+		String expectedExceptionMessage =  "The author with book title %s was not found".formatted("bookTitle");
+		
+		ResponseEntity<String> responseEntity = restTemplate.getForEntity(BASE_URL + PORT + "/api/v1/authors/search/book-title/bookTitle", String.class);
+		
+		assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+		assertEquals(expectedExceptionMessage ,responseEntity.getBody());
 	}
 	
 	@Test
@@ -147,5 +181,27 @@ class AuthorControllerTest {
 		assertEquals(author, authorResponse);
 	}
 	
+	@Test
+	void testDeleteById_AskDeleteEntityById_EntityShouldBeDeleted200() {
+		AuthorDto authorDto = Instancio.create(AuthorDto.class);
+		
+		when(authorService.findById(anyLong())).thenReturn(Optional.of(authorDto));
+		
+		ResponseEntity<Object> responseEntity = restTemplate.exchange(BASE_URL + PORT + "/api/v1/authors/deletion/101", HttpMethod.DELETE, null, Object.class);
+		
+		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		assertNull(responseEntity.getBody());
+	}
+	
+	@Test
+	void testDeleteById_AskDeleteEntityByIdIfEntityDoesNotExists_ExceptionShouldBeThrown404() {	
+		String expectedExceptionMessage = "The author with id = %d was not found".formatted(101);
+		when(authorService.findById(anyLong())).thenReturn(Optional.empty());
+		
+		ResponseEntity<String> responseEntity = restTemplate.exchange(BASE_URL + PORT + "/api/v1/authors/deletion/101", HttpMethod.DELETE, null, String.class);
+		
+		assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+		assertEquals(expectedExceptionMessage ,responseEntity.getBody());
+	}
 	
 }

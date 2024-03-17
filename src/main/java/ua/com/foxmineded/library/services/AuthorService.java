@@ -1,23 +1,23 @@
 package ua.com.foxmineded.library.services;
 
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import ua.com.foxmineded.library.dto.AuthorDto;
-import ua.com.foxmineded.library.exceptions.ServiceException;
 
 public interface AuthorService {
 	@Transactional(readOnly = true)
-	AuthorDto findById(Long id) throws ServiceException;
+	Optional<AuthorDto> findById(Long id);
 	
 	@Transactional(readOnly = true)
-	AuthorDto findByAuthorName(String name) throws ServiceException;
+	Optional<AuthorDto> findByAuthorName(String name);
 	
 	@Transactional(readOnly = true)
-	AuthorDto findByIsbn(String isbn) throws ServiceException;
+	Optional<AuthorDto> findByIsbn(String isbn);
 	
 	@Transactional(readOnly = true)
-	AuthorDto findByBookTitle (String bookTitle) throws ServiceException;
+	Optional<AuthorDto> findByBookTitle (String bookTitle);
 	
 	@Transactional(readOnly = true) 
 	Page<AuthorDto> findAll(Pageable pageable);

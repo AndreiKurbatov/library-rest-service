@@ -109,6 +109,11 @@
 			<artifactId>opencsv</artifactId>
 			<version>5.9</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-rest-webmvc</artifactId>
+			<version>4.2.4</version><!--$NO-MVN-MAN-VER$-->
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

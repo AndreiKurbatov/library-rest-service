@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,10 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import ua.com.foxmineded.library.dto.AuthorDto;
-import ua.com.foxmineded.library.exceptions.ServiceException;
 import ua.com.foxmineded.library.services.AuthorService;
 
+@Slf4j
 @RestController
 @RequestMapping(value = "/api/v1/authors")
 @RequiredArgsConstructor
@@ -36,18 +38,30 @@ public class AuthorController {
 	}
 	
 	@GetMapping(value = "/search/author-name/{name}")
-	public AuthorDto findByAuthorName(@PathVariable String name) throws ServiceException {
-		return authorService.findByAuthorName(name);
+	public AuthorDto findByAuthorName(@PathVariable String name) {
+		return authorService.findByAuthorName(name).orElseThrow(() -> {
+			String message = "The author with name %s was not found".formatted(name);
+			log.error(message);
+			throw new ResourceNotFoundException(message);
+		});
 	}
 	
 	@GetMapping(value = "/search/isbn/{isbn}")
-	public AuthorDto findByIsbn(@PathVariable String isbn) throws ServiceException {
-		return authorService.findByIsbn(isbn);
+	public AuthorDto findByIsbn(@PathVariable String isbn) {
+		return authorService.findByIsbn(isbn).orElseThrow(() -> {
+			String message = "The author with isbn %s was not found".formatted(isbn);
+			log.error(message);
+			throw new ResourceNotFoundException(message);
+		});
 	}
 	
 	@GetMapping(value = "/search/book-title/{bookTitle}")
-	public AuthorDto findByBookTitle (@PathVariable String bookTitle) throws ServiceException {
-		return authorService.findByBookTitle(bookTitle);
+	public AuthorDto findByBookTitle (@PathVariable String bookTitle){
+		return authorService.findByBookTitle(bookTitle).orElseThrow(() -> {
+			String message = "The author with book title %s was not found".formatted(bookTitle);
+			log.error(message);
+			throw new ResourceNotFoundException(message);
+		});
 	}
 	
 	@PostMapping(value = "/creation")
@@ -62,6 +76,9 @@ public class AuthorController {
 	
 	@DeleteMapping(value = "/deletion/{id}")
 	public void deleteById(@PathVariable Long id) {
-		authorService.deleteById(id);
+		authorService.findById(id).ifPresentOrElse((value) -> authorService.deleteById(id), () ->{
+			String message = "The author with id = %d was not found".formatted(id);
+			throw new ResourceNotFoundException(message);
+	});
 	}
 }
