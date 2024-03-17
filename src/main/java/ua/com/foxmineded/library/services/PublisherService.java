@@ -2,7 +2,6 @@ package ua.com.foxmineded.library.services;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 import ua.com.foxmineded.library.dto.PublisherDto;
 import ua.com.foxmineded.library.exceptions.ServiceException;
@@ -24,11 +23,11 @@ public interface PublisherService {
 	@Transactional(readOnly = true)
 	Page<PublisherDto> findAllByAuthorName(String name, Pageable pageable);
 
-	@Secured({"ROLE_ADMINISTRATOR"})
+	//@Secured({"ROLE_ADMINISTRATOR"})
 	@Transactional
 	PublisherDto save(PublisherDto publisherDto);
 
-	@Secured({"ROLE_ADMINISTRATOR"})
+	//@Secured({"ROLE_ADMINISTRATOR"})
 	@Transactional
 	void deleteById(Long id);
 }

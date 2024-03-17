@@ -2,8 +2,6 @@ package ua.com.foxmineded.library.entities.impl;
 
 import java.util.Objects;
 import org.hibernate.proxy.HibernateProxy;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;

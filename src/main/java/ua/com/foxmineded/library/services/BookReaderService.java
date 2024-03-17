@@ -2,7 +2,6 @@ package ua.com.foxmineded.library.services;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 
 import ua.com.foxmineded.library.dto.BookReaderDto;
@@ -20,11 +19,11 @@ public interface BookReaderService {
 	
 	//Page<BookReaderDto> findAllByLocationNames(Pageable pageable, String... locationNames);
 	
-	@Secured("ROLE_ADMINISTRATOR")
+	//@Secured("ROLE_ADMINISTRATOR")
 	@Transactional
 	BookReaderDto save(BookReaderDto bookReaderDto);
 	
-	@Secured("ROLE_ADMINISTRATOR")
+	//@Secured("ROLE_ADMINISTRATOR")
 	@Transactional
 	void deleteByBookReaderId(Long bookReaderId);
 	

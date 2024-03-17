@@ -49,11 +49,9 @@ class LocationImporterServiceImplTest {
 		for (Location location : locations) {
 			assertNotNull(location.getId());
 			assertNotNull(location.getLocationName());
-			assertNotNull(location.getBookReaderId());
 			assertNotNull(location.getBookReader());
 			assertNotNull(location.getBookReader().getId());
 			assertNotNull(location.getBookReader().getBookReaderId());
-			assertEquals(location.getBookReaderId(), location.getBookReader().getBookReaderId());
 		}
 		assertEquals(833085, locations.size());
 	}

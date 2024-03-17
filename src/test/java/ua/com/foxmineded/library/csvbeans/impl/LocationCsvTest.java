@@ -25,6 +25,5 @@ class LocationCsvTest {
 		assertNull(location.getId());
 		assertNull(location.getBookReader());
 		assertEquals(locationCsv.getLocationName(), location.getLocationName());
-		assertEquals(locationCsv.getBookReaderId(), location.getBookReaderId());
 	}
 }

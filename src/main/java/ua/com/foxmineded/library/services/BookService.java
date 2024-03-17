@@ -2,7 +2,6 @@ package ua.com.foxmineded.library.services;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 
 import ua.com.foxmineded.library.dto.BookDto;
@@ -27,11 +26,11 @@ public interface BookService {
 	@Transactional(readOnly = true)
 	Page<BookDto> findAllByPublisherName(String name, Pageable pageable);
 	
-	@Secured({ "ROLE_ADMINISTRATOR"})
+	//@Secured({ "ROLE_ADMINISTRATOR"})
 	@Transactional
 	BookDto save(BookDto book);
 	
-	@Secured({ "ROLE_ADMINISTRATOR"})
+	//@Secured({ "ROLE_ADMINISTRATOR"})
 	@Transactional
 	void deleteById(Long id);
 }

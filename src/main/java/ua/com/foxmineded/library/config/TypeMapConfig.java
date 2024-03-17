@@ -34,7 +34,6 @@ public class TypeMapConfig {
 			protected void configure() {
 				skip(destination.getId());
 				skip(destination.getBookReader());
-				map().setBookReaderId(source.getBookReaderId());
 			}
 		};
 		modelMapper.addMappings(bookRatingPropertyMap);

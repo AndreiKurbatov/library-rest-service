@@ -45,7 +45,7 @@ public class AuthorController {
 		return authorService.findByIsbn(isbn);
 	}
 	
-	@GetMapping(value = "/search/book-title/{title}")
+	@GetMapping(value = "/search/book-title/{bookTitle}")
 	public AuthorDto findByBookTitle (@PathVariable String bookTitle) throws ServiceException {
 		return authorService.findByBookTitle(bookTitle);
 	}
