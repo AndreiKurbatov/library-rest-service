@@ -5,12 +5,12 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import java.util.List;
 import java.util.Optional;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -38,8 +38,6 @@ class AuthorControllerTest {
 	final static String BASE_URL = "http://localhost:";
 	@Autowired
 	TestRestTemplate restTemplate;
-	@Autowired
-	ModelMapper mapper;
 	@MockBean
 	AuthorService authorService;
 
@@ -98,7 +96,7 @@ class AuthorControllerTest {
 	}
 	
 	@Test
-	void testFindByIsbn_AskFindEntityByIsbn_EntityShouldBeReturned200() throws ServiceException {
+	void testFindByIsbn_AskFindEntityByIsbn_EntityShouldBeReturned200() {
 		AuthorDto author = Instancio.create(AuthorDto.class);
 		
 		when(authorService.findByIsbn(anyString())).thenReturn(Optional.of(author));
@@ -122,7 +120,7 @@ class AuthorControllerTest {
 	}
 	
 	@Test
-	void testFindByBookTitle_FindEntityByBookTitle_EntityShouldBeReturned200() throws ServiceException {
+	void testFindByBookTitle_FindEntityByBookTitle_EntityShouldBeReturned200() {
 		AuthorDto author = Instancio.create(AuthorDto.class);
 		
 		when(authorService.findByBookTitle(anyString())).thenReturn(Optional.of(author));
@@ -174,9 +172,9 @@ class AuthorControllerTest {
 		when(authorService.save(any(AuthorDto.class))).thenReturn(author);
 		
 		ResponseEntity<AuthorDto> responseEntity = restTemplate.exchange(BASE_URL + PORT + "/api/v1/authors/update", HttpMethod.PUT, request, AuthorDto.class);
-		verify(authorService).save(any(AuthorDto.class));
 		AuthorDto authorResponse = responseEntity.getBody();
 		
+		verify(authorService).save(any(AuthorDto.class));
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		assertEquals(author, authorResponse);
 	}
@@ -189,6 +187,8 @@ class AuthorControllerTest {
 		
 		ResponseEntity<Object> responseEntity = restTemplate.exchange(BASE_URL + PORT + "/api/v1/authors/deletion/101", HttpMethod.DELETE, null, Object.class);
 		
+		verify(authorService).findById(anyLong());
+		verify(authorService).deleteById(anyLong());
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		assertNull(responseEntity.getBody());
 	}
@@ -200,8 +200,9 @@ class AuthorControllerTest {
 		
 		ResponseEntity<String> responseEntity = restTemplate.exchange(BASE_URL + PORT + "/api/v1/authors/deletion/101", HttpMethod.DELETE, null, String.class);
 		
+		verify(authorService).findById(anyLong());
+		verifyNoMoreInteractions(authorService);
 		assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
 		assertEquals(expectedExceptionMessage ,responseEntity.getBody());
 	}
-	
 }

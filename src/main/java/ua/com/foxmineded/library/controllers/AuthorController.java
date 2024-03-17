@@ -76,8 +76,10 @@ public class AuthorController {
 	
 	@DeleteMapping(value = "/deletion/{id}")
 	public void deleteById(@PathVariable Long id) {
-		authorService.findById(id).ifPresentOrElse((value) -> authorService.deleteById(id), () ->{
+		authorService.findById(id)
+		.ifPresentOrElse((value) -> authorService.deleteById(id), () ->{
 			String message = "The author with id = %d was not found".formatted(id);
+			log.error(message);
 			throw new ResourceNotFoundException(message);
 	});
 	}

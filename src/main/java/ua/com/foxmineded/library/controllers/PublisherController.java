@@ -3,6 +3,7 @@ package ua.com.foxmineded.library.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,10 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import ua.com.foxmineded.library.dto.PublisherDto;
-import ua.com.foxmineded.library.exceptions.ServiceException;
 import ua.com.foxmineded.library.services.PublisherService;
 
+@Slf4j
 @RestController
 @RequestMapping(value = "/api/v1/publishers")
 @RequiredArgsConstructor
@@ -32,22 +34,34 @@ public class PublisherController {
 	
 	@GetMapping(value = "/search/author-name/{name}")
 	public Page<PublisherDto> findAllByAuthorName(@SortDefault(sort = "id") @PageableDefault(size = 10) final Pageable pageable, @PathVariable String name) {
-		return publisherService.findAllByAuthorName(name, pageable);
+		return publisherService.findAllByAuthorName(pageable, name);
 	}
 	
 	@GetMapping(value = "/search/publisher-name/{name}")
-	public PublisherDto findByPublisherName(@PathVariable String name) throws ServiceException {
-		return publisherService.findByPublisherName(name);
+	public PublisherDto findByPublisherName(@PathVariable String name) {
+		return publisherService.findByPublisherName(name).orElseThrow(() -> {
+			String message = "The publisher with name %s was not found".formatted(name);
+			log.error(message);
+			throw new ResourceNotFoundException(message);
+		});
 	}
 
 	@GetMapping(value = "/search/book-title/{bookTitle}")
-	public PublisherDto findByBookTitle(@PathVariable String bookTitle) throws ServiceException {
-		return publisherService.findByBookTitle(bookTitle);
+	public PublisherDto findByBookTitle(@PathVariable String bookTitle) {
+		return publisherService.findByBookTitle(bookTitle).orElseThrow(() -> {
+			String message = "The publisher by book title %s was not found".formatted(bookTitle);
+			log.error(message);
+			throw new ResourceNotFoundException(message);
+		});
 	}
 
 	@GetMapping(value = "/search/isbn/{isbn}")
-	public PublisherDto findByIsbn(@PathVariable String isbn) throws ServiceException {
-		return publisherService.findByIsbn(isbn);
+	public PublisherDto findByIsbn(@PathVariable String isbn) {
+		return publisherService.findByIsbn(isbn).orElseThrow(() -> {
+			String message = "The publisher by isbn %s was not found".formatted(isbn);
+			log.error(message);
+			throw new ResourceNotFoundException(message);
+		});
 	}
 
 	@PostMapping(value = "/creation")
@@ -62,6 +76,10 @@ public class PublisherController {
 
 	@DeleteMapping(value = "/deletion/{id}")
 	public void deleteById(@PathVariable Long id) {
-		publisherService.deleteById(id);
+		publisherService.findById(id).ifPresentOrElse((value) -> publisherService.deleteById(id), () -> {
+			String message = "The publisher with id = %d was deleted".formatted(id);
+			log.error(message);
+			throw new ResourceNotFoundException(message);
+		});
 	}
 }

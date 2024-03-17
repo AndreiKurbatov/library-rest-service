@@ -3,11 +3,9 @@ package ua.com.foxmineded.library.dto;
 import java.util.Objects;
 import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Data
@@ -21,7 +19,7 @@ public class AuthorDto extends AbstractDto<Long> {
 
 	@Builder(setterPrefix = "with")
 	@JsonCreator
-	public AuthorDto(@JsonProperty Long id, @JsonProperty String authorName, @JsonProperty Set<String> locations) {
+	public AuthorDto(Long id, String authorName, Set<String> locations) {
 		super(id);
 		this.authorName = authorName;
 		this.locations = locations;
