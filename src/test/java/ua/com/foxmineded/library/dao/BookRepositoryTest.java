@@ -27,7 +27,7 @@ class BookRepositoryTest {
 	void testFindAllByAuthorName_AskFindAllByAuthorName_AllBooksShouldBeFound() {
 		String authorName = "Alice Johnson";
 		Long bookId = 3L;
-		Page<Book> books = bookRepository.findAllByAuthorName(authorName, Pageable.ofSize(1));
+		Page<Book> books = bookRepository.findAllByAuthorName(Pageable.ofSize(1), authorName);
 		assertEquals(1, books.getContent().size());
 		assertEquals(bookId, books.getContent().get(0).getId());
 	}
@@ -37,7 +37,7 @@ class BookRepositoryTest {
 	void testFindAllByPublisherName_AskFindAllByPublisherName_AllBooksShouldBeFound() {
 		String publisherName = "ABC Publishing";
 		Long bookId = 1L;
-		Page<Book> books = bookRepository.findAllByPublisherName(publisherName, Pageable.ofSize(1));
+		Page<Book> books = bookRepository.findAllByPublisherName(Pageable.ofSize(1), publisherName);
 		assertEquals(1, books.getContent().size());
 		assertEquals(bookId, books.getContent().get(0).getId());
 	}

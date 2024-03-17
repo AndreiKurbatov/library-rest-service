@@ -45,7 +45,7 @@ class AuthorRepositoryTest {
 	void testFindAllByPublisherName_AskFindAllAuthorsByPublisherName_AuthorsShouldBeFound() {
 		String publisherName = "ABC Publishing";
 		Long authorId = 1L;
-		Page<Author> authors = authorRepository.findAllByPublisherName(publisherName, Pageable.ofSize(1));
+		Page<Author> authors = authorRepository.findAllByPublisherName(Pageable.ofSize(1), publisherName);
 		assertEquals(1, authors.getContent().size());
 		assertEquals(authorId, authors.getContent().get(0).getId());
 	}

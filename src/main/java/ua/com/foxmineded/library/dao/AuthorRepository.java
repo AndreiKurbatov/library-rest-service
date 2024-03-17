@@ -20,5 +20,5 @@ public interface AuthorRepository extends JpaRepository<Author, Long> {
 	Optional<Author> findByBookTitle (String bookTitle);
 	
 	@Query("from Author a join a.books b join b.publisher p where p.publisherName = :publisherName")
-	Page<Author> findAllByPublisherName(String publisherName, Pageable pageable);
+	Page<Author> findAllByPublisherName(Pageable pageable, String publisherName);
 }

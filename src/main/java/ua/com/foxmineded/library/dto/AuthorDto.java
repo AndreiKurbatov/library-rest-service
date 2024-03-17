@@ -15,14 +15,14 @@ import lombok.ToString;
 public class AuthorDto extends AbstractDto<Long> {
 	private static final long serialVersionUID = 1L;
 	private String authorName;
-	private Set<String> locations;
+	private Set<Long> bookIds;
 
 	@Builder(setterPrefix = "with")
 	@JsonCreator
-	public AuthorDto(Long id, String authorName, Set<String> locations) {
+	public AuthorDto(Long id, String authorName, Set<Long> bookIds) {
 		super(id);
 		this.authorName = authorName;
-		this.locations = locations;
+		this.bookIds = bookIds;
 	}
 	
 	@Override
@@ -32,11 +32,11 @@ public class AuthorDto extends AbstractDto<Long> {
 	    AuthorDto authorDto = (AuthorDto) o;
 	    return Objects.equals(id, authorDto.id) &&
 	           Objects.equals(authorName, authorDto.authorName) &&
-	           Objects.equals(locations, authorDto.locations); 
+	           Objects.equals(bookIds, authorDto.bookIds); 
 	}
 
 	@Override
 	public int hashCode() {
-	    return Objects.hash(id, authorName, locations);
+	    return Objects.hash(id, authorName, bookIds);
 	}
 }

@@ -22,14 +22,10 @@ public class Book extends AbstractEntity<Long> {
 	private String isbn;
 	@Column(name = "book_title")
 	private String bookTitle;
-	@Column(name = "author_name", insertable = false, updatable = false)
-	private String authorName;
 	@ToString.Exclude
 	@ManyToOne
 	@JoinColumn(name = "author_name")
 	private Author author;
-	@Column(name = "publisher_name", insertable = false, updatable = false)
-	private String publisherName;
 	@ToString.Exclude
 	@ManyToOne
 	@JoinColumn(name = "publisher_name")

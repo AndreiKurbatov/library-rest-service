@@ -20,6 +20,4 @@ public interface BookReaderRepository extends JpaRepository<BookReader, Long> {
 			+ "(select count(distinct loc.locationName)"
 			+ "from br.locations loc where loc.locationName in :locationNames)")
 	Page<BookReader> findAllByLocationNames(Pageable pageable, Set<String> locationNames);
-	
-	void deleteByBookReaderId(Long bookReaderId);
 }

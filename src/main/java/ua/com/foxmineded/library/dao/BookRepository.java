@@ -15,11 +15,11 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 	
 	Optional<Book> findByBookTitle(String bookTitle);
 	
-	Page<Book> findAllByPublicationYear(Integer publicationYear, Pageable pageable);
+	Page<Book> findAllByPublicationYear(Pageable pageable, Integer publicationYear);
 		
 	@Query("from Book b join b.author a where a.authorName = :name")
-	Page<Book> findAllByAuthorName(String name, Pageable pageable);
+	Page<Book> findAllByAuthorName(Pageable pageable, String name);
 	
 	@Query("from Book b join b.publisher p where p.publisherName = :name")
-	Page<Book> findAllByPublisherName(String name, Pageable pageable);
+	Page<Book> findAllByPublisherName(Pageable pageable, String name);
 } 

@@ -51,12 +51,15 @@ public class BookReaderServiceImpl implements BookReaderService{
 
 	@Override
 	public BookReaderDto save(BookReaderDto bookReaderDto) {
-		return modelMapper.map(bookReaderRepository.save(modelMapper.map(bookReaderDto, BookReader.class)), BookReaderDto.class);
+		BookReaderDto result = modelMapper.map(bookReaderRepository.save(modelMapper.map(bookReaderDto, BookReader.class)), BookReaderDto.class);
+		log.info("The book rating with id = %d was saved".formatted(bookReaderDto.getId()));
+		return result;
 	}
 
 	@Override
 	public void deleteByBookReaderId(Long bookReaderId) {
 		bookReaderRepository.deleteByBookReaderId(bookReaderId);
+		log.info("The book rating with id = %d was deleted".formatted(bookReaderId));
 		
 	}
 }

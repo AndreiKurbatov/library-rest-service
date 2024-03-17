@@ -6,11 +6,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import ua.com.foxmineded.library.dao.BookRepository;
 import ua.com.foxmineded.library.dto.BookDto;
 import ua.com.foxmineded.library.entities.impl.Book;
 import ua.com.foxmineded.library.services.BookService;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
@@ -25,13 +27,13 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public Page<BookDto> findAllByAuthorName(Pageable pageable, String name) {
-		Page<Book> books = bookRepository.findAllByAuthorName(name, pageable);
+		Page<Book> books = bookRepository.findAllByAuthorName(pageable, name);
 		return books.map(book -> modelMapper.map(book, BookDto.class));
 	}
 
 	@Override
 	public Page<BookDto> findAllByPublisherName(Pageable pageable, String name) {
-		Page<Book> books = bookRepository.findAllByPublisherName(name, pageable);
+		Page<Book> books = bookRepository.findAllByPublisherName(pageable, name);
 		return books.map(book -> modelMapper.map(book, BookDto.class));
 	}
 
@@ -52,11 +54,14 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public BookDto save(BookDto book) {
-		return modelMapper.map(bookRepository.save(modelMapper.map(book, Book.class)), BookDto.class);
+		BookDto result =  modelMapper.map(bookRepository.save(modelMapper.map(book, Book.class)), BookDto.class);
+		log.info("The book with id = %d was saved".formatted(book.getId()));
+		return result;
 	}
 
 	@Override
 	public void deleteById(Long id) {
 		bookRepository.deleteById(id);
+		log.info("The book with id = %d was deleted".formatted(id));
 	}
 }

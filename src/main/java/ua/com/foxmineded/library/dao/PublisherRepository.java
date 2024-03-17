@@ -6,7 +6,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
 import ua.com.foxmineded.library.entities.impl.Publisher;
 
 @Repository
@@ -20,5 +19,5 @@ public interface PublisherRepository extends JpaRepository<Publisher, Long>{
 	Optional<Publisher> findByIsbn(String isbn);
 	
 	@Query("from Publisher p join p.books b join b.author a where a.authorName = :name")
-	Page<Publisher> findAllByAuthorName(String name, Pageable pageable);
+	Page<Publisher> findAllByAuthorName(Pageable pageable, String name);
 }

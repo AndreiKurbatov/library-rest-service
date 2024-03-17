@@ -23,7 +23,7 @@ public class BookRating extends AbstractEntity<Long> {
 	@ManyToOne
 	@JoinColumn(name = "book_reader_id")
 	private BookReader bookReader;
-	@Column(name = "isbn", length = 10, insertable=false, updatable=false) 
+	@Column(name = "isbn", length = 10) 
 	private String isbn;
 	@ToString.Exclude
 	@ManyToOne

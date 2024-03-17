@@ -17,17 +17,24 @@ public class BookDto extends AbstractDto<Long> {
 	private String bookTitle;
 	private Long authorId;
 	private Long publisherId;
-	private int publicationYear;
+	private Integer publicationYear;
+	private String imageUrlS;
+	private String imageUrlM;
+	private String imageUrlL;
 	
 	@Builder(setterPrefix = "with")
 	@JsonCreator
-	public BookDto( Long id,  String isbn,  String bookTitle,  Long authorId, Long publisherId, int publicationYear) {
+	public BookDto(Long id, String isbn, String bookTitle, Long authorId, Long publisherId,
+			Integer publicationYear, String imageUrlS, String imageUrlM, String imageUrlL) {
 		super(id);
 		this.isbn = isbn;
 		this.bookTitle = bookTitle;
 		this.authorId = authorId;
 		this.publisherId = publisherId;
 		this.publicationYear = publicationYear;
+		this.imageUrlS = imageUrlS;
+		this.imageUrlM = imageUrlM;
+		this.imageUrlL = imageUrlL;
 	}
 	
 	@Override
@@ -40,11 +47,14 @@ public class BookDto extends AbstractDto<Long> {
 	           Objects.equals(bookTitle, bookDto.bookTitle) && 
 	           Objects.equals(authorId, bookDto.authorId) && 
 	           Objects.equals(publisherId, bookDto.publisherId) && 
-	           Objects.equals(publicationYear, bookDto.publicationYear);
+	           Objects.equals(publicationYear, bookDto.publicationYear) && 
+	           Objects.equals(imageUrlS, bookDto.imageUrlS) && 
+	           Objects.equals(imageUrlM, bookDto.imageUrlM) &&
+	           Objects.equals(imageUrlL, bookDto.imageUrlL);
 	}
 
 	@Override
 	public int hashCode() {
-	    return Objects.hash(id, isbn, bookTitle, authorId, publisherId, publicationYear);
-	}
+	    return Objects.hash(id, isbn, bookTitle, authorId, publisherId, publicationYear, imageUrlS, imageUrlM, imageUrlL);
+	}	
 }
