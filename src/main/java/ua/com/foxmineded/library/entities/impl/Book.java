@@ -1,11 +1,16 @@
 package ua.com.foxmineded.library.entities.impl;
 
+import java.util.List;
 import java.util.Objects;
 import org.hibernate.proxy.HibernateProxy;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,18 +23,34 @@ import ua.com.foxmineded.library.entities.AbstractEntity;
 @NoArgsConstructor
 @ToString(callSuper = true)
 public class Book extends AbstractEntity<Long> {
-	@Column(name = "isbn")
+	@Column(name = "isbn", length = 10)
 	private String isbn;
 	@Column(name = "book_title")
 	private String bookTitle;
 	@ToString.Exclude
 	@ManyToOne
-	@JoinColumn(name = "author_name")
+	@JoinColumn(name = "author_name", referencedColumnName = "author_name")
 	private Author author;
+	@Column(name="author_name", insertable = false, updatable = false)
+	private String authorName;
 	@ToString.Exclude
 	@ManyToOne
-	@JoinColumn(name = "publisher_name")
+	@JoinColumn(name = "publisher_name", referencedColumnName = "publisher_name")
 	private Publisher publisher;
+	@Column(name = "publisher_name", insertable = false, updatable = false)
+	private String publisherName;
+	@ToString.Exclude
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "book")
+	private List<BookRating> bookRatings;
+	@ToString.Exclude 
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(
+			schema = "library",
+			name = "book_readers_books",
+			joinColumns = @JoinColumn(name = "isbn", referencedColumnName = "isbn"),
+			inverseJoinColumns = @JoinColumn(name = "book_reader_id", referencedColumnName = "book_reader_id")
+			)
+	private List<BookReader> bookReaders;
 	@Column(name = "publication_year")
 	private Integer publicationYear;
 	@Column(name = "image_url_s")
@@ -40,13 +61,15 @@ public class Book extends AbstractEntity<Long> {
 	private String imageUrlL;
 	
 	public Book(Long id, String isbn, String bookTitle, Author author, Publisher publisher, Integer publicationYear,
-			String imageUrlS, String imageUrlM, String imageUrlL) {
+			List<BookRating> bookRatings, List<BookReader> bookReaders ,String imageUrlS, String imageUrlM, String imageUrlL) {
 		super(id);
 		this.isbn = isbn;
 		this.bookTitle = bookTitle;
 		this.author = author;
 		this.publisher = publisher;
 		this.publicationYear = publicationYear;
+		this.bookRatings = bookRatings;
+		this.bookReaders = bookReaders;
 		this.imageUrlS = imageUrlS;
 		this.imageUrlM = imageUrlM;
 		this.imageUrlL = imageUrlL;

@@ -1,5 +1,6 @@
 package ua.com.foxmineded.library.services.impl;
 
+import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,7 +11,6 @@ import ua.com.foxmineded.library.dao.BookReaderRepository;
 import ua.com.foxmineded.library.dto.BookReaderDto;
 import ua.com.foxmineded.library.entities.impl.BookReader;
 import ua.com.foxmineded.library.services.BookReaderService;
-import ua.com.foxmineded.library.exceptions.ServiceException;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -37,16 +37,15 @@ public class BookReaderServiceImpl implements BookReaderService{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
 	*/
 	@Override
-	public BookReaderDto findByBookReaderId(Long bookReaderId) throws ServiceException {
-		return bookReaderRepository.findByBookReaderId(bookReaderId).map(v -> modelMapper.map(v, BookReaderDto.class)) 
-				.orElseThrow(() -> {
-					String message = "The book reader with book reader id = %s was not found".formatted(bookReaderId);
-					log.error(message);
-					return new ServiceException(message);
-				});
+	public Optional<BookReaderDto> findById(Long id) {
+		return bookReaderRepository.findById(id).map(v -> modelMapper.map(v, BookReaderDto.class));
+	}
+	
+	@Override
+	public Optional<BookReaderDto> findByBookReaderId(Long bookReaderId) {
+		return bookReaderRepository.findByBookReaderId(bookReaderId).map(v -> modelMapper.map(v, BookReaderDto.class));
 	}
 
 	@Override
@@ -57,9 +56,8 @@ public class BookReaderServiceImpl implements BookReaderService{
 	}
 
 	@Override
-	public void deleteByBookReaderId(Long bookReaderId) {
-		bookReaderRepository.deleteByBookReaderId(bookReaderId);
-		log.info("The book rating with id = %d was deleted".formatted(bookReaderId));
-		
+	public void deleteById(Long id) {
+		bookReaderRepository.deleteById(id);
+		log.info("The book rating with id = %d was deleted".formatted(id));	
 	}
 }

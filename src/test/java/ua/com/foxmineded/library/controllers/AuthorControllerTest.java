@@ -27,6 +27,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.web.WebMergedContextConfiguration;
+import org.springframework.web.context.WebApplicationContext;
+
 import ua.com.foxmineded.library.dto.AuthorDto;
 import ua.com.foxmineded.library.exceptions.ServiceException;
 import ua.com.foxmineded.library.services.AuthorService;

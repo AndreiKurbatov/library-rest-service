@@ -1,11 +1,10 @@
 package ua.com.foxmineded.library.services;
 
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
-
 import ua.com.foxmineded.library.dto.BookReaderDto;
-import ua.com.foxmineded.library.exceptions.ServiceException;
 
 public interface BookReaderService {
 	@Transactional(readOnly = true)
@@ -15,7 +14,10 @@ public interface BookReaderService {
 	Page<BookReaderDto> findAllByAge(Pageable pageable, Integer age);
 	
 	@Transactional(readOnly = true)
-	BookReaderDto findByBookReaderId(Long bookReaderId) throws ServiceException;
+	Optional<BookReaderDto> findByBookReaderId(Long bookReaderId);
+	
+	@Transactional(readOnly = true) 
+	Optional<BookReaderDto> findById(Long id);
 	
 	//Page<BookReaderDto> findAllByLocationNames(Pageable pageable, String... locationNames);
 	
@@ -25,6 +27,5 @@ public interface BookReaderService {
 	
 	//@Secured("ROLE_ADMINISTRATOR")
 	@Transactional
-	void deleteByBookReaderId(Long bookReaderId);
-	
+	void deleteById(Long id);
 }

@@ -19,15 +19,15 @@ import ua.com.foxmineded.library.entities.AbstractEntity;
 @ToString(callSuper = true)
 @NoArgsConstructor
 public class BookRating extends AbstractEntity<Long> {
-	@ToString.Exclude
-	@ManyToOne
-	@JoinColumn(name = "book_reader_id")
-	private BookReader bookReader;
-	@Column(name = "isbn", length = 10) 
+	@Column(name = "isbn", length = 10,  insertable = false, updatable = false)
 	private String isbn;
 	@ToString.Exclude
 	@ManyToOne
-	@JoinColumn(name = "isbn")
+	@JoinColumn(name = "book_reader_id", referencedColumnName = "book_reader_id")
+	private BookReader bookReader;
+	@ToString.Exclude
+	@ManyToOne
+	@JoinColumn(name = "isbn", referencedColumnName = "isbn")
 	private Book book;
 	private Integer bookRating;
 
