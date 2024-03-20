@@ -17,6 +17,15 @@ public interface BookService {
 	Page<BookDto> findAllByPublisherName(Pageable pageable, String name);
 	
 	@Transactional(readOnly = true)
+	Page<BookDto> findAllByAgeRange(Pageable pageable, Integer startAge, Integer endAge);
+	
+	@Transactional(readOnly = true)
+	Page<BookDto> findAllByLocationName(Pageable pageable, String locationName);
+	
+	@Transactional(readOnly = true) 
+	Page<BookDto> findTop10ByLocationAndAgeRange(Pageable pageable, String locationName, Integer ageStart, Integer ageEnd);
+	
+	@Transactional(readOnly = true)
 	Optional<BookDto> findById(Long id);
 	
 	@Transactional(readOnly = true)

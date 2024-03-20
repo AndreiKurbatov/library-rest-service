@@ -75,7 +75,13 @@ class BookRepositoryTest {
 	@Test
 	@Sql(scripts = { "/test/sql/book-repository/script_2.sql" })
 	void testFindAllByLocationName_AskFindAllBooksByLocationName_AllBooksShouldBeFound() {
-		Page<Book> sampleBook3 = bookRepository.findAllByLocationName(Pageable.ofSize(10), new HashSet<String>(Arrays.asList("location1")));
+		Page<Book> sampleBook3 = bookRepository.findAllByLocationName(Pageable.ofSize(10),"location1");
 		assertEquals(3, sampleBook3.getContent().size());
+		
+		Page<Book> sampleBook2 = bookRepository.findAllByLocationName(Pageable.ofSize(10),"location2");
+		assertEquals(2, sampleBook2.getContent().size());
+		
+		Page<Book> sampleBook1 = bookRepository.findAllByLocationName(Pageable.ofSize(10),"location3");
+		assertEquals(1, sampleBook1.getContent().size());	
 	}
 }

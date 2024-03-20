@@ -20,7 +20,7 @@ import jakarta.persistence.Table;
 public class Location extends AbstractEntity<Long> {
 	@ToString.Exclude
 	@ManyToOne
-	@JoinColumn(name = "book_reader_id")
+	@JoinColumn(name = "book_reader_id", referencedColumnName = "book_reader_id")
 	private BookReader bookReader;
 	@Column(name = "location_name")
 	private String locationName;

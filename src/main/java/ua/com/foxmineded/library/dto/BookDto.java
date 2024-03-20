@@ -5,10 +5,12 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString(callSuper = true)
 @Builder(setterPrefix = "with")
 public class BookDto extends AbstractDto<Long> {

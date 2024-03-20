@@ -1,7 +1,6 @@
 package ua.com.foxmineded.library.dao;
 
 import java.util.Optional;
-import java.util.Set;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,9 +21,9 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 	@Query("from Book b join b.bookReaders br group by b.id having avg(br.age) >= :startAge and avg(br.age) <= :endAge")
 	Page<Book> findAllByAgeRange(Pageable pageable, Integer startAge, Integer endAge);
 	
-	@Query("from Book b join b.bookReaders br where :locationName in (select loc.locationName from br.locations loc)")
-	Page<Book> findAllByLocationName(Pageable pageable, Set<String> locationName);
-	
+	@Query("from Book b where :locationName in (select loc.locationName from b.bookReaders br join br.locations loc)")
+	Page<Book> findAllByLocationName(Pageable pageable, String locationName);
+
 	Optional<Book> findByIsbn(String isbn);
 	
 	Optional<Book> findByBookTitle(String bookTitle);
