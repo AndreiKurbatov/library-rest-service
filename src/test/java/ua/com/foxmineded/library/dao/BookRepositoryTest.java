@@ -2,10 +2,6 @@ package ua.com.foxmineded.library.dao;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.Arrays;
-import java.util.HashSet;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -28,7 +24,7 @@ class BookRepositoryTest {
 	BookRepository bookRepository;
 	
 	@Test
-	@Sql(scripts = { "/test/sql/book-repository/script0.sql" })
+	@Sql(scripts = { "/test/sql/book-repository/script-0.sql" })
 	void testFindAllByAuthorName_AskFindAllByAuthorName_AllBooksShouldBeFound() {
 		String authorName = "Alice Johnson";
 		Long bookId = 3L;
@@ -38,7 +34,7 @@ class BookRepositoryTest {
 	}
 	
 	@Test
-	@Sql(scripts = { "/test/sql/book-repository/script0.sql" })
+	@Sql(scripts = { "/test/sql/book-repository/script-0.sql" })
 	void testFindAllByPublisherName_AskFindAllByPublisherName_AllBooksShouldBeFound() {
 		String publisherName = "ABC Publishing";
 		Long bookId = 1L;
@@ -48,7 +44,7 @@ class BookRepositoryTest {
 	}
 	
 	@Test
-	@Sql(scripts = { "/test/sql/book-repository/script_1.sql" })
+	@Sql(scripts = { "/test/sql/book-repository/script-1.sql" })
 	void testFindAllBooksByAgeRange_AskFindAllBooksByAgeRange_AllBooksShouldBeFound() {
 		Page<Book> booksFrom0To10 = bookRepository.findAllByAgeRange(Pageable.ofSize(10), 0, 10);
 		assertEquals(1, booksFrom0To10.getContent().size());
@@ -73,7 +69,7 @@ class BookRepositoryTest {
 	}
 	
 	@Test
-	@Sql(scripts = { "/test/sql/book-repository/script_2.sql" })
+	@Sql(scripts = { "/test/sql/book-repository/script-2.sql" })
 	void testFindAllByLocationName_AskFindAllBooksByLocationName_AllBooksShouldBeFound() {
 		Page<Book> sampleBook3 = bookRepository.findAllByLocationName(Pageable.ofSize(10),"location1");
 		assertEquals(3, sampleBook3.getContent().size());

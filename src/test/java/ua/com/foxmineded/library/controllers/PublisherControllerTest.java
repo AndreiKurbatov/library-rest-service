@@ -28,6 +28,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import ua.com.foxmineded.library.dto.PublisherDto;
+import ua.com.foxmineded.library.models.CustomPageImpl;
 import ua.com.foxmineded.library.services.PublisherService;
 
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)

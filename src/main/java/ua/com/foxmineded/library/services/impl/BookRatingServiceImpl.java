@@ -1,11 +1,9 @@
 package ua.com.foxmineded.library.services.impl;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import static java.util.stream.Collectors.toCollection;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
@@ -26,19 +24,23 @@ public class BookRatingServiceImpl implements BookRatingService {
 	private final BookRatingRepository bookRatingRepository;
 
 	@Override
-	public List<BookRatingDto> findAll(Pageable pageable) {
-		return bookRatingRepository.findAll().stream().map(dto -> modelMapper.map(dto, BookRatingDto.class)) 
-				.collect(toCollection(ArrayList::new));
+	public Page<BookRatingDto> findAll(Pageable pageable) {
+		return bookRatingRepository.findAll(pageable).map(entity -> modelMapper.map(entity, BookRatingDto.class));
+	}
+	
+	@Override
+	public Page<BookRatingDto> findAllByBookId(Pageable pageable, Long id) {
+		return bookRatingRepository.findAllByBookId(pageable, id).map(entity -> modelMapper.map(entity, BookRatingDto.class));
 	}
 
 	@Override
 	public Optional<BookRatingDto> findById(Long id) {
 		return bookRatingRepository.findById(id).map(dto -> modelMapper.map(dto, BookRatingDto.class));
 	}
-
+	
 	@Override
 	public BookRatingDto save(BookRatingDto bookRatingDto) throws ServiceException {
-		if (bookRatingRepository.findByBookReaderIdAndIsbn(bookRatingDto.getBookReaderId(), bookRatingDto.getBookId()).isPresent()) {
+		if (bookRatingRepository.findByBookReaderIdAndBookId(bookRatingDto.getBookReaderId(), bookRatingDto.getBookId()).isPresent()) {
 			String message = "The book reader with id = %d already made feedback for the book with id = %d".formatted(bookRatingDto.getBookReaderId(), bookRatingDto.getBookId());
 			log.error(message);
 			throw new ServiceException(message);

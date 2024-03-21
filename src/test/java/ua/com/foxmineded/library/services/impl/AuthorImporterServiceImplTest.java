@@ -21,7 +21,7 @@ import ua.com.foxmineded.library.utils.AuthorCsvImporter;
 @DataJpaTest(includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {AuthorImporterService.class, AuthorRepository.class, TypeMapConfig.class, AuthorCsvImporter.class}))
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @ActiveProfiles("test")
-@Sql(scripts = { "/test/sql/clear_tables.sql" })
+@Sql(scripts = { "/test/sql/clear-tables.sql" })
 class AuthorImporterServiceImplTest {
 	@Autowired
 	AuthorImporterService authorImporterService;

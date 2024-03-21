@@ -25,11 +25,9 @@ public interface AuthorService {
 	@Transactional(readOnly = true)
 	Page<AuthorDto> findAllByPublisherName(String publisherName, Pageable pageable);
 	
-	//@Secured({"ROLE_ADMINISTRATOR"})
 	@Transactional
 	AuthorDto save(AuthorDto authorDto);
 	
-	//@Secured({"ROLE_ADMINISTRATOR"})
 	@Transactional
 	void deleteById(Long id);
 }

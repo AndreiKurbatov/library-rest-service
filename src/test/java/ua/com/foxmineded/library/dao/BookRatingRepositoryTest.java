@@ -20,7 +20,7 @@ import ua.com.foxmineded.library.entities.impl.BookRating;
 }))
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @ActiveProfiles("test") 
-@Sql(scripts = { "/test/sql/clear_tables.sql" })
+@Sql(scripts = { "/test/sql/clear-tables.sql" })
 class BookRatingRepositoryTest {
 	@Autowired
 	BookRatingRepository bookRatingRepository;
@@ -34,17 +34,17 @@ class BookRatingRepositoryTest {
 			assertNotNull(bookRating.getId());
 			assertNotNull(bookRating.getBookReader());
 			assertNotNull(bookRating.getBook());
-			assertNotNull(bookRating.getBookRating());
+			assertNotNull(bookRating.getRating());
 		}
 	}
 	
 	@Test
 	@Sql(scripts = { "/test/sql/book-rating-repository/script-0.sql" })
 	void testFindByBookReaderIdAndIsbn_AskFindAllBookRatingsByIsbn_AllRelatedRatingsShouldBeFound() {
-		BookRating bookRating = bookRatingRepository.findByBookReaderIdAndIsbn(10001L, 10001L).get();
+		BookRating bookRating = bookRatingRepository.findByBookReaderIdAndBookId(10001L, 10001L).get();
 		assertNotNull(bookRating.getId());
 		assertNotNull(bookRating.getBookReader());
 		assertNotNull(bookRating.getBook());
-		assertNotNull(bookRating.getBookRating());
+		assertNotNull(bookRating.getRating());
 	}
 }

@@ -2,6 +2,7 @@ package ua.com.foxmineded.library.controllers;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
@@ -28,6 +29,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import ua.com.foxmineded.library.dto.BookDto;
+import ua.com.foxmineded.library.models.CustomPageImpl;
 import ua.com.foxmineded.library.services.BookService;
 
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
@@ -78,11 +80,56 @@ class BookControllerTest {
 		when(bookService.findAllByPublisherName(any(Pageable.class), any(String.class))).thenReturn(booksPage);
 		
 		ResponseEntity<CustomPageImpl<BookDto>> responseEntity = restTemplate.exchange(BASE_URL + PORT + "/api/v1/books/search/publisher-name/publisherName", HttpMethod.GET, null, new ParameterizedTypeReference<CustomPageImpl<BookDto>>() {});
-		Page<BookDto> authorsPageResponse = responseEntity.getBody();
+		Page<BookDto> booksPageResponse = responseEntity.getBody();
 		
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-		assertEquals(10, authorsPageResponse.getContent().size());
-		assertIterableEquals(booksPage, authorsPageResponse);
+		assertEquals(10, booksPageResponse.getContent().size());
+		assertIterableEquals(booksPage, booksPageResponse);
+	}
+	
+	@Test
+	void testFindAllByAgeRange_AskFindAllByAgeRange_AllEntitiesShouldBeFound200() {
+		List<BookDto> books = Instancio.ofList(BookDto.class).size(10).create();
+		Page<BookDto> booksPage = new PageImpl<>(books);
+		
+		when(bookService.findAllByAgeRange(any(Pageable.class), anyInt(), anyInt())).thenReturn(booksPage);
+		
+		ResponseEntity<CustomPageImpl<BookDto>> responseEntity = restTemplate.exchange(BASE_URL + PORT + "/api/v1/books/search/start-age/2/end-age/7", HttpMethod.GET, null, new ParameterizedTypeReference<CustomPageImpl<BookDto>>() {});
+		Page<BookDto> booksPageResponse = responseEntity.getBody();
+		
+		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		assertEquals(10, booksPageResponse.getContent().size());
+		assertIterableEquals(booksPage, booksPageResponse);
+	}
+	
+	@Test
+	void testFindAllByLocationName_AskFindAllByLocationName_AllEntitiesShouldBeFound200() {
+		List<BookDto> books = Instancio.ofList(BookDto.class).size(10).create();
+		Page<BookDto> booksPage = new PageImpl<>(books);
+		
+		when(bookService.findAllByLocationName(any(Pageable.class), anyString())).thenReturn(booksPage);
+		
+		ResponseEntity<CustomPageImpl<BookDto>> responseEntity = restTemplate.exchange(BASE_URL + PORT + "/api/v1/books/search/location-name/locationName", HttpMethod.GET, null, new ParameterizedTypeReference<CustomPageImpl<BookDto>>() {});
+		Page<BookDto> booksPageResponse = responseEntity.getBody();
+		
+		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		assertEquals(10, booksPageResponse.getContent().size());
+		assertIterableEquals(booksPage, booksPageResponse);
+	}
+	
+	@Test
+	void testFindTop10ByLocationAndAgeRange_AskFindTop10ByLocationAndAgeRange_AllEntitiesShouldBeFound200() {
+		List<BookDto> books = Instancio.ofList(BookDto.class).size(10).create();
+		Page<BookDto> booksPage = new PageImpl<>(books);
+		
+		when(bookService.findTop10ByLocationAndAgeRange(any(Pageable.class), anyString(), anyInt(), anyInt())).thenReturn(booksPage);
+		
+		ResponseEntity<CustomPageImpl<BookDto>> responseEntity = restTemplate.exchange(BASE_URL + PORT + "/api/v1/books/search/location-name/locationName/age-start/1/age-end/10", HttpMethod.GET, null, new ParameterizedTypeReference<CustomPageImpl<BookDto>>() {});
+		Page<BookDto> booksPageResponse = responseEntity.getBody();
+		
+		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		assertEquals(10, booksPageResponse.getContent().size());
+		assertIterableEquals(booksPage, booksPageResponse);
 	}
 	
 	@Test
@@ -92,10 +139,10 @@ class BookControllerTest {
 		when(bookService.findByIsbn(anyString())).thenReturn(Optional.of(book));
 		
 		ResponseEntity<BookDto> responseEntity = restTemplate.getForEntity(BASE_URL + PORT + "/api/v1/books/search/isbn/isbn", BookDto.class);
-		BookDto authorResponse = responseEntity.getBody();
+		BookDto booksResponse = responseEntity.getBody();
 		
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-		assertEquals(book, authorResponse);
+		assertEquals(book, booksResponse);
 	}
 	
 	@Test
@@ -116,10 +163,10 @@ class BookControllerTest {
 		when(bookService.findByBookTitle(anyString())).thenReturn(Optional.of(bookDto));
 		
 		ResponseEntity<BookDto> responseEntity = restTemplate.getForEntity(BASE_URL + PORT + "/api/v1/books/search/book-title/bookTitle", BookDto.class);
-		BookDto authorResponse = responseEntity.getBody();
+		BookDto booksResponse = responseEntity.getBody();
 		
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-		assertEquals(bookDto, authorResponse);
+		assertEquals(bookDto, booksResponse);
 	}
 
 	@Test
@@ -145,10 +192,10 @@ class BookControllerTest {
 		
 		ResponseEntity<BookDto> responseEntity = restTemplate.postForEntity(BASE_URL + PORT + "/api/v1/books/creation", request, BookDto.class );
 		verify(bookService).save(any(BookDto.class));
-		BookDto authorResponse = responseEntity.getBody();
+		BookDto bookRatingDtoResponse = responseEntity.getBody();
 		
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-		assertEquals(bookDto, authorResponse);
+		assertEquals(bookDto, bookRatingDtoResponse);
 	}
 	
 	@Test
@@ -163,10 +210,10 @@ class BookControllerTest {
 		
 		ResponseEntity<BookDto> responseEntity = restTemplate.exchange(BASE_URL + PORT + "/api/v1/books/update", HttpMethod.PUT, request, BookDto.class);
 		verify(bookService).save(any(BookDto.class));
-		BookDto authorResponse = responseEntity.getBody();
+		BookDto booksResponse = responseEntity.getBody();
 		
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-		assertEquals(bookDto, authorResponse);
+		assertEquals(bookDto, booksResponse);
 	}
 	
 	@Test

@@ -43,6 +43,21 @@ public class BookController {
 		return bookService.findAllByPublisherName(pageable, publisherName);
 	}
 	
+	@GetMapping(value = "/search/start-age/{startAge}/end-age/{endAge}")
+	Page<BookDto> findAllByAgeRange(@SortDefault(sort = "id") @PageableDefault(size = 10) final Pageable pageable, @PathVariable Integer startAge, @PathVariable Integer endAge) {
+		return bookService.findAllByAgeRange(pageable, startAge, endAge);
+	}
+	
+	@GetMapping(value = "/search/location-name/{locationName}")
+	Page<BookDto> findAllByLocationName(@SortDefault(sort = "id") @PageableDefault(size = 10) final Pageable pageable, @PathVariable String locationName) {
+		return bookService.findAllByLocationName(pageable, locationName);
+	}
+	
+	@GetMapping(value = "/search/location-name/{locationName}/age-start/{ageStart}/age-end/{ageEnd}")
+	Page<BookDto> findTop10ByLocationAndAgeRange(@SortDefault(sort = "id") @PageableDefault(size = 10) final Pageable pageable, @PathVariable String locationName, @PathVariable Integer ageStart, @PathVariable Integer ageEnd) {
+		return bookService.findTop10ByLocationAndAgeRange(pageable, locationName, ageStart, ageEnd);
+	}
+	
 	@GetMapping(value = "/search/isbn/{isbn}")
 	BookDto findByIsbn(@PathVariable String isbn) throws ServiceException {
 		return bookService.findByIsbn(isbn).orElseThrow(() -> {

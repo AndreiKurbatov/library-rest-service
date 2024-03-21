@@ -34,7 +34,7 @@ import ua.com.foxmineded.library.utils.PublisherCsvImporter;
 		BookImporterService.class, BookRepository.class, BookCsvImporter.class}))
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @ActiveProfiles("test")
-@Sql(scripts = { "/test/sql/clear_tables.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_CLASS)
+@Sql(scripts = { "/test/sql/clear-tables.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_CLASS)
 class BookImporterServiceImplTest {
 	@Autowired
 	BookImporterService bookImporterService;
@@ -56,11 +56,9 @@ class BookImporterServiceImplTest {
 			assertNotNull(book.getId());
 			assertNotNull(book.getIsbn());
 			assertNotNull(book.getBookTitle());
-			assertNotNull(book.getAuthorName());
 			assertNotNull(book.getAuthor());
 			assertNotNull(book.getAuthor().getAuthorName());
 			assertNotNull(book.getAuthor().getId());
-			assertNotNull(book.getPublisherName());
 			assertNotNull(book.getPublisher());
 			assertNotNull(book.getPublisher().getPublisherName());
 			assertNotNull(book.getPublisher().getId());

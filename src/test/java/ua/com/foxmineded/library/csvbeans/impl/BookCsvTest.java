@@ -1,7 +1,6 @@
 package ua.com.foxmineded.library.csvbeans.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +30,8 @@ class BookCsvTest {
 		assertNull(book.getId());
 		assertNull(book.getAuthor().getId());
 		assertNull(book.getPublisher().getId());
-		assertEquals(bookCsv.getAuthorName(), book.getAuthorName());
-		assertEquals(bookCsv.getPublisherName(), book.getPublisherName());
+		assertEquals(bookCsv.getAuthorName(), book.getAuthor().getAuthorName());
+		assertEquals(bookCsv.getPublisherName(), book.getPublisher().getPublisherName());
 		assertEquals(bookCsv.getIsbn(), book.getIsbn());
 		assertEquals(bookCsv.getBookTitle(), book.getBookTitle());
 		assertEquals(bookCsv.getAuthorName(), book.getAuthor().getAuthorName());

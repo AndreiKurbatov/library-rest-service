@@ -20,7 +20,7 @@ import ua.com.foxmineded.library.utils.BookReaderCsvImporter;
 @DataJpaTest(includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {BookReaderRepository.class, BookReaderImporterService.class, BookReaderCsvImporter.class, TypeMapConfig.class}))
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @ActiveProfiles("test")
-@Sql(scripts = { "/test/sql/clear_tables.sql" })
+@Sql(scripts = { "/test/sql/clear-tables.sql" })
 class BookReaderImporterServiceImplTest {
 	@Autowired
 	BookReaderImporterService bookReaderImporterService;

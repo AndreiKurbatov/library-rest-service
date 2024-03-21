@@ -32,6 +32,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import ua.com.foxmineded.library.dto.AuthorDto;
 import ua.com.foxmineded.library.exceptions.ServiceException;
+import ua.com.foxmineded.library.models.CustomPageImpl;
 import ua.com.foxmineded.library.services.AuthorService;
 
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)

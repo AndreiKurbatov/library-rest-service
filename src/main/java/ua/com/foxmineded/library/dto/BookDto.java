@@ -27,6 +27,7 @@ public class BookDto extends AbstractDto<Long> {
 	@Builder(setterPrefix = "with")
 	@JsonCreator
 	public BookDto(Long id, String isbn, String bookTitle, Long authorId, Long publisherId,
+			
 			Integer publicationYear, String imageUrlS, String imageUrlM, String imageUrlL) {
 		super(id);
 		this.isbn = isbn;

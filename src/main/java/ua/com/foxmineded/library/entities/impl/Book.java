@@ -31,14 +31,10 @@ public class Book extends AbstractEntity<Long> {
 	@ManyToOne
 	@JoinColumn(name = "author_name", referencedColumnName = "author_name")
 	private Author author;
-	@Column(name="author_name", insertable = false, updatable = false)
-	private String authorName;
 	@ToString.Exclude
 	@ManyToOne
 	@JoinColumn(name = "publisher_name", referencedColumnName = "publisher_name")
 	private Publisher publisher;
-	@Column(name = "publisher_name", insertable = false, updatable = false)
-	private String publisherName;
 	@ToString.Exclude
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "book")
 	private List<BookRating> bookRatings;

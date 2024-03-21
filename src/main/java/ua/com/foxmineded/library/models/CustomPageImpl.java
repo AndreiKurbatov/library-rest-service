@@ -1,4 +1,4 @@
-package ua.com.foxmineded.library.controllers;
+package ua.com.foxmineded.library.models;
 
 import java.util.ArrayList;
 import java.util.List;

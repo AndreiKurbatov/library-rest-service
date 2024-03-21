@@ -30,7 +30,7 @@ import ua.com.foxmineded.library.utils.LocationCsvImporter;
 		BookReaderRepository.class, BookReaderImporterService.class, BookReaderCsvImporter.class}))
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @ActiveProfiles("test")
-@Sql(scripts = { "/test/sql/clear_tables.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_CLASS)
+@Sql(scripts = { "/test/sql/clear-tables.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_CLASS)
 class LocationImporterServiceImplTest {
 	@Autowired
 	LocationImporterService locationImporterService;

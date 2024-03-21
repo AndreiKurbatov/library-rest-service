@@ -15,5 +15,5 @@ public interface BookRatingRepository extends JpaRepository<BookRating, Long> {
 	Page<BookRating> findAllByBookId(Pageable pageable,  Long id);
 	
 	@Query("from BookRating br where br.bookReader.id = :bookReaderId and br.book.id = :bookId")
-	Optional<BookRating> findByBookReaderIdAndIsbn(Long bookReaderId, Long bookId);
+	Optional<BookRating> findByBookReaderIdAndBookId(Long bookReaderId, Long bookId);
 }

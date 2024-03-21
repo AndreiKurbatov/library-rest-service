@@ -34,11 +34,9 @@ public interface BookService {
 	@Transactional(readOnly = true)
 	Optional<BookDto> findByBookTitle(String bookTitle);
 	
-	//@Secured({ "ROLE_ADMINISTRATOR"})
 	@Transactional
 	BookDto save(BookDto book);
-	
-	//@Secured({ "ROLE_ADMINISTRATOR"})
+
 	@Transactional
 	void deleteById(Long id);
 }

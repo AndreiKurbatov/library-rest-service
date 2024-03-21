@@ -23,7 +23,7 @@ import ua.com.foxmineded.library.utils.PublisherCsvImporter;
 		PublisherRepository.class, PublisherImporterService.class, PublisherCsvImporter.class, TypeMapConfig.class}))
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @ActiveProfiles("test")
-@Sql(scripts = { "/test/sql/clear_tables.sql" })
+@Sql(scripts = { "/test/sql/clear-tables.sql" })
 class PublisherImporterServiceImplTest {
 	@Autowired
 	PublisherImporterService publisherImporterService;

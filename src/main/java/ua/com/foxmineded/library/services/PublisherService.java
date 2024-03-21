@@ -25,11 +25,9 @@ public interface PublisherService {
 	@Transactional(readOnly = true)
 	Optional<PublisherDto> findByIsbn(String isbn);
 
-	//@Secured({"ROLE_ADMINISTRATOR"})
 	@Transactional
 	PublisherDto save(PublisherDto publisherDto);
 
-	//@Secured({"ROLE_ADMINISTRATOR"})
 	@Transactional
 	void deleteById(Long id);
 }

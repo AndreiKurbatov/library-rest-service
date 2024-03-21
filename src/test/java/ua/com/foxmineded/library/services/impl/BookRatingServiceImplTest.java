@@ -31,7 +31,7 @@ class BookRatingServiceImplTest {
 		BookRating bookRating = Instancio.create(BookRating.class);
 		BookRatingDto bookRatingDto = modelMapper.map(bookRating, BookRatingDto.class);
 		String message = "The book reader with id = %d already made feedback for the book with id = %d".formatted(bookRatingDto.getBookReaderId(), bookRatingDto.getBookId());
-		when(bookRatingRepository.findByBookReaderIdAndIsbn(anyLong(), anyLong())).thenReturn(Optional.of(bookRating));
+		when(bookRatingRepository.findByBookReaderIdAndBookId(anyLong(), anyLong())).thenReturn(Optional.of(bookRating));
 		Throwable throwable = assertThrows(ServiceException.class, () -> {
 			bookRatingService.save(bookRatingDto);
 		});

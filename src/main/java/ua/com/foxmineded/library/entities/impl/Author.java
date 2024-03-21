@@ -1,7 +1,7 @@
 package ua.com.foxmineded.library.entities.impl;
 
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import org.hibernate.proxy.HibernateProxy;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -23,9 +23,9 @@ public class Author extends AbstractEntity<Long> {
 	private String authorName;
 	@ToString.Exclude
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy="author")
-	private Set<Book> books;
+	private List<Book> books;
 	
-	public Author(Long id, String authorName, Set<Book> books) {
+	public Author(Long id, String authorName, List<Book> books) {
 		super(id);
 		this.authorName = authorName;
 		this.books = books;

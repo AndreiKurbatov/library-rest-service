@@ -43,7 +43,7 @@ import ua.com.foxmineded.library.utils.PublisherCsvImporter;
 		}))
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @ActiveProfiles("test")
-@Sql(scripts = { "/test/sql/clear_tables.sql" })
+@Sql(scripts = { "/test/sql/clear-tables.sql" })
 class BookRatingImporterServiceImplTest {
 	@Autowired
 	PublisherImporterService publisherImporterService;
@@ -76,9 +76,9 @@ class BookRatingImporterServiceImplTest {
 			assertNotNull(bookRating.getBookReader().getId());
 			assertNotNull(bookRating.getBookReader().getLocations());
 			assertNotNull(bookRating.getBook());
-			assertNotNull(bookRating.getBook().getAuthorName());
-			assertNotNull(bookRating.getBook().getPublisherName());
-			assertNotNull(bookRating.getBookRating());
+			assertNotNull(bookRating.getBook().getAuthor().getAuthorName());
+			assertNotNull(bookRating.getBook().getPublisher().getPublisherName());
+			assertNotNull(bookRating.getRating());
 			assertNotNull(bookRating.getId());
 		}
 		System.out.println(bookRatings.size());

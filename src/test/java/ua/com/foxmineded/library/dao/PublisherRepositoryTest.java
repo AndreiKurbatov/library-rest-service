@@ -17,13 +17,13 @@ import ua.com.foxmineded.library.entities.impl.Publisher;
 @DataJpaTest(includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {PublisherRepository.class}))
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @ActiveProfiles("test")
-@Sql(scripts = { "/test/sql/clear_tables.sql" })
+@Sql(scripts = { "/test/sql/clear-tables.sql" })
 class PublisherRepositoryTest {
 	@Autowired
 	PublisherRepository publisherRepository;
 	
 	@Test
-	@Sql(scripts = { "/test/sql/publisherrepository/script0.sql" })
+	@Sql(scripts = { "/test/sql/publisher-repository/script-0.sql" })
 	void testFindByBookTitle_AskFindPublisherByBookTitle_PublisherShouldBeFound() {
 		String bookTitle = "Sample Book 1";
 		Long publisherId = 1L;
@@ -32,7 +32,7 @@ class PublisherRepositoryTest {
 	}
 	
 	@Test
-	@Sql(scripts = { "/test/sql/publisherrepository/script0.sql" })
+	@Sql(scripts = { "/test/sql/publisher-repository/script-0.sql" })
 	void testFindByIsbn_AskFindPublisherByIsbn_PublisherShouldBeFound() {
 		String isbn = "0987654321";
 		Long publisherId = 2L;
@@ -41,7 +41,7 @@ class PublisherRepositoryTest {
 	}
 	
 	@Test
-	@Sql(scripts = { "/test/sql/publisherrepository/script0.sql" })
+	@Sql(scripts = { "/test/sql/publisher-repository/script-0.sql" })
 	void testFindByAuthorName_AskFindPublisherByAuthorName_PublisherShouldBeFound() {
 		String authorName = "Jane Smith";
 		Long publisherId = 2L;

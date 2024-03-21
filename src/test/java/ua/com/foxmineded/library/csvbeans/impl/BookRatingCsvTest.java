@@ -25,6 +25,6 @@ class BookRatingCsvTest {
 		assertNull(bookRating.getId());
 		assertEquals(bookRatingCsv.getBookReaderId(), bookRating.getBookReader().getBookReaderId());
 		assertEquals(bookRatingCsv.getIsbn(), bookRating.getBook().getIsbn());
-		assertEquals(bookRatingCsv.getBookRating(), bookRating.getBookRating());
+		assertEquals(bookRatingCsv.getBookRating(), bookRating.getRating());
 	}
 }

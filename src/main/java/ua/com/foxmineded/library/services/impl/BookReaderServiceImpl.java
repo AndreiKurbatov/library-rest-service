@@ -31,13 +31,6 @@ public class BookReaderServiceImpl implements BookReaderService{
 		return bookReaders.map(bookReader -> modelMapper.map(bookReaders, BookReaderDto.class));
 	}
 
-	/*
-	@Override
-	public Page<BookReaderDto> findAllByLocationNames(Pageable pageable, String... locationNames) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	*/
 	@Override
 	public Optional<BookReaderDto> findById(Long id) {
 		return bookReaderRepository.findById(id).map(v -> modelMapper.map(v, BookReaderDto.class));

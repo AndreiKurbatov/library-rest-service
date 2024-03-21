@@ -67,7 +67,7 @@ public class BookServiceImpl implements BookService {
 						Set<String> locationNames = v.getBookReader().getLocations().stream().map(Location::getLocationName).collect(toCollection(HashSet::new));
 						return locationNames.contains(locationName) && age >= ageStart && age <= ageEnd;
 					}).collect(toCollection(ArrayList::new));
-			Integer averageRating = validRatings.stream().map(BookRating::getBookRating).mapToInt(v -> v).sum()/validRatings.size();
+			Integer averageRating = validRatings.stream().map(BookRating::getRating).mapToInt(v -> v).sum()/validRatings.size();
 			booksByRating.put(book, averageRating);
 		}
 		List<Map.Entry<Book, Integer>> entryList = new ArrayList<>(booksByRating.entrySet());
