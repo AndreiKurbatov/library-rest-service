@@ -28,17 +28,18 @@ import ua.com.foxmineded.library.services.AuthorService;
 public class AuthorController {
 	@Autowired
 	private final AuthorService authorService;
-	
+
 	@GetMapping(value = "/search/all")
 	public Page<AuthorDto> findAll(@SortDefault(sort = "id") @PageableDefault(size = 10) final Pageable pageable) {
 		return authorService.findAll(pageable);
 	}
-	
+
 	@GetMapping(value = "/search/publisher-name/{name}")
-	public Page<AuthorDto> findAllByPublisherName(@SortDefault(sort = "id") @PageableDefault(size = 10) final Pageable pageable, @PathVariable String name) {
+	public Page<AuthorDto> findAllByPublisherName(
+			@SortDefault(sort = "id") @PageableDefault(size = 10) final Pageable pageable, @PathVariable String name) {
 		return authorService.findAllByPublisherName(name, pageable);
 	}
-	
+
 	@GetMapping(value = "/search/author-name/{name}")
 	public AuthorDto findByAuthorName(@PathVariable String name) {
 		return authorService.findByAuthorName(name).orElseThrow(() -> {
@@ -47,7 +48,7 @@ public class AuthorController {
 			throw new ResourceNotFoundException(message);
 		});
 	}
-	
+
 	@GetMapping(value = "/search/isbn/{isbn}")
 	public AuthorDto findByIsbn(@PathVariable String isbn) {
 		return authorService.findByIsbn(isbn).orElseThrow(() -> {
@@ -56,16 +57,16 @@ public class AuthorController {
 			throw new ResourceNotFoundException(message);
 		});
 	}
-	
+
 	@GetMapping(value = "/search/book-title/{bookTitle}")
-	public AuthorDto findByBookTitle (@PathVariable String bookTitle){
+	public AuthorDto findByBookTitle(@PathVariable String bookTitle) {
 		return authorService.findByBookTitle(bookTitle).orElseThrow(() -> {
 			String message = "The author with book title %s was not found".formatted(bookTitle);
 			log.error(message);
 			throw new ResourceNotFoundException(message);
 		});
 	}
-	
+
 	@PostMapping(value = "/creation")
 	public ResponseEntity<AuthorDto> create(@RequestBody AuthorDto authorDto) {
 		AuthorDto result = authorService.save(authorDto);
@@ -76,15 +77,14 @@ public class AuthorController {
 	public AuthorDto update(@RequestBody AuthorDto authorDto) {
 		return authorService.save(authorDto);
 	}
-	
+
 	@DeleteMapping(value = "/deletion/{id}")
 	public ResponseEntity<Object> deleteById(@PathVariable Long id) {
-		authorService.findById(id)
-		.ifPresentOrElse((value) -> authorService.deleteById(id), () ->{
+		authorService.findById(id).ifPresentOrElse((value) -> authorService.deleteById(id), () -> {
 			String message = "The author with id = %d was not found".formatted(id);
 			log.error(message);
 			throw new ResourceNotFoundException(message);
-	});
+		});
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 }

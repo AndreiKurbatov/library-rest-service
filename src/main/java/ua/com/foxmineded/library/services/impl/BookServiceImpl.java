@@ -34,7 +34,7 @@ import ua.com.foxmineded.library.services.BookService;
 public class BookServiceImpl implements BookService {
 	private final BookRepository bookRepository;
 	private final ModelMapper modelMapper;
-	
+
 	@Override
 	public Page<BookDto> findAll(Pageable pageable) {
 		Page<Book> books = bookRepository.findAll(pageable);
@@ -52,22 +52,26 @@ public class BookServiceImpl implements BookService {
 		Page<Book> books = bookRepository.findAllByPublisherName(pageable, name);
 		return books.map(book -> modelMapper.map(book, BookDto.class));
 	}
-	
+
 	@Override
 	public Page<BookDto> findTop10ByLocationAndAgeRange(Pageable pageable, String locationName, Integer ageStart,
 			Integer ageEnd) {
-		List<Book> booksByLocation = bookRepository.findAllByLocationName(PageRequest.of(0, Integer.MAX_VALUE), locationName).getContent();
-		List<Book> booksByAge = bookRepository.findAllByAgeRange(PageRequest.of(0, Integer.MAX_VALUE), ageStart, ageEnd).getContent();
-		List<Book> commonElements = booksByLocation.stream().filter(booksByAge::contains).collect(toCollection(ArrayList::new));
+		List<Book> booksByLocation = bookRepository
+				.findAllByLocationName(PageRequest.of(0, Integer.MAX_VALUE), locationName).getContent();
+		List<Book> booksByAge = bookRepository.findAllByAgeRange(PageRequest.of(0, Integer.MAX_VALUE), ageStart, ageEnd)
+				.getContent();
+		List<Book> commonElements = booksByLocation.stream().filter(booksByAge::contains)
+				.collect(toCollection(ArrayList::new));
 		Map<Book, Integer> booksByRating = new HashMap<>();
 		for (Book book : commonElements) {
-			List<BookRating> validRatings = book.getBookRatings().stream() 
-					.filter(v -> {
-						Integer age = v.getBookReader().getAge();
-						Set<String> locationNames = v.getBookReader().getLocations().stream().map(Location::getLocationName).collect(toCollection(HashSet::new));
-						return locationNames.contains(locationName) && age >= ageStart && age <= ageEnd;
-					}).collect(toCollection(ArrayList::new));
-			Integer averageRating = validRatings.stream().map(BookRating::getRating).mapToInt(v -> v).sum()/validRatings.size();
+			List<BookRating> validRatings = book.getBookRatings().stream().filter(v -> {
+				Integer age = v.getBookReader().getAge();
+				Set<String> locationNames = v.getBookReader().getLocations().stream().map(Location::getLocationName)
+						.collect(toCollection(HashSet::new));
+				return locationNames.contains(locationName) && age >= ageStart && age <= ageEnd;
+			}).collect(toCollection(ArrayList::new));
+			Integer averageRating = validRatings.stream().map(BookRating::getRating).mapToInt(v -> v).sum()
+					/ validRatings.size();
 			booksByRating.put(book, averageRating);
 		}
 		List<Map.Entry<Book, Integer>> entryList = new ArrayList<>(booksByRating.entrySet());
@@ -81,10 +85,11 @@ public class BookServiceImpl implements BookService {
 		for (Map.Entry<Book, Integer> entry : entryList) {
 			top10.add(entry.getKey());
 		}
-		List<BookDto> top10Dtos = top10.stream().map(v -> modelMapper.map(v, BookDto.class)).collect(toCollection(ArrayList::new));
+		List<BookDto> top10Dtos = top10.stream().map(v -> modelMapper.map(v, BookDto.class))
+				.collect(toCollection(ArrayList::new));
 		return new PageImpl<>(top10Dtos);
 	}
-	
+
 	@Override
 	public Page<BookDto> findAllByAgeRange(Pageable pageable, Integer startAge, Integer endAge) {
 		return bookRepository.findAllByAgeRange(pageable, startAge, endAge).map(v -> modelMapper.map(v, BookDto.class));
@@ -107,12 +112,12 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public Optional<BookDto> findByBookTitle(String bookTitle) {
-		return bookRepository.findByBookTitle(bookTitle).map(value -> modelMapper.map(value, BookDto.class)); 
+		return bookRepository.findByBookTitle(bookTitle).map(value -> modelMapper.map(value, BookDto.class));
 	}
 
 	@Override
 	public BookDto save(BookDto book) {
-		BookDto result =  modelMapper.map(bookRepository.save(modelMapper.map(book, Book.class)), BookDto.class);
+		BookDto result = modelMapper.map(bookRepository.save(modelMapper.map(book, Book.class)), BookDto.class);
 		log.info("The book with id = %d was saved".formatted(book.getId()));
 		return result;
 	}

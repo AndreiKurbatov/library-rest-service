@@ -7,7 +7,7 @@ import ua.com.foxmineded.library.entities.impl.Author;
 public interface AuthorImporterService {
 	@Transactional
 	List<Author> importAuthors();
-	
+
 	@Transactional(readOnly = true)
 	Long countAll();
 }

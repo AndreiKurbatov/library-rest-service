@@ -10,7 +10,7 @@ import ua.com.foxmineded.library.services.ConcurrentDataImporterService;
 
 @Slf4j
 @Service
-public class ConcurrentDataImporterServiceImpl implements ConcurrentDataImporterService{
+public class ConcurrentDataImporterServiceImpl implements ConcurrentDataImporterService {
 
 	@SneakyThrows
 	@Override
@@ -21,11 +21,12 @@ public class ConcurrentDataImporterServiceImpl implements ConcurrentDataImporter
 			executorService.execute(task);
 		}
 		executorService.shutdown();
-	    try {
-	        while (!executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS)) {}
-	    } catch (InterruptedException e) {
-	    	log.error(e.getMessage());
-	    	throw e;
-	    }
+		try {
+			while (!executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS)) {
+			}
+		} catch (InterruptedException e) {
+			log.error(e.getMessage());
+			throw e;
+		}
 	}
 }

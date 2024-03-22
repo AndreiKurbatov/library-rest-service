@@ -16,25 +16,26 @@ import lombok.ToString;
 public class PublisherDto extends AbstractDto<Long> {
 	private static final long serialVersionUID = 1L;
 	private String publisherName;
-	
+
 	@Builder(setterPrefix = "with")
 	@JsonCreator
 	public PublisherDto(Long id, String publisherName) {
 		super(id);
 		this.publisherName = publisherName;
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
-	    if (this == o) return true;
-	    if (o == null || getClass() != o.getClass()) return false;
-	    PublisherDto publisherDto = (PublisherDto) o;
-	    return Objects.equals(id, publisherDto.id) && 
-	    		Objects.equals(publisherName, publisherDto.publisherName);
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		PublisherDto publisherDto = (PublisherDto) o;
+		return Objects.equals(id, publisherDto.id) && Objects.equals(publisherName, publisherDto.publisherName);
 	}
 
 	@Override
 	public int hashCode() {
-	    return Objects.hash(id, publisherName);
+		return Objects.hash(id, publisherName);
 	}
 }

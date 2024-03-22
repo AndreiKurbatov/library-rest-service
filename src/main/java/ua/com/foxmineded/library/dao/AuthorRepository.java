@@ -12,13 +12,13 @@ import ua.com.foxmineded.library.entities.impl.Author;
 @Repository
 public interface AuthorRepository extends JpaRepository<Author, Long> {
 	Optional<Author> findByAuthorName(String name);
-	
+
 	@Query("from Author a join a.books b where b.isbn = :isbn")
 	Optional<Author> findByIsbn(String isbn);
-	
+
 	@Query("from Author a join a.books b where b.bookTitle = :bookTitle")
-	Optional<Author> findByBookTitle (String bookTitle);
-	
+	Optional<Author> findByBookTitle(String bookTitle);
+
 	@Query("from Author a join a.books b join b.publisher p where p.publisherName = :publisherName")
 	Page<Author> findAllByPublisherName(Pageable pageable, String publisherName);
 }

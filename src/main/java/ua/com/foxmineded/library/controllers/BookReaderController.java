@@ -28,17 +28,18 @@ import ua.com.foxmineded.library.services.BookReaderService;
 public class BookReaderController {
 	@Autowired
 	private final BookReaderService bookReaderService;
-	
+
 	@GetMapping(value = "/search/all")
 	Page<BookReaderDto> findAll(@SortDefault(sort = "id") @PageableDefault(page = 10) final Pageable pageable) {
 		return bookReaderService.findAll(pageable);
 	}
-	
+
 	@GetMapping(value = "/search/age/{age}")
-	Page<BookReaderDto> findAllByAge(@SortDefault(sort = "id") @PageableDefault(page = 10) final Pageable pageable, @PathVariable Integer age) {
+	Page<BookReaderDto> findAllByAge(@SortDefault(sort = "id") @PageableDefault(page = 10) final Pageable pageable,
+			@PathVariable Integer age) {
 		return bookReaderService.findAllByAge(pageable, age);
 	}
-	
+
 	@GetMapping(value = "/search/book-reader-id/{bookReaderId}")
 	BookReaderDto findByBookReaderId(@PathVariable Long bookReaderId) {
 		return bookReaderService.findByBookReaderId(bookReaderId).orElseThrow(() -> {
@@ -47,18 +48,18 @@ public class BookReaderController {
 			throw new ResourceNotFoundException(message);
 		});
 	}
-	
+
 	@PostMapping(value = "/creation")
 	ResponseEntity<BookReaderDto> create(@RequestBody BookReaderDto bookReaderDto) {
 		BookReaderDto result = bookReaderService.save(bookReaderDto);
 		return ResponseEntity.status(HttpStatus.CREATED).body(result);
 	}
-	
+
 	@PutMapping(value = "/update")
 	BookReaderDto update(@RequestBody BookReaderDto bookReaderDto) {
 		return bookReaderService.save(bookReaderDto);
 	}
-	
+
 	@DeleteMapping(value = "/deletion/{id}")
 	ResponseEntity<Object> deleteById(@PathVariable Long id) {
 		bookReaderService.findById(id).ifPresentOrElse((v) -> bookReaderService.deleteById(id), () -> {

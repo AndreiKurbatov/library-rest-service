@@ -34,17 +34,13 @@ public class BookReader extends AbstractEntity<Long> {
 	private List<BookRating> bookRatings;
 	@ToString.Exclude
 	@ManyToMany
-	@JoinTable(
-			schema = "library",
-			name = "book_readers_books", 
-			joinColumns = @JoinColumn(name = "book_reader_id", referencedColumnName = "book_reader_id"),
-			inverseJoinColumns = @JoinColumn(name = "isbn", referencedColumnName = "isbn")
-			)
+	@JoinTable(schema = "library", name = "book_readers_books", joinColumns = @JoinColumn(name = "book_reader_id", referencedColumnName = "book_reader_id"), inverseJoinColumns = @JoinColumn(name = "isbn", referencedColumnName = "isbn"))
 	private List<Book> books;
 	@Column(name = "age")
 	private Integer age;
-	
-	public BookReader(Long id, Long bookReaderId, Set<Location> locations, List<BookRating> bookRatings, List<Book> books, Integer age) {
+
+	public BookReader(Long id, Long bookReaderId, Set<Location> locations, List<BookRating> bookRatings,
+			List<Book> books, Integer age) {
 		super(id);
 		this.bookReaderId = bookReaderId;
 		this.locations = locations;
@@ -52,7 +48,7 @@ public class BookReader extends AbstractEntity<Long> {
 		this.books = books;
 		this.age = age;
 	}
-	
+
 	@Override
 	public final boolean equals(Object o) {
 		if (this == o)

@@ -28,17 +28,18 @@ import ua.com.foxmineded.library.services.PublisherService;
 public class PublisherController {
 	@Autowired
 	private final PublisherService publisherService;
-	
+
 	@GetMapping(value = "/search/all")
-	public Page<PublisherDto> findAll(@SortDefault(sort = "id") @PageableDefault(size = 10) final Pageable pageable){
+	public Page<PublisherDto> findAll(@SortDefault(sort = "id") @PageableDefault(size = 10) final Pageable pageable) {
 		return publisherService.findAll(pageable);
 	}
-	
+
 	@GetMapping(value = "/search/author-name/{name}")
-	public Page<PublisherDto> findAllByAuthorName(@SortDefault(sort = "id") @PageableDefault(size = 10) final Pageable pageable, @PathVariable String name) {
+	public Page<PublisherDto> findAllByAuthorName(
+			@SortDefault(sort = "id") @PageableDefault(size = 10) final Pageable pageable, @PathVariable String name) {
 		return publisherService.findAllByAuthorName(pageable, name);
 	}
-	
+
 	@GetMapping(value = "/search/publisher-name/{name}")
 	public PublisherDto findByPublisherName(@PathVariable String name) {
 		return publisherService.findByPublisherName(name).orElseThrow(() -> {
@@ -68,10 +69,10 @@ public class PublisherController {
 
 	@PostMapping(value = "/creation")
 	public ResponseEntity<Object> create(@RequestBody PublisherDto publisherDto) {
-		PublisherDto result =  publisherService.save(publisherDto);
+		PublisherDto result = publisherService.save(publisherDto);
 		return ResponseEntity.status(HttpStatus.CREATED).body(result);
 	}
-	
+
 	@PutMapping(value = "/update")
 	public PublisherDto update(@RequestBody PublisherDto publisherDto) {
 		return publisherService.save(publisherDto);

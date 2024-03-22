@@ -22,8 +22,8 @@ public class BookReaderImporterServiceImpl implements BookReaderImporterService 
 	@Override
 	public List<BookReader> importBookReaders() {
 		List<BookReaderCsv> bookReaderCsvs = bookReaderCsvImporter.read();
-		List<BookReader> bookReaders = bookReaderCsvs.stream()
-				.map(value -> modelMapper.map(value, BookReader.class)).collect(toCollection(ArrayList::new));
+		List<BookReader> bookReaders = bookReaderCsvs.stream().map(value -> modelMapper.map(value, BookReader.class))
+				.collect(toCollection(ArrayList::new));
 		return bookReaderRepository.saveAll(bookReaders);
 	}
 

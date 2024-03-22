@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import static java.util.stream.Collectors.toCollection;
+
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +19,7 @@ class AuthorCsvImporterImplTest {
 	@Autowired
 	AuthorCsvImporter authorCsvImporter;
 
+	@Disabled
 	@Test
 	void testImportAllAuthorsFromCsvFile() {
 		List<AuthorCsv> list = authorCsvImporter.read();

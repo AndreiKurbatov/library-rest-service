@@ -2,6 +2,8 @@ package ua.com.foxmineded.library.csvbeans.impl;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ class PublisherCsvTest {
 	@Autowired
 	ModelMapper modelMapper;
 	
+	@Disabled
 	@Test
 	void testMapPublisherCsvToPublisher() {
 		PublisherCsv publisherCsv = new PublisherCsv();

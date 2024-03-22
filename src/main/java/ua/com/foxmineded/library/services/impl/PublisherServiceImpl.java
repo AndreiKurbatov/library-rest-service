@@ -31,32 +31,30 @@ public class PublisherServiceImpl implements PublisherService {
 		Page<Publisher> publishers = publisherRepository.findAllByAuthorName(pageable, name);
 		return publishers.map(publisher -> modelMapper.map(publisher, PublisherDto.class));
 	}
-	
+
 	@Override
 	public Optional<PublisherDto> findById(Long id) {
 		return publisherRepository.findById(id).map(value -> modelMapper.map(value, PublisherDto.class));
 	}
-	
+
 	@Override
 	public Optional<PublisherDto> findByPublisherName(String name) {
-		return publisherRepository.findByPublisherName(name) 
-				.map(value -> modelMapper.map(value, PublisherDto.class));
+		return publisherRepository.findByPublisherName(name).map(value -> modelMapper.map(value, PublisherDto.class));
 	}
 
 	@Override
-	public Optional<PublisherDto> findByBookTitle(String bookTitle)  {
+	public Optional<PublisherDto> findByBookTitle(String bookTitle) {
 		return publisherRepository.findByBookTitle(bookTitle).map(value -> modelMapper.map(value, PublisherDto.class));
 	}
 
 	@Override
-	public Optional<PublisherDto> findByIsbn(String isbn){
-		return publisherRepository.findByIsbn(isbn) 
-				.map(value -> modelMapper.map(isbn, PublisherDto.class));
+	public Optional<PublisherDto> findByIsbn(String isbn) {
+		return publisherRepository.findByIsbn(isbn).map(value -> modelMapper.map(isbn, PublisherDto.class));
 	}
 
 	@Override
 	public PublisherDto save(PublisherDto publisherDto) {
-		PublisherDto result =  modelMapper.map(modelMapper.map(publisherDto, Publisher.class),PublisherDto.class);
+		PublisherDto result = modelMapper.map(modelMapper.map(publisherDto, Publisher.class), PublisherDto.class);
 		log.info("Publisher with id = %d was saved".formatted(publisherDto.getId()));
 		return result;
 	}

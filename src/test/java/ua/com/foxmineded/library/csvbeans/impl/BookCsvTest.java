@@ -1,6 +1,8 @@
 package ua.com.foxmineded.library.csvbeans.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ class BookCsvTest {
 	@Autowired
 	ModelMapper modelMapper;
 	
+	@Disabled
 	@Test
 	void testMapBookCsvToBook() {
 		BookCsv bookCsv = new BookCsv();

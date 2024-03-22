@@ -10,6 +10,6 @@ import ua.com.foxmineded.library.entities.impl.BookReader;
 @Repository
 public interface BookReaderRepository extends JpaRepository<BookReader, Long> {
 	Optional<BookReader> findByBookReaderId(Long bookReaderId);
-	
+
 	Page<BookReader> findAllByAge(Pageable pageable, Integer age);
 }

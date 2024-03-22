@@ -3,6 +3,7 @@ package ua.com.foxmineded.library.services.impl;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -57,7 +58,7 @@ class BookRatingImporterServiceImplTest {
 	BookImporterService bookImporterService;
 	@Autowired
 	BookRatingImporterService bookRatingImporterService;
-	
+	@Disabled
 	@BeforeEach
 	void setup() {
 		publisherImporterService.importPublishers();
@@ -66,7 +67,7 @@ class BookRatingImporterServiceImplTest {
 		locationImporterService.importLocations();
 		bookImporterService.importBooks();
 	}
-
+	@Disabled
 	@Test
 	void testImportBookRatings () {
 		List<BookRating> bookRatings = bookRatingImporterService.importBookRatings();

@@ -38,14 +38,9 @@ public class Book extends AbstractEntity<Long> {
 	@ToString.Exclude
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "book")
 	private List<BookRating> bookRatings;
-	@ToString.Exclude 
+	@ToString.Exclude
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(
-			schema = "library",
-			name = "book_readers_books",
-			joinColumns = @JoinColumn(name = "isbn", referencedColumnName = "isbn"),
-			inverseJoinColumns = @JoinColumn(name = "book_reader_id", referencedColumnName = "book_reader_id")
-			)
+	@JoinTable(schema = "library", name = "book_readers_books", joinColumns = @JoinColumn(name = "isbn", referencedColumnName = "isbn"), inverseJoinColumns = @JoinColumn(name = "book_reader_id", referencedColumnName = "book_reader_id"))
 	private List<BookReader> bookReaders;
 	@Column(name = "publication_year")
 	private Integer publicationYear;
@@ -55,9 +50,10 @@ public class Book extends AbstractEntity<Long> {
 	private String imageUrlM;
 	@Column(name = "image_url_l")
 	private String imageUrlL;
-	
+
 	public Book(Long id, String isbn, String bookTitle, Author author, Publisher publisher, Integer publicationYear,
-			List<BookRating> bookRatings, List<BookReader> bookReaders ,String imageUrlS, String imageUrlM, String imageUrlL) {
+			List<BookRating> bookRatings, List<BookReader> bookReaders, String imageUrlS, String imageUrlM,
+			String imageUrlL) {
 		super(id);
 		this.isbn = isbn;
 		this.bookTitle = bookTitle;

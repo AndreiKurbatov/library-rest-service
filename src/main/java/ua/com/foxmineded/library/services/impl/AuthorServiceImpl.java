@@ -20,7 +20,7 @@ public class AuthorServiceImpl implements AuthorService {
 	private final ModelMapper modelMapper;
 
 	@Override
-	public Optional<AuthorDto> findById(Long id)  {
+	public Optional<AuthorDto> findById(Long id) {
 		return authorRepository.findById(id).map(value -> modelMapper.map(value, AuthorDto.class));
 	}
 
@@ -53,7 +53,7 @@ public class AuthorServiceImpl implements AuthorService {
 
 	@Override
 	public AuthorDto save(AuthorDto authorDto) {
-		AuthorDto result =  modelMapper.map(modelMapper.map(authorDto, Author.class), AuthorDto.class);
+		AuthorDto result = modelMapper.map(modelMapper.map(authorDto, Author.class), AuthorDto.class);
 		log.info("The author with id = %d was saved".formatted(authorDto.getId()));
 		return result;
 	}

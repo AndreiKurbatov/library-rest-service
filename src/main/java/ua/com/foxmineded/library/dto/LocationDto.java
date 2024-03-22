@@ -13,11 +13,11 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString(callSuper = true)
 @Builder(setterPrefix = "with")
-public class LocationDto extends AbstractDto<Long>{
+public class LocationDto extends AbstractDto<Long> {
 	private static final long serialVersionUID = 1L;
 	private Long bookReaderId;
 	private String locationName;
-	
+
 	@Builder(setterPrefix = "with")
 	@JsonCreator
 	public LocationDto(Long id, Long bookReaderId, String locationName) {
@@ -25,19 +25,20 @@ public class LocationDto extends AbstractDto<Long>{
 		this.bookReaderId = bookReaderId;
 		this.locationName = locationName;
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
-	    if (this == o) return true;
-	    if (o == null || getClass() != o.getClass()) return false;
-	    LocationDto locationDto = (LocationDto) o;
-	    return Objects.equals(id, locationDto.id) && 
-	    		Objects.equals(bookReaderId, locationDto.bookReaderId) && 
-	    		Objects.equals(locationName, locationDto.locationName);
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		LocationDto locationDto = (LocationDto) o;
+		return Objects.equals(id, locationDto.id) && Objects.equals(bookReaderId, locationDto.bookReaderId)
+				&& Objects.equals(locationName, locationDto.locationName);
 	}
 
 	@Override
 	public int hashCode() {
-	    return Objects.hash(id, bookReaderId, locationName);
+		return Objects.hash(id, bookReaderId, locationName);
 	}
 }

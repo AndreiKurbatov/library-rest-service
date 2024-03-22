@@ -27,25 +27,29 @@ public class BookRatingServiceImpl implements BookRatingService {
 	public Page<BookRatingDto> findAll(Pageable pageable) {
 		return bookRatingRepository.findAll(pageable).map(entity -> modelMapper.map(entity, BookRatingDto.class));
 	}
-	
+
 	@Override
 	public Page<BookRatingDto> findAllByBookId(Pageable pageable, Long id) {
-		return bookRatingRepository.findAllByBookId(pageable, id).map(entity -> modelMapper.map(entity, BookRatingDto.class));
+		return bookRatingRepository.findAllByBookId(pageable, id)
+				.map(entity -> modelMapper.map(entity, BookRatingDto.class));
 	}
 
 	@Override
 	public Optional<BookRatingDto> findById(Long id) {
 		return bookRatingRepository.findById(id).map(dto -> modelMapper.map(dto, BookRatingDto.class));
 	}
-	
+
 	@Override
 	public BookRatingDto save(BookRatingDto bookRatingDto) throws ServiceException {
-		if (bookRatingRepository.findByBookReaderIdAndBookId(bookRatingDto.getBookReaderId(), bookRatingDto.getBookId()).isPresent()) {
-			String message = "The book reader with id = %d already made feedback for the book with id = %d".formatted(bookRatingDto.getBookReaderId(), bookRatingDto.getBookId());
+		if (bookRatingRepository.findByBookReaderIdAndBookId(bookRatingDto.getBookReaderId(), bookRatingDto.getBookId())
+				.isPresent()) {
+			String message = "The book reader with id = %d already made feedback for the book with id = %d"
+					.formatted(bookRatingDto.getBookReaderId(), bookRatingDto.getBookId());
 			log.error(message);
 			throw new ServiceException(message);
 		}
-		BookRatingDto saved = modelMapper.map(bookRatingRepository.save(modelMapper.map(bookRatingDto, BookRating.class)), BookRatingDto.class);
+		BookRatingDto saved = modelMapper
+				.map(bookRatingRepository.save(modelMapper.map(bookRatingDto, BookRating.class)), BookRatingDto.class);
 		log.info("The book rating with id = %d was saved".formatted(saved.getId()));
 		return saved;
 	}

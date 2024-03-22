@@ -29,34 +29,31 @@ public class DataImporter implements ApplicationRunner {
 	private final BookImporterService bookImporterService;
 	private final BookRatingImporterService bookRatingImporterService;
 	private final ConcurrentDataImporterService concurrentDataImporterService;
-	
+
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		log.info("The data import process has started");
-		
+
 		log.info("The process of importing book readers has begun");
 		log.info("The process of importing authors has begun");
 		log.info("The process of importing publishers has begun");
-		concurrentDataImporterService.importConcurrently(
-				bookReaderImporterService::importBookReaders,
-				authorImporterService::importAuthors, 
-				publisherImporterService::importPublishers);
+		concurrentDataImporterService.importConcurrently(bookReaderImporterService::importBookReaders,
+				authorImporterService::importAuthors, publisherImporterService::importPublishers);
 		log.info("%d book readers were imported".formatted(bookReaderImporterService.countAll()));
 		log.info("%d authors were imported".formatted(authorImporterService.countAll()));
 		log.info("%d publishers were imported".formatted(publisherImporterService.countAll()));
 
 		log.info("The process of importing locations has begun");
 		log.info("The process of importing books has begun");
-		concurrentDataImporterService.importConcurrently(
-				locationImporterService::importLocations,
+		concurrentDataImporterService.importConcurrently(locationImporterService::importLocations,
 				bookImporterService::importBooks);
 		log.info("%d locations were imported".formatted(locationImporterService.countAll()));
 		log.info("%d books were imported".formatted(bookImporterService.countAll()));
 
 		log.info("The process of importing book ratings has begun");
 		List<BookRating> bookRatings = bookRatingImporterService.importBookRatings();
-		log.info("%d book ratings were imported".formatted(bookRatings.size()));	
-	
+		log.info("%d book ratings were imported".formatted(bookRatings.size()));
+
 		log.info("The data import process has been completed");
 	}
 }

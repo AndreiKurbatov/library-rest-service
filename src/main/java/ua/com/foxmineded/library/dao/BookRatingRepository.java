@@ -12,8 +12,8 @@ import ua.com.foxmineded.library.entities.impl.BookRating;
 @Repository
 public interface BookRatingRepository extends JpaRepository<BookRating, Long> {
 	@Query("from BookRating br where br.book.id = :id ")
-	Page<BookRating> findAllByBookId(Pageable pageable,  Long id);
-	
+	Page<BookRating> findAllByBookId(Pageable pageable, Long id);
+
 	@Query("from BookRating br where br.bookReader.id = :bookReaderId and br.book.id = :bookId")
 	Optional<BookRating> findByBookReaderIdAndBookId(Long bookReaderId, Long bookId);
 }
