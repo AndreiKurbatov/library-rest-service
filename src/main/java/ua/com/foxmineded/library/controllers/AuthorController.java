@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,8 +67,9 @@ public class AuthorController {
 	}
 	
 	@PostMapping(value = "/creation")
-	public AuthorDto create(@RequestBody AuthorDto authorDto) {
-		return authorService.save(authorDto);
+	public ResponseEntity<AuthorDto> create(@RequestBody AuthorDto authorDto) {
+		AuthorDto result = authorService.save(authorDto);
+		return ResponseEntity.status(HttpStatus.CREATED).body(result);
 	}
 
 	@PutMapping(value = "/update")
@@ -75,12 +78,13 @@ public class AuthorController {
 	}
 	
 	@DeleteMapping(value = "/deletion/{id}")
-	public void deleteById(@PathVariable Long id) {
+	public ResponseEntity<Object> deleteById(@PathVariable Long id) {
 		authorService.findById(id)
 		.ifPresentOrElse((value) -> authorService.deleteById(id), () ->{
 			String message = "The author with id = %d was not found".formatted(id);
 			log.error(message);
 			throw new ResourceNotFoundException(message);
 	});
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 }

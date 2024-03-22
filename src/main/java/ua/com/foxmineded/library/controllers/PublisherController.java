@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -65,8 +67,9 @@ public class PublisherController {
 	}
 
 	@PostMapping(value = "/creation")
-	public PublisherDto create(@RequestBody PublisherDto publisherDto) {
-		return publisherService.save(publisherDto);
+	public ResponseEntity<Object> create(@RequestBody PublisherDto publisherDto) {
+		PublisherDto result =  publisherService.save(publisherDto);
+		return ResponseEntity.status(HttpStatus.CREATED).body(result);
 	}
 	
 	@PutMapping(value = "/update")
@@ -75,11 +78,12 @@ public class PublisherController {
 	}
 
 	@DeleteMapping(value = "/deletion/{id}")
-	public void deleteById(@PathVariable Long id) {
-		publisherService.findById(id).ifPresentOrElse((value) -> publisherService.deleteById(id), () -> {
+	public ResponseEntity<Object> deleteById(@PathVariable Long id) {
+		publisherService.findById(id).ifPresentOrElse(value -> publisherService.deleteById(id), () -> {
 			String message = "The publisher with id = %d was deleted".formatted(id);
 			log.error(message);
 			throw new ResourceNotFoundException(message);
 		});
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 }

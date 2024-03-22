@@ -27,9 +27,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.web.WebMergedContextConfiguration;
-import org.springframework.web.context.WebApplicationContext;
-
 import ua.com.foxmineded.library.dto.AuthorDto;
 import ua.com.foxmineded.library.exceptions.ServiceException;
 import ua.com.foxmineded.library.models.CustomPageImpl;
@@ -148,7 +145,7 @@ class AuthorControllerTest {
 	}
 	
 	@Test
-	void testCreate_AskPostEntity_EntityShouldBeCreatedAndReturned200() {
+	void testCreate_AskPostEntity_EntityShouldBeCreatedAndReturned201() {
 		AuthorDto author = Instancio.create(AuthorDto.class);
 		
 		HttpHeaders headers = new HttpHeaders();
@@ -161,7 +158,7 @@ class AuthorControllerTest {
 		verify(authorService).save(any(AuthorDto.class));
 		AuthorDto authorResponse = responseEntity.getBody();
 		
-		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
 		assertEquals(author, authorResponse);
 	}
 	
@@ -184,7 +181,7 @@ class AuthorControllerTest {
 	}
 	
 	@Test
-	void testDeleteById_AskDeleteEntityById_EntityShouldBeDeleted200() {
+	void testDeleteById_AskDeleteEntityById_EntityShouldBeDeleted204() {
 		AuthorDto authorDto = Instancio.create(AuthorDto.class);
 		
 		when(authorService.findById(anyLong())).thenReturn(Optional.of(authorDto));
@@ -193,7 +190,7 @@ class AuthorControllerTest {
 		
 		verify(authorService).findById(anyLong());
 		verify(authorService).deleteById(anyLong());
-		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
 		assertNull(responseEntity.getBody());
 	}
 	

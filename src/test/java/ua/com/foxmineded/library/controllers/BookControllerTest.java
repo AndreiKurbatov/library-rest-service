@@ -194,7 +194,7 @@ class BookControllerTest {
 		verify(bookService).save(any(BookDto.class));
 		BookDto bookRatingDtoResponse = responseEntity.getBody();
 		
-		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
 		assertEquals(bookDto, bookRatingDtoResponse);
 	}
 	
@@ -217,7 +217,7 @@ class BookControllerTest {
 	}
 	
 	@Test
-	void testDeleteById_AskDeleteEntityById_EntityShouldBeDeleted200() {
+	void testDeleteById_AskDeleteEntityById_EntityShouldBeDeleted204() {
 		BookDto bookDto = Instancio.create(BookDto.class);
 		
 		when(bookService.findById(anyLong())).thenReturn(Optional.of(bookDto));
@@ -226,7 +226,7 @@ class BookControllerTest {
 		
 		verify(bookService).findById(anyLong());
 		verify(bookService).deleteById(anyLong());
-		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
 		assertNull(responseEntity.getBody());
 	}
 	

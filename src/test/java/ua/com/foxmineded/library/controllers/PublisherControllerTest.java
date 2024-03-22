@@ -144,7 +144,7 @@ class PublisherControllerTest {
 	}
 	
 	@Test
-	void testCreate_AskPostEntity_EntityShouldBeCreatedAndReturned200() {
+	void testCreate_AskPostEntity_EntityShouldBeCreatedAndReturned201() {
 		PublisherDto publisherDto = Instancio.create(PublisherDto.class);
 		
 		HttpHeaders headers = new HttpHeaders();
@@ -157,7 +157,7 @@ class PublisherControllerTest {
 		verify(publisherService).save(any(PublisherDto.class));
 		PublisherDto publisherResponse = responseEntity.getBody();
 		
-		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
 		assertEquals(publisherDto, publisherResponse);
 	}
 	
@@ -180,7 +180,7 @@ class PublisherControllerTest {
 	}
 	
 	@Test
-	void testDeleteById_AskDeleteEntityById_EntityShouldBeDeleted200() {
+	void testDeleteById_AskDeleteEntityById_EntityShouldBeDeleted204() {
 		PublisherDto publisherDto = Instancio.create(PublisherDto.class);
 		
 		when(publisherService.findById(anyLong())).thenReturn(Optional.of(publisherDto));
@@ -189,7 +189,7 @@ class PublisherControllerTest {
 		
 		verify(publisherService).findById(anyLong());
 		verify(publisherService).deleteById(anyLong());
-		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
 		assertNull(responseEntity.getBody());
 	}
 	

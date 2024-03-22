@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ua.com.foxmineded.library.dto.BookReaderDto;
-import ua.com.foxmineded.library.exceptions.ServiceException;
 import ua.com.foxmineded.library.services.BookReaderService;
 
 @Slf4j
@@ -39,7 +40,7 @@ public class BookReaderController {
 	}
 	
 	@GetMapping(value = "/search/book-reader-id/{bookReaderId}")
-	BookReaderDto findByBookReaderId(@PathVariable Long bookReaderId) throws ServiceException {
+	BookReaderDto findByBookReaderId(@PathVariable Long bookReaderId) {
 		return bookReaderService.findByBookReaderId(bookReaderId).orElseThrow(() -> {
 			String message = "The book reader with book reader id = %d was not found".formatted(bookReaderId);
 			log.error(message);
@@ -48,8 +49,9 @@ public class BookReaderController {
 	}
 	
 	@PostMapping(value = "/creation")
-	BookReaderDto create(@RequestBody BookReaderDto bookReaderDto) {
-		return bookReaderService.save(bookReaderDto);
+	ResponseEntity<BookReaderDto> create(@RequestBody BookReaderDto bookReaderDto) {
+		BookReaderDto result = bookReaderService.save(bookReaderDto);
+		return ResponseEntity.status(HttpStatus.CREATED).body(result);
 	}
 	
 	@PutMapping(value = "/update")
@@ -58,11 +60,12 @@ public class BookReaderController {
 	}
 	
 	@DeleteMapping(value = "/deletion/{id}")
-	void deleteById(@PathVariable Long id) {
+	ResponseEntity<Object> deleteById(@PathVariable Long id) {
 		bookReaderService.findById(id).ifPresentOrElse((v) -> bookReaderService.deleteById(id), () -> {
 			String message = "The book with id = %d was not found".formatted(id);
 			log.error(message);
 			throw new ResourceNotFoundException(message);
 		});
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 }

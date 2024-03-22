@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,9 +42,9 @@ public class BookRatingController {
 	}
 
 	@PostMapping(value = "/creation")
-	public BookRatingDto create(@RequestBody BookRatingDto bookRatingDto) throws ServiceException {
-		return bookRatingService.save(bookRatingDto);
-
+	public ResponseEntity<BookRatingDto> create(@RequestBody BookRatingDto bookRatingDto) throws ServiceException {
+		BookRatingDto result = bookRatingService.save(bookRatingDto);
+		return ResponseEntity.status(HttpStatus.CREATED).body(result);
 	}
 
 	@PutMapping(value = "/update")
@@ -51,11 +53,12 @@ public class BookRatingController {
 	}
 
 	@DeleteMapping(value = "/deletion/{id}")
-	public void deleteById(@PathVariable Long id) {
+	public ResponseEntity<Object> deleteById(@PathVariable Long id) {
 		bookRatingService.findById(id).ifPresentOrElse((v) -> bookRatingService.deleteById(id), () -> {
 			String message = "The book rating with id = %d was not found".formatted(id);
 			log.error(message);
 			throw new ResourceNotFoundException(message);
 		});
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 }

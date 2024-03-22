@@ -6,14 +6,11 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
-
 import java.util.List;
 import java.util.Optional;
-
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +31,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import ua.com.foxmineded.library.dto.BookReaderDto;
 import ua.com.foxmineded.library.models.CustomPageImpl;
-import ua.com.foxmineded.library.dto.AuthorDto;
-import ua.com.foxmineded.library.services.AuthorService;
 import ua.com.foxmineded.library.services.BookReaderService;
 
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
@@ -104,7 +99,7 @@ class BookReaderControllerTest {
 	}
 	
 	@Test
-	void testCreate_AskPostEntity_EntityShouldBeCreatedAndReturned200() {
+	void testCreate_AskPostEntity_EntityShouldBeCreatedAndReturned201() {
 		BookReaderDto bookReaderDto = Instancio.create(BookReaderDto.class);
 		
 		HttpHeaders headers = new HttpHeaders();
@@ -117,7 +112,7 @@ class BookReaderControllerTest {
 		verify(bookReaderService).save(any(BookReaderDto.class));
 		BookReaderDto bookReaderDtoResponse = responseEntity.getBody();
 		
-		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
 		assertEquals(bookReaderDto, bookReaderDtoResponse);
 	}
 	
@@ -140,7 +135,7 @@ class BookReaderControllerTest {
 	}
 	
 	@Test
-	void testDeleteById_AskDeleteEntityById_EntityShouldBeDeleted200() {
+	void testDeleteById_AskDeleteEntityById_EntityShouldBeDeleted204() {
 		BookReaderDto bookReaderDto = Instancio.create(BookReaderDto.class);
 		
 		when(bookReaderService.findById(anyLong())).thenReturn(Optional.of(bookReaderDto));
@@ -149,7 +144,7 @@ class BookReaderControllerTest {
 		
 		verify(bookReaderService).findById(anyLong());
 		verify(bookReaderService).deleteById(anyLong());
-		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
 		assertNull(responseEntity.getBody());
 	}
 	

@@ -74,7 +74,7 @@ class BookRatingControllerTest {
 	}
 	
 	@Test
-	void testCreate_AskPostEntity_EntityShouldBeCreatedAndReturned200() throws ServiceException {
+	void testCreate_AskPostEntity_EntityShouldBeCreatedAndReturned201() throws ServiceException {
 		BookRatingDto bookRatingDto = Instancio.create(BookRatingDto.class);
 		
 		HttpHeaders headers = new HttpHeaders();
@@ -87,7 +87,7 @@ class BookRatingControllerTest {
 		verify(bookRatingService).save(any(BookRatingDto.class));
 		BookRatingDto bookRatingDtoResponse = responseEntity.getBody();
 		
-		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
 		assertEquals(bookRatingDto, bookRatingDtoResponse);
 	}
 	
@@ -105,7 +105,7 @@ class BookRatingControllerTest {
 		ResponseEntity<String> responseEntity = restTemplate.postForEntity(BASE_URL + PORT + "/api/v1/book-ratings/creation", request, String.class );
 		verify(bookRatingService).save(any(BookRatingDto.class));
 		
-		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		assertEquals(HttpStatus.I_AM_A_TEAPOT, responseEntity.getStatusCode());
 		assertEquals(message, responseEntity.getBody());
 	}
 	
@@ -128,7 +128,7 @@ class BookRatingControllerTest {
 	}
 	
 	@Test
-	void testDeleteById_AskDeleteEntityById_EntityShouldBeDeleted200() {
+	void testDeleteById_AskDeleteEntityById_EntityShouldBeDeleted204() {
 		BookRatingDto bookRatingDto = Instancio.create(BookRatingDto.class);
 		
 		when(bookRatingService.findById(anyLong())).thenReturn(Optional.of(bookRatingDto));
@@ -137,7 +137,7 @@ class BookRatingControllerTest {
 		
 		verify(bookRatingService).findById(anyLong());
 		verify(bookRatingService).deleteById(anyLong());
-		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
 		assertNull(responseEntity.getBody());
 	}
 	
