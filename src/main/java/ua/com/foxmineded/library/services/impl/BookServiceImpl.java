@@ -80,12 +80,7 @@ public class BookServiceImpl implements BookService {
 			booksByRating.put(book, averageRating);
 		}
 		List<Map.Entry<Book, Integer>> entryList = new ArrayList<>(booksByRating.entrySet());
-		Collections.sort(entryList, new Comparator<Map.Entry<Book, Integer>>() {
-			@Override
-			public int compare(Entry<Book, Integer> o1, Entry<Book, Integer> o2) {
-				return o1.getValue().compareTo(o2.getValue());
-			}
-		});
+		Collections.sort(entryList, (o1, o2) -> o1.getValue().compareTo(o2.getValue()));
 		List<Book> top10 = new ArrayList<>();
 		for (Map.Entry<Book, Integer> entry : entryList) {
 			top10.add(entry.getKey());

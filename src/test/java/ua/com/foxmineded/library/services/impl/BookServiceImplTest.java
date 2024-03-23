@@ -99,11 +99,11 @@ class BookServiceImplTest {
 		BookRating bookRating2 = new BookRating(3L, bookReader2, null, 10);
 		bookReader2.setBookRatings(Stream.of(bookRating2).toList());
 		
-		BookRating bookRating3 = new BookRating(1L, bookReader3, null, 1);
+		BookRating bookRating3 = new BookRating(4L, bookReader3, null, 1);
 		bookReader3.setBookRatings(Stream.of(bookRating3).toList());
-		BookRating bookRating4 = new BookRating(2L, bookReader4, null, 7);
+		BookRating bookRating4 = new BookRating(5L, bookReader4, null, 7);
 		bookReader4.setBookRatings(Stream.of(bookRating4).toList());
-		BookRating bookRating5 = new BookRating(3L, bookReader5, null, 10);
+		BookRating bookRating5 = new BookRating(6L, bookReader5, null, 10);
 		bookReader5.setBookRatings(Stream.of(bookRating5).toList());
 		
 		Book book0 = new Book(1L, "isbn1", "book1", null, null, 2002, Stream.of(bookRating0).toList(), Stream.of(bookReader0).toList(), "image1", "image2", "image3");
@@ -129,7 +129,7 @@ class BookServiceImplTest {
 		when(bookRepository.findAllByLocationName(any(Pageable.class), anyString())).thenReturn(new PageImpl<>(Stream.of(book0, book1, book3).toList()));
 		when(bookRepository.findAllByAgeRange(any(Pageable.class), anyInt(), anyInt())).thenReturn(new PageImpl<>(Stream.of(book2, book0, book4, book5).toList()));
 
-		Page<BookDto> bookDtos = bookService.findTop10ByLocationAndAgeRange(Pageable.ofSize(10), "location1", 10, 15);
+		Page<BookDto> bookDtos = bookService.findTop10ByLocationAndAgeRange(Pageable.ofSize(10), "location1", 5, 15);
 		assertEquals(1, bookDtos.getContent().size());
 		assertEquals(1 , bookDtos.getContent().get(0).getId());
 	}
