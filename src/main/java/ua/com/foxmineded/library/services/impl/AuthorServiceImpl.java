@@ -5,15 +5,19 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ua.com.foxmineded.library.dao.AuthorRepository;
 import ua.com.foxmineded.library.dto.AuthorDto;
 import ua.com.foxmineded.library.entities.impl.Author;
+import ua.com.foxmineded.library.exceptions.ServiceException;
 import ua.com.foxmineded.library.services.AuthorService;
 
 @Slf4j
 @Service
+@Validated
 @RequiredArgsConstructor
 public class AuthorServiceImpl implements AuthorService {
 	private final AuthorRepository authorRepository;
@@ -52,8 +56,13 @@ public class AuthorServiceImpl implements AuthorService {
 	}
 
 	@Override
-	public AuthorDto save(AuthorDto authorDto) {
-		AuthorDto result = modelMapper.map(modelMapper.map(authorDto, Author.class), AuthorDto.class);
+	public AuthorDto save(@Valid AuthorDto authorDto) throws ServiceException {
+		if (authorRepository.findByAuthorName(authorDto.getAuthorName()).isPresent()) {
+			String message = "The author with the name %s already exists".formatted(authorDto.getAuthorName());
+			log.error(message);
+			throw new ServiceException(message);
+		}
+		AuthorDto result = modelMapper.map(authorRepository.save(modelMapper.map(authorDto, Author.class)), AuthorDto.class);
 		log.info("The author with id = %d was saved".formatted(authorDto.getId()));
 		return result;
 	}

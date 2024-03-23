@@ -145,7 +145,7 @@ class AuthorControllerTest {
 	}
 	
 	@Test
-	void testCreate_AskPostEntity_EntityShouldBeCreatedAndReturned201() {
+	void testCreate_AskPostEntity_EntityShouldBeCreatedAndReturned201() throws ServiceException {
 		AuthorDto author = Instancio.create(AuthorDto.class);
 		
 		HttpHeaders headers = new HttpHeaders();
@@ -163,7 +163,7 @@ class AuthorControllerTest {
 	}
 	
 	@Test
-	void testUpdate_AskPutEntity_UpdatedEntityShouldBeReturned200() {
+	void testUpdate_AskPutEntity_UpdatedEntityShouldBeReturned200() throws ServiceException {
 		AuthorDto author = Instancio.create(AuthorDto.class);
 		
 		HttpHeaders httpHeaders = new HttpHeaders();

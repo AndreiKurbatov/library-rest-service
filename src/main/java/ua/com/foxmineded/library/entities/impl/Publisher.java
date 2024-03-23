@@ -19,7 +19,7 @@ import ua.com.foxmineded.library.entities.AbstractEntity;
 @NoArgsConstructor
 @ToString(callSuper = true)
 public class Publisher extends AbstractEntity<Long> {
-	@Column(name = "publisher_name")
+	@Column(name = "publisher_name", unique = true, nullable = false)
 	private String publisherName;
 	@ToString.Exclude
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "publisher")

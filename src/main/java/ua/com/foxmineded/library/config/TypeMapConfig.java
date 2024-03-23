@@ -1,21 +1,9 @@
 package ua.com.foxmineded.library.config;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
-import static java.util.stream.Collectors.toCollection;
-
-import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
-import org.modelmapper.TypeMap;
-import org.modelmapper.spi.MappingContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import ua.com.foxmineded.library.csvbeans.impl.BookRatingCsv;
-import ua.com.foxmineded.library.csvbeans.impl.BookReaderCsv;
-import ua.com.foxmineded.library.csvbeans.impl.LocationCsv;
 import ua.com.foxmineded.library.dto.AuthorDto;
 import ua.com.foxmineded.library.dto.BookDto;
 import ua.com.foxmineded.library.dto.BookRatingDto;

@@ -4,7 +4,10 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
+
+import jakarta.validation.Valid;
 import ua.com.foxmineded.library.dto.BookDto;
+import ua.com.foxmineded.library.exceptions.ServiceException;
 
 public interface BookService {
 	@Transactional(readOnly = true)
@@ -35,7 +38,7 @@ public interface BookService {
 	Optional<BookDto> findByBookTitle(String bookTitle);
 	
 	@Transactional
-	BookDto save(BookDto book);
+	BookDto save(@Valid BookDto book) throws ServiceException;
 
 	@Transactional
 	void deleteById(Long id);

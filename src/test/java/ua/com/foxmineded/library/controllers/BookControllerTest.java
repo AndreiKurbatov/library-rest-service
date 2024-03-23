@@ -29,6 +29,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import ua.com.foxmineded.library.dto.BookDto;
+import ua.com.foxmineded.library.exceptions.ServiceException;
 import ua.com.foxmineded.library.models.CustomPageImpl;
 import ua.com.foxmineded.library.services.BookService;
 
@@ -181,7 +182,7 @@ class BookControllerTest {
 	}
 	
 	@Test
-	void testCreate_AskPostEntity_EntityShouldBeCreatedAndReturned200() {
+	void testCreate_AskPostEntity_EntityShouldBeCreatedAndReturned200() throws ServiceException {
 		BookDto bookDto = Instancio.create(BookDto.class);
 		
 		HttpHeaders headers = new HttpHeaders();
@@ -199,7 +200,7 @@ class BookControllerTest {
 	}
 	
 	@Test
-	void testUpdate_AskPutEntity_UpdatedEntityShouldBeReturned200() {
+	void testUpdate_AskPutEntity_UpdatedEntityShouldBeReturned200() throws ServiceException {
 		BookDto bookDto = Instancio.create(BookDto.class);
 		
 		HttpHeaders httpHeaders = new HttpHeaders();

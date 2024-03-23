@@ -6,15 +6,20 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
+
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ua.com.foxmineded.library.dao.PublisherRepository;
 import ua.com.foxmineded.library.dto.PublisherDto;
 import ua.com.foxmineded.library.entities.impl.Publisher;
+import ua.com.foxmineded.library.exceptions.ServiceException;
 import ua.com.foxmineded.library.services.PublisherService;
 
 @Service
 @Slf4j
+@Validated
 @RequiredArgsConstructor
 public class PublisherServiceImpl implements PublisherService {
 	private final PublisherRepository publisherRepository;
@@ -53,8 +58,13 @@ public class PublisherServiceImpl implements PublisherService {
 	}
 
 	@Override
-	public PublisherDto save(PublisherDto publisherDto) {
-		PublisherDto result = modelMapper.map(modelMapper.map(publisherDto, Publisher.class), PublisherDto.class);
+	public PublisherDto save(@Valid PublisherDto publisherDto) throws ServiceException {
+		if (publisherRepository.findByPublisherName(publisherDto.getPublisherName()).isPresent()) {
+			String message = "The publisher with the name %s already exists".formatted(publisherDto.getPublisherName());
+			log.error(message);
+			throw new ServiceException(message);
+		}
+		PublisherDto result = modelMapper.map(publisherRepository.save(modelMapper.map(publisherDto, Publisher.class)), PublisherDto.class);
 		log.info("Publisher with id = %d was saved".formatted(publisherDto.getId()));
 		return result;
 	}

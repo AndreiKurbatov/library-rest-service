@@ -23,7 +23,7 @@ import ua.com.foxmineded.library.entities.AbstractEntity;
 @NoArgsConstructor
 @ToString(callSuper = true)
 public class Book extends AbstractEntity<Long> {
-	@Column(name = "isbn", length = 10)
+	@Column(name = "isbn", length = 10, nullable = false, unique = true)
 	private String isbn;
 	@Column(name = "book_title")
 	private String bookTitle;

@@ -85,13 +85,13 @@ public class BookController {
 	}
 
 	@PostMapping(value = "/creation")
-	ResponseEntity<BookDto> create(@RequestBody BookDto book) {
+	ResponseEntity<BookDto> create(@RequestBody BookDto book) throws ServiceException {
 		BookDto result = bookService.save(book);
 		return ResponseEntity.status(HttpStatus.CREATED).body(result);
 	}
 
 	@PutMapping(value = "/update")
-	BookDto update(@RequestBody BookDto book) {
+	BookDto update(@RequestBody BookDto book) throws ServiceException {
 		return bookService.save(book);
 	}
 

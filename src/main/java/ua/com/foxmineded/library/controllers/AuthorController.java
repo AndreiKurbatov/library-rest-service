@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ua.com.foxmineded.library.dto.AuthorDto;
+import ua.com.foxmineded.library.exceptions.ServiceException;
 import ua.com.foxmineded.library.services.AuthorService;
 
 @Slf4j
@@ -68,13 +69,13 @@ public class AuthorController {
 	}
 
 	@PostMapping(value = "/creation")
-	public ResponseEntity<AuthorDto> create(@RequestBody AuthorDto authorDto) {
+	public ResponseEntity<AuthorDto> create(@RequestBody AuthorDto authorDto) throws ServiceException {
 		AuthorDto result = authorService.save(authorDto);
 		return ResponseEntity.status(HttpStatus.CREATED).body(result);
 	}
 
 	@PutMapping(value = "/update")
-	public AuthorDto update(@RequestBody AuthorDto authorDto) {
+	public AuthorDto update(@RequestBody AuthorDto authorDto) throws ServiceException {
 		return authorService.save(authorDto);
 	}
 

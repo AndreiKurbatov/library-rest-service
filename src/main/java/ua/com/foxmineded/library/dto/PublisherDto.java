@@ -2,6 +2,8 @@ package ua.com.foxmineded.library.dto;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonCreator;
+
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +17,7 @@ import lombok.ToString;
 @Builder(setterPrefix = "with")
 public class PublisherDto extends AbstractDto<Long> {
 	private static final long serialVersionUID = 1L;
+	@NotBlank
 	private String publisherName;
 
 	@Builder(setterPrefix = "with")

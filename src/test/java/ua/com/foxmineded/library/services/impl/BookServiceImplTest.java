@@ -1,13 +1,17 @@
 package ua.com.foxmineded.library.services.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
+
+import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+
 import ua.com.foxmineded.library.config.TypeMapConfig;
 import ua.com.foxmineded.library.dao.BookRepository;
 import ua.com.foxmineded.library.dto.BookDto;
@@ -22,6 +27,7 @@ import ua.com.foxmineded.library.entities.impl.Book;
 import ua.com.foxmineded.library.entities.impl.BookRating;
 import ua.com.foxmineded.library.entities.impl.BookReader;
 import ua.com.foxmineded.library.entities.impl.Location;
+import ua.com.foxmineded.library.exceptions.ServiceException;
 import ua.com.foxmineded.library.services.BookService;
 
 @SpringBootTest(classes = { BookServiceImpl.class, TypeMapConfig.class})
@@ -126,5 +132,19 @@ class BookServiceImplTest {
 		Page<BookDto> bookDtos = bookService.findTop10ByLocationAndAgeRange(Pageable.ofSize(10), "location1", 10, 15);
 		assertEquals(1, bookDtos.getContent().size());
 		assertEquals(1 , bookDtos.getContent().get(0).getId());
+	}
+	
+	@Test
+	void testSave_AskSaveBookIfIsbnAlreadyExists_BookShouldBeSaved() {
+		Book book = Instancio.create(Book.class);
+		BookDto bookDto = Instancio.create(BookDto.class);
+		bookDto.setIsbn(book.getIsbn());
+		String message = "The book with isbn = %s already exists".formatted(book.getIsbn());
+		
+		when(bookRepository.findByIsbn(anyString())).thenReturn(Optional.of(book));
+		Throwable throwable = assertThrows(ServiceException.class, () -> {
+			bookService.save(bookDto);
+		});
+		assertEquals(message, throwable.getMessage());
 	}
 }

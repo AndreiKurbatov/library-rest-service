@@ -19,6 +19,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
+
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ua.com.foxmineded.library.dao.BookRepository;
@@ -26,10 +29,12 @@ import ua.com.foxmineded.library.dto.BookDto;
 import ua.com.foxmineded.library.entities.impl.Book;
 import ua.com.foxmineded.library.entities.impl.BookRating;
 import ua.com.foxmineded.library.entities.impl.Location;
+import ua.com.foxmineded.library.exceptions.ServiceException;
 import ua.com.foxmineded.library.services.BookService;
 
 @Slf4j
 @Service
+@Validated
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
 	private final BookRepository bookRepository;
@@ -116,7 +121,12 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public BookDto save(BookDto book) {
+	public BookDto save(@Valid BookDto book) throws ServiceException {
+		if (bookRepository.findByIsbn(book.getIsbn()).isPresent()) {
+			String message = "The book with isbn = %s already exists".formatted(book.getIsbn());
+			log.error(message);
+			throw new ServiceException(message);
+		}
 		BookDto result = modelMapper.map(bookRepository.save(modelMapper.map(book, Book.class)), BookDto.class);
 		log.info("The book with id = %d was saved".formatted(book.getId()));
 		return result;

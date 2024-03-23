@@ -4,7 +4,10 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
+
+import jakarta.validation.Valid;
 import ua.com.foxmineded.library.dto.AuthorDto;
+import ua.com.foxmineded.library.exceptions.ServiceException;
 
 public interface AuthorService {
 	@Transactional(readOnly = true)
@@ -26,7 +29,7 @@ public interface AuthorService {
 	Page<AuthorDto> findAllByPublisherName(String publisherName, Pageable pageable);
 	
 	@Transactional
-	AuthorDto save(AuthorDto authorDto);
+	AuthorDto save(@Valid AuthorDto authorDto) throws ServiceException;
 	
 	@Transactional
 	void deleteById(Long id);

@@ -1,7 +1,13 @@
 package ua.com.foxmineded.library.dto;
 
 import java.util.Objects;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,10 +21,13 @@ import lombok.ToString;
 @Builder(setterPrefix = "with")
 public class BookDto extends AbstractDto<Long> {
 	private static final long serialVersionUID = 1L;
+	@NotBlank
+	@Length(min = 10, max = 10)
 	private String isbn;
 	private String bookTitle;
 	private Long authorId;
 	private Long publisherId;
+	@Positive
 	private Integer publicationYear;
 	private String imageUrlS;
 	private String imageUrlM;
