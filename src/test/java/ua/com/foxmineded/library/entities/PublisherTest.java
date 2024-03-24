@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ua.com.foxmineded.library.config.TypeMapConfig;
 import ua.com.foxmineded.library.dto.PublisherDto;
+import ua.com.foxmineded.library.entities.impl.Book;
 import ua.com.foxmineded.library.entities.impl.Publisher;
 
 @SpringBootTest(classes = TypeMapConfig.class)
@@ -23,6 +24,7 @@ class PublisherTest {
 		
 		assertEquals(publisher.getId(), publisherDto.getId());
 		assertEquals(publisher.getPublisherName(), publisherDto.getPublisherName());
+		assertEquals(publisher.getBooks().stream().map(Book::getId).toList(), publisherDto.getBookIds());
 	}
 	
 	@Test

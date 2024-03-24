@@ -27,6 +27,7 @@ class AuthorTest {
 		AuthorDto authorDto = modelMapper.map(author, AuthorDto.class);
 		assertEquals(author.getId(), authorDto.getId());
 		assertEquals(author.getAuthorName(), authorDto.getAuthorName());
+		assertEquals(author.getBooks().stream().map(Book::getId).toList(), authorDto.getBookIds());
 	}
 	
 	@Test
@@ -37,5 +38,4 @@ class AuthorTest {
 		assertEquals(authorDto.getAuthorName(), author.getAuthorName());
 		assertNull(author.getBooks());
 	}
-
 }

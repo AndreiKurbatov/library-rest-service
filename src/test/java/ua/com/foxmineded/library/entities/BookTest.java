@@ -13,6 +13,7 @@ import ua.com.foxmineded.library.config.TypeMapConfig;
 import ua.com.foxmineded.library.dto.BookDto;
 import ua.com.foxmineded.library.entities.impl.Book;
 import ua.com.foxmineded.library.entities.impl.BookRating;
+import ua.com.foxmineded.library.entities.impl.BookReader;
 
 @SpringBootTest(classes = TypeMapConfig.class)
 class BookTest {
@@ -31,6 +32,8 @@ class BookTest {
 		assertEquals(book.getBookTitle(), bookDto.getBookTitle());
 		assertEquals(book.getAuthor().getId(), bookDto.getAuthorId());
 		assertEquals(book.getPublisher().getId(), bookDto.getPublisherId());
+		assertEquals(book.getBookRatings().stream().map(BookRating::getId).toList(), bookDto.getBookRatingIds());
+		assertEquals(book.getBookReaders().stream().map(BookReader::getId).toList(), bookDto.getBookReaderIds());
 		assertEquals(book.getImageUrlS(), bookDto.getImageUrlS());
 		assertEquals(book.getImageUrlM(), bookDto.getImageUrlM());
 		assertEquals(book.getImageUrlL(), bookDto.getImageUrlL());

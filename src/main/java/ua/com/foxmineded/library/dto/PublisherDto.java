@@ -1,5 +1,6 @@
 package ua.com.foxmineded.library.dto;
 
+import java.util.List;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
@@ -19,12 +20,14 @@ public class PublisherDto extends AbstractDto<Long> {
 	private static final long serialVersionUID = 1L;
 	@NotBlank
 	private String publisherName;
+	private List<Long> bookIds;
 
 	@Builder(setterPrefix = "with")
 	@JsonCreator
-	public PublisherDto(Long id, String publisherName) {
+	public PublisherDto(Long id, String publisherName, List<Long> bookIds) {
 		super(id);
 		this.publisherName = publisherName;
+		this.bookIds = bookIds;
 	}
 
 	@Override
@@ -34,11 +37,12 @@ public class PublisherDto extends AbstractDto<Long> {
 		if (o == null || getClass() != o.getClass())
 			return false;
 		PublisherDto publisherDto = (PublisherDto) o;
-		return Objects.equals(id, publisherDto.id) && Objects.equals(publisherName, publisherDto.publisherName);
+		return Objects.equals(id, publisherDto.id) && Objects.equals(publisherName, publisherDto.publisherName) 
+				&& Objects.equals(bookIds, publisherDto.bookIds);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, publisherName);
+		return Objects.hash(id, publisherName, bookIds);
 	}
 }
