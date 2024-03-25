@@ -1,6 +1,5 @@
 package ua.com.foxmineded.library.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -27,7 +26,6 @@ import ua.com.foxmineded.library.services.AuthorService;
 @RequestMapping(value = "/api/v1/authors")
 @RequiredArgsConstructor
 public class AuthorController {
-	@Autowired
 	private final AuthorService authorService;
 
 	@GetMapping(value = "/search/all")

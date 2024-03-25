@@ -1,6 +1,5 @@
 package ua.com.foxmineded.library.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -26,7 +25,6 @@ import ua.com.foxmineded.library.services.BookReaderService;
 @RequestMapping(value = "/api/v1/book-readers")
 @RequiredArgsConstructor
 public class BookReaderController {
-	@Autowired
 	private final BookReaderService bookReaderService;
 
 	@GetMapping(value = "/search/all")

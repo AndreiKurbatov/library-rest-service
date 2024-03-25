@@ -1,6 +1,5 @@
 package ua.com.foxmineded.library.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -27,7 +26,6 @@ import ua.com.foxmineded.library.services.BookRatingService;
 @RequestMapping(value = "api/v1/book-ratings")
 @RequiredArgsConstructor
 public class BookRatingController {
-	@Autowired
 	private final BookRatingService bookRatingService;
 
 	@GetMapping(value = "/search/all")

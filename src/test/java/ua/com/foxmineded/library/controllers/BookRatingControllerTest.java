@@ -17,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -33,11 +34,12 @@ import ua.com.foxmineded.library.exceptions.ServiceException;
 import ua.com.foxmineded.library.models.CustomPageImpl;
 import ua.com.foxmineded.library.services.BookRatingService;
 
-@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 class BookRatingControllerTest {
-	final static int PORT = 8080;
 	final static String BASE_URL = "http://localhost:";
+	@LocalServerPort
+	int PORT;
 	@Autowired
 	TestRestTemplate restTemplate;
 	@MockBean

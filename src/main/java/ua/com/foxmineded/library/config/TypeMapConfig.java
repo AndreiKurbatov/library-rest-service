@@ -38,7 +38,7 @@ public class TypeMapConfig {
 				map().setBookReaderId(source.getBookReader().getBookReaderId());
 			}
 		};
-		
+
 		PropertyMap<LocationDto, Location> locationToEntityPropertyMap = new PropertyMap<>() {
 			@Override
 			protected void configure() {
@@ -46,7 +46,7 @@ public class TypeMapConfig {
 				map().setId(source.getId());
 			}
 		};
-		
+
 		PropertyMap<BookDto, Book> bookToEntityPropertyMap = new PropertyMap<>() {
 			@Override
 			protected void configure() {
@@ -55,7 +55,7 @@ public class TypeMapConfig {
 				map().setId(source.getId());
 			}
 		};
-		
+
 		PropertyMap<BookReaderDto, BookReader> bookReaderToEntityPropertyMap = new PropertyMap<>() {
 			@Override
 			protected void configure() {
@@ -66,7 +66,7 @@ public class TypeMapConfig {
 				skip(destination.getBooks());
 			}
 		};
-		
+
 		PropertyMap<BookReader, BookReaderDto> bookReaderToDtoPropertyMap = new PropertyMap<>() {
 			@Override
 			protected void configure() {
@@ -74,7 +74,7 @@ public class TypeMapConfig {
 				map().setBookReaderId(source.getBookReaderId());
 			}
 		};
-		
+
 		PropertyMap<BookRatingDto, BookRating> bookRatingToEntityPropertyMap = new PropertyMap<>() {
 			@Override
 			protected void configure() {
@@ -82,37 +82,51 @@ public class TypeMapConfig {
 				skip(destination.getBook());
 			}
 		};
-		
+
 		PropertyMap<AuthorDto, Author> authorToEntityPropertyMap = new PropertyMap<>() {
 			@Override
 			protected void configure() {
 				skip(destination.getBooks());
 			}
 		};
-		
-		TypeMap<Author, AuthorDto>  authorToDtoTypeMap = modelMapper.createTypeMap(Author.class, AuthorDto.class);
-		Converter<List<Book>, List<Long>> booksToIds =
-			    ctx -> ctx.getSource() == null ? null : ctx.getSource().stream().map(Book::getId).collect(toCollection(ArrayList::new));
+
+		TypeMap<Author, AuthorDto> authorToDtoTypeMap = modelMapper.createTypeMap(Author.class, AuthorDto.class);
+		Converter<List<Book>, List<Long>> booksToIds = ctx -> ctx.getSource() == null ? null
+				: ctx.getSource().stream().map(Book::getId).collect(toCollection(ArrayList::new));
 		authorToDtoTypeMap.addMappings(mapper -> mapper.using(booksToIds).map(Author::getBooks, AuthorDto::setBookIds));
-		
+
 		TypeMap<Book, BookDto> bookToDtoTypeMap = modelMapper.createTypeMap(Book.class, BookDto.class);
-		Converter<List<BookRating>, List<Long>> bookRatingsToIds = ctx -> ctx.getSource().stream().map(BookRating::getId).collect(toCollection(ArrayList::new));
-		bookToDtoTypeMap.addMappings(mapper -> mapper.using(bookRatingsToIds).map(Book::getBookRatings, BookDto::setBookRatingIds));
-		Converter<List<BookReader>, List<Long>> bookReadersToIds = ctx -> ctx.getSource().stream().map(BookReader::getId).collect(toCollection(ArrayList::new));
-		bookToDtoTypeMap.addMappings(mapper -> mapper.using(bookReadersToIds).map(Book::getBookReaders, BookDto::setBookReaderIds));
-		
-		TypeMap<BookReader, BookReaderDto> bookReaderToDto = modelMapper.createTypeMap(BookReader.class, BookReaderDto.class);
-		Converter<Set<Location>, Set<Long>> locationsToIds = ctx -> ctx.getSource().stream().map(Location::getId).collect(toCollection(HashSet::new));
-		bookReaderToDto.addMappings(mapper -> mapper.using(locationsToIds).map(BookReader::getLocations, BookReaderDto::setLocationIds));
-		Converter<List<BookRating>, List<Long>> bookRatingToIds = ctx -> ctx.getSource().stream().map(BookRating::getId).collect(toCollection(ArrayList::new));
-		bookReaderToDto.addMappings(mapper -> mapper.using(bookRatingToIds).map(BookReader::getBookRatings, BookReaderDto::setBookRatingIds));
-		Converter<List<Book>, List<Long>> booksToIds1 = ctx -> ctx.getSource().stream().map(Book::getId).collect(toCollection(ArrayList::new));
-		bookReaderToDto.addMappings(mapper -> mapper.using(booksToIds1).map(BookReader::getBooks, BookReaderDto::setBookIds));
-		
-		TypeMap<Publisher, PublisherDto> publisherToDtoTypeMap = modelMapper.createTypeMap(Publisher.class, PublisherDto.class);
-		Converter<List<Book>, List<Long>> booksToIds2 = ctx -> ctx.getSource().stream().map(Book::getId).collect(toCollection(ArrayList::new));
-		publisherToDtoTypeMap.addMappings(mapper -> mapper.using(booksToIds2).map(Publisher::getBooks, PublisherDto::setBookIds));
- 		
+		Converter<List<BookRating>, List<Long>> bookRatingsToIds = ctx -> ctx.getSource().stream()
+				.map(BookRating::getId).collect(toCollection(ArrayList::new));
+		bookToDtoTypeMap.addMappings(
+				mapper -> mapper.using(bookRatingsToIds).map(Book::getBookRatings, BookDto::setBookRatingIds));
+		Converter<List<BookReader>, List<Long>> bookReadersToIds = ctx -> ctx.getSource().stream()
+				.map(BookReader::getId).collect(toCollection(ArrayList::new));
+		bookToDtoTypeMap.addMappings(
+				mapper -> mapper.using(bookReadersToIds).map(Book::getBookReaders, BookDto::setBookReaderIds));
+
+		TypeMap<BookReader, BookReaderDto> bookReaderToDto = modelMapper.createTypeMap(BookReader.class,
+				BookReaderDto.class);
+		Converter<Set<Location>, Set<Long>> locationsToIds = ctx -> ctx.getSource().stream().map(Location::getId)
+				.collect(toCollection(HashSet::new));
+		bookReaderToDto.addMappings(
+				mapper -> mapper.using(locationsToIds).map(BookReader::getLocations, BookReaderDto::setLocationIds));
+		Converter<List<BookRating>, List<Long>> bookRatingToIds = ctx -> ctx.getSource().stream().map(BookRating::getId)
+				.collect(toCollection(ArrayList::new));
+		bookReaderToDto.addMappings(mapper -> mapper.using(bookRatingToIds).map(BookReader::getBookRatings,
+				BookReaderDto::setBookRatingIds));
+		Converter<List<Book>, List<Long>> booksToIds1 = ctx -> ctx.getSource().stream().map(Book::getId)
+				.collect(toCollection(ArrayList::new));
+		bookReaderToDto
+				.addMappings(mapper -> mapper.using(booksToIds1).map(BookReader::getBooks, BookReaderDto::setBookIds));
+
+		TypeMap<Publisher, PublisherDto> publisherToDtoTypeMap = modelMapper.createTypeMap(Publisher.class,
+				PublisherDto.class);
+		Converter<List<Book>, List<Long>> booksToIds2 = ctx -> ctx.getSource().stream().map(Book::getId)
+				.collect(toCollection(ArrayList::new));
+		publisherToDtoTypeMap
+				.addMappings(mapper -> mapper.using(booksToIds2).map(Publisher::getBooks, PublisherDto::setBookIds));
+
 		modelMapper.addMappings(locationToDtoPropertyMap);
 		modelMapper.addMappings(locationToEntityPropertyMap);
 		modelMapper.addMappings(bookToEntityPropertyMap);
