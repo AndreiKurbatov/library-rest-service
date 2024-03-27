@@ -2,7 +2,6 @@ package ua.com.foxmineded.library.models;
 
 import java.util.Objects;
 
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import jakarta.persistence.PrePersist;
@@ -13,7 +12,6 @@ import ua.com.foxmineded.library.entities.impl.BookRating;
 
 @Component
 @RequiredArgsConstructor
-@DependsOn("beanInitializationPlaceholder")
 public class BookRatingListener {
 	private final BookRepository bookRepository;
 	private final BookReaderRepository bookReaderRepository;
