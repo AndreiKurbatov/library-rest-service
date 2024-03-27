@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import ua.com.foxmineded.library.entities.AbstractEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -19,7 +20,7 @@ import jakarta.persistence.Table;
 @ToString(callSuper = true)
 public class Location extends AbstractEntity<Long> {
 	@ToString.Exclude
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH})
 	@JoinColumn(name = "book_reader_id", referencedColumnName = "book_reader_id")
 	private BookReader bookReader;
 	@Column(name = "location_name")

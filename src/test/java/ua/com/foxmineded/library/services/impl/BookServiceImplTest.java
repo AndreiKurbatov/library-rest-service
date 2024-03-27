@@ -106,23 +106,23 @@ class BookServiceImplTest {
 		BookRating bookRating5 = new BookRating(6L, bookReader5, null, 10);
 		bookReader5.setBookRatings(Stream.of(bookRating5).toList());
 		
-		Book book0 = new Book(1L, "isbn1", "book1", null, null, 2002, Stream.of(bookRating0).toList(), Stream.of(bookReader0).toList(), "image1", "image2", "image3");
+		Book book0 = new Book(1L, "isbn1", "book1", null, null,  Stream.of(bookRating0).toList(), Stream.of(bookReader0).toList(), 2002 , "image1", "image2", "image3");
 		bookReader0.setBooks(Stream.of(book0).toList());
 		bookRating0.setBook(book0);
-		Book book1 = new Book(2L, "isbn2", "book2", null, null, 2003, Stream.of(bookRating1).toList(), Stream.of(bookReader1).toList(), "image1", "image2", "image3");
+		Book book1 = new Book(2L, "isbn2", "book2", null, null, Stream.of(bookRating1).toList(), Stream.of(bookReader1).toList(), 2003 , "image1", "image2", "image3");
 		bookReader1.setBooks(Stream.of(book1).toList());
 		bookRating1.setBook(book1);
-		Book book2 = new Book(3L, "isbn3", "book3", null, null, 2004, Stream.of(bookRating2).toList(), Stream.of(bookReader2).toList(), "image1", "image2", "image3");
+		Book book2 = new Book(3L, "isbn3", "book3", null, null, Stream.of(bookRating2).toList(), Stream.of(bookReader2).toList(), 2004  , "image1", "image2", "image3");
 		bookReader2.setBooks(Stream.of(book2).toList());
 		bookRating2.setBook(book2);
 		
-		Book book3 = new Book(4L, "isbn4", "book4", null, null, 2006, Stream.of(bookRating3).toList(), Stream.of(bookReader3).toList(), "image1", "image2", "image3");
+		Book book3 = new Book(4L, "isbn4", "book4", null, null, Stream.of(bookRating3).toList(), Stream.of(bookReader3).toList(), 2006 , "image1", "image2", "image3");
 		bookReader3.setBooks(Stream.of(book3).toList());
 		bookRating3.setBook(book3);
-		Book book4 = new Book(5L, "isbn5", "book5", null, null, 2003, Stream.of(bookRating4).toList(), Stream.of(bookReader4).toList(), "image1", "image2", "image3");
+		Book book4 = new Book(5L, "isbn5", "book5", null, null, Stream.of(bookRating4).toList(), Stream.of(bookReader4).toList(), 2003 ,"image1", "image2", "image3");
 		bookReader4.setBooks(Stream.of(book4).toList());
 		bookRating4.setBook(book4);
-		Book book5 = new Book(6L, "isbn6", "book6", null, null, 2004, Stream.of(bookRating5).toList(), Stream.of(bookReader5).toList(), "image1", "image2", "image3");
+		Book book5 = new Book(6L, "isbn6", "book6", null, null,Stream.of(bookRating5).toList(), Stream.of(bookReader5).toList(), 2004 ,"image1", "image2", "image3");
 		bookReader5.setBooks(Stream.of(book5).toList());
 		bookRating5.setBook(book5);
 		

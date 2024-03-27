@@ -12,7 +12,8 @@ public class BookReaderCsv implements BeanCsv {
 	@CsvBindByName(column = "User-ID", required = true)
 	@Getter
 	private Long bookReaderId;
-	
+	@CsvBindByName(column = "Location")
+	private String locationName;
 	@CsvBindByName(column = "Age")
 	@Getter(AccessLevel.PRIVATE)
 	@Setter(AccessLevel.PRIVATE)
@@ -27,7 +28,6 @@ public class BookReaderCsv implements BeanCsv {
 		return age;
 	}
 
-
 	private Integer parseAge(String rawAge) {
 		if (rawAge == null || rawAge.isEmpty() || rawAge.equals("NULL")) {
 			return null;
@@ -41,6 +41,5 @@ public class BookReaderCsv implements BeanCsv {
 				.withType(BookReaderCsv.class) 
 				.withSeparator(';') 
 				.build();
-				
 	}	
 }

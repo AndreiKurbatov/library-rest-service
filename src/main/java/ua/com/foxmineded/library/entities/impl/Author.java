@@ -22,7 +22,7 @@ public class Author extends AbstractEntity<Long> {
 	@Column(name = "author_name", unique = true, nullable = false)
 	private String authorName;
 	@ToString.Exclude
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "author")
+	@OneToMany(cascade = {CascadeType.DETACH, CascadeType.REFRESH, CascadeType.REMOVE}, orphanRemoval = true, mappedBy = "author")
 	private List<Book> books;
 
 	public Author(Long id, String authorName, List<Book> books) {

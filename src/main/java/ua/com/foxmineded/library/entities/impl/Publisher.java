@@ -22,7 +22,7 @@ public class Publisher extends AbstractEntity<Long> {
 	@Column(name = "publisher_name", unique = true, nullable = false)
 	private String publisherName;
 	@ToString.Exclude
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "publisher")
+	@OneToMany(cascade = {CascadeType.DETACH, CascadeType.REFRESH}, orphanRemoval = true, mappedBy = "publisher")
 	private List<Book> books;
 
 	public Publisher(Long id, String publisherName, List<Book> books) {

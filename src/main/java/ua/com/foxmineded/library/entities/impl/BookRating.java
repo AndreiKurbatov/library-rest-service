@@ -3,9 +3,10 @@ package ua.com.foxmineded.library.entities.impl;
 import java.util.Objects;
 import org.hibernate.proxy.HibernateProxy;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties;
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -13,7 +14,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import ua.com.foxmineded.library.entities.AbstractEntity;
+import ua.com.foxmineded.library.models.BookRatingListener;
 
+@EntityListeners(BookRatingListener.class)
 @Entity
 @Table(schema = "library", name = "book_ratings")
 @Data
@@ -21,11 +24,11 @@ import ua.com.foxmineded.library.entities.AbstractEntity;
 @NoArgsConstructor
 public class BookRating extends AbstractEntity<Long> {
 	@ToString.Exclude
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
 	@JoinColumn(name = "book_reader_id", referencedColumnName = "book_reader_id")
 	private BookReader bookReader;
 	@ToString.Exclude
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
 	@JoinColumn(name = "isbn", referencedColumnName = "isbn")
 	private Book book;
 	@Column(name = "book_rating")
