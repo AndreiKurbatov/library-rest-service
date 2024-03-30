@@ -19,7 +19,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.test.context.ActiveProfiles;
-
 import ua.com.foxmineded.library.dao.BookRatingRepository;
 import ua.com.foxmineded.library.dao.BookReaderRepository;
 import ua.com.foxmineded.library.dao.BookRepository;
@@ -33,7 +32,7 @@ import ua.com.foxmineded.library.entities.impl.Publisher;
 @DataJpaTest(includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {BookRepository.class, BookReaderRepository.class, BookRatingRepository.class}))
 @AutoConfigureTestDatabase(replace = Replace.NONE) 
 @ActiveProfiles("test")
-public class PersistTest {
+class PersistTest {
 	@Autowired
 	BookRepository bookRepository;
 	@Autowired 
@@ -102,8 +101,8 @@ public class PersistTest {
 		
 		BookRating bookRating = Instancio.of(BookRating.class) 
 				.ignore(field(BookRating::getId))
-				.set(field(BookRating::getBookReader), new BookReader(null, 1L, null, null, null, null)) 
-				.set(field(BookRating::getBook), new Book(null, "1234567890", null, null, null, null, null, null, null, null, null))
+				.set(field(BookRating::getBookReader), bookReaderRepository.findById(bookReader.getId()).get())
+				.set(field(BookRating::getBook), bookRepository.findById(book.getId()).get())
 				.create();
 		
 		List<BookRating> persistedBookRatings = bookRatingRepository.saveAll(Stream.of(bookRating).toList());
@@ -112,8 +111,11 @@ public class PersistTest {
 		BookRating persistedBookRating = persistedBookRatings.get(0);
 		assertNotNull(persistedBookRating.getId());
 		assertNotNull(persistedBookRating.getBookReader());
-		assertEquals(persistedBookReader.getId(), persistedBookRating.getBookReader().getId());
+		assertEquals(persistedBookReader, persistedBookRating.getBookReader());
 		assertNotNull(persistedBookRating.getBook());
-		assertEquals(persistedBookReader.getId() ,persistedBookRating.getBook().getId());
+		assertEquals(persistedBook, persistedBookRating.getBook());
+		
+		assertEquals(persistedBook.getBookRatings().get(0), persistedBookRating);
+		assertEquals(persistedBookReader.getBookRatings().get(0), persistedBookRating);
 	}
 }

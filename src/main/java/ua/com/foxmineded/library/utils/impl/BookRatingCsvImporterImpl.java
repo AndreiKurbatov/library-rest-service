@@ -11,10 +11,12 @@ import java.util.stream.Stream;
 
 @Component
 public class BookRatingCsvImporterImpl extends AbstractCsvImporter<BookRatingCsv, List<BookRatingCsv>> implements BookRatingCsvImporter {
-    private static final Path RATINGS_CSV = Paths.get("src", "main", "resources", "csv", "ratings.csv");
+    private static final Path ZIP_FILE_PATH = Paths.get("src", "main", "resources", "data", "book-dataset.zip");
+    private static final String INNER_ZIP_FILE = "ratings.csv.zip";
+    private static final String INNER_FILE = "ratings.csv";
 
     public BookRatingCsvImporterImpl() {
-        super(RATINGS_CSV, BookRatingCsv::csvBean);
+        super(ZIP_FILE_PATH, INNER_ZIP_FILE, INNER_FILE, BookRatingCsv::csvBean);
     }
 
     @Override

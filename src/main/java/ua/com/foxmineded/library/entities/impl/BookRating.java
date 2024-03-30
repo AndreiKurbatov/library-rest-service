@@ -1,22 +1,21 @@
 package ua.com.foxmineded.library.entities.impl;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import org.hibernate.proxy.HibernateProxy;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PostPersist;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import ua.com.foxmineded.library.entities.AbstractEntity;
-import ua.com.foxmineded.library.models.BookRatingListener;
 
-@EntityListeners(BookRatingListener.class)
 @Entity
 @Table(schema = "library", name = "book_ratings")
 @Data
@@ -64,5 +63,17 @@ public class BookRating extends AbstractEntity<Long> {
 		return this instanceof HibernateProxy
 				? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode()
 				: getClass().hashCode();
+	}
+	
+	@PostPersist
+	private void assignBookRatingToRelatedEntity() {
+		if (Objects.isNull(book.getBookRatings())) {
+			book.setBookRatings(new ArrayList<>());
+		}
+		if (Objects.isNull(bookReader.getBookRatings())) {
+			bookReader.setBookRatings(new ArrayList<>());
+		}
+		book.getBookRatings().add(this);
+		bookReader.getBookRatings().add(this);
 	}
 }

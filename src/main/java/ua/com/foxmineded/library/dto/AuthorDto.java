@@ -3,6 +3,7 @@ package ua.com.foxmineded.library.dto;
 import java.util.List;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,7 @@ import lombok.ToString;
 public class AuthorDto extends AbstractDto<Long> {
 	private static final long serialVersionUID = 1L;
 	@NotBlank
+	@JsonProperty("authorName")
 	private String authorName;
 	private List<Long> bookIds;
 

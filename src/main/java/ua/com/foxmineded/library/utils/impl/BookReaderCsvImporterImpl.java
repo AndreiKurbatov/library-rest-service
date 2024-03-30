@@ -11,10 +11,12 @@ import java.util.stream.Stream;
 
 @Component
 public class BookReaderCsvImporterImpl extends AbstractCsvImporter<BookReaderCsv, List<BookReaderCsv>> implements BookReaderCsvImporter {
-    private static final Path USERS_CSV = Paths.get("src", "main", "resources", "csv", "users.csv");
+    private static final Path ZIP_FILE_PATH = Paths.get("src", "main", "resources", "data", "book-dataset.zip");
+    private static final String INNER_ZIP_FILE = "users.csv.zip";
+    private static final String INNER_FILE = "users.csv";
 
     public BookReaderCsvImporterImpl() {
-        super(USERS_CSV, BookReaderCsv::csvBean);
+        super(ZIP_FILE_PATH, INNER_ZIP_FILE, INNER_FILE, BookReaderCsv::csvBean);
     }
 
     @Override

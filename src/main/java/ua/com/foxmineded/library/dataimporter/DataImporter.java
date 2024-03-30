@@ -1,6 +1,11 @@
 package ua.com.foxmineded.library.dataimporter;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Stream;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -8,7 +13,12 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import ua.com.foxmineded.library.entities.impl.Author;
+import ua.com.foxmineded.library.entities.impl.Book;
 import ua.com.foxmineded.library.entities.impl.BookRating;
+import ua.com.foxmineded.library.entities.impl.BookReader;
+import ua.com.foxmineded.library.entities.impl.Location;
+import ua.com.foxmineded.library.entities.impl.Publisher;
 import ua.com.foxmineded.library.services.AuthorImporterService;
 import ua.com.foxmineded.library.services.BookImporterService;
 import ua.com.foxmineded.library.services.BookRatingImporterService;
@@ -22,16 +32,25 @@ import ua.com.foxmineded.library.services.PublisherImporterService;
 @RequiredArgsConstructor
 @Slf4j
 public class DataImporter implements ApplicationRunner {
-	private final LocationImporterService locationImporterService;
 	private final BookReaderImporterService bookReaderImporterService;
-	private final AuthorImporterService authorImporterService;
-	private final PublisherImporterService publisherImporterService;
 	private final BookImporterService bookImporterService;
 	private final BookRatingImporterService bookRatingImporterService;
 	private final ConcurrentDataImporterService concurrentDataImporterService;
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
+        Map<Long, Set<Location>> locations = new HashMap<>();
+        Map<Long, BookReader> bookReaders = new HashMap<>();
+        Map<String, Publisher> publishers = new HashMap<>();
+        Map<String, Author> authors = new HashMap<>();
+        Map<String, Book> books = new HashMap<>();
+        List<BookRating> bookRatings = new ArrayList<>();
+        
+        bookImporterService.importBooks(books, authors, publishers);
+        bookReaderImporterService.importBookReaders(bookReaders, locations);
+        bookRatingImporterService.importBookRatings(bookRatings, bookReaders, books);
+        
+		/*
 		log.info("The data import process has started");
 
 		log.info("The process of importing book readers has begun");
@@ -55,5 +74,6 @@ public class DataImporter implements ApplicationRunner {
 		log.info("%d book ratings were imported".formatted(bookRatings.size()));
 
 		log.info("The data import process has been completed");
+		*/
 	}
 }

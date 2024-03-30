@@ -1,3 +1,7 @@
+auth0:
+  audience: https://my-auth0-tenant.com/library
+  domain: dev-gip7l08opj04hxst.us.auth0.com
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/database
@@ -15,9 +19,13 @@ spring:
         generate_statistics: true
   main:
     allow-bean-definition-overriding: true 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://${auth0.domain}/
     
 logging:
   level:
     org:  
       hibernate: info 
-      
