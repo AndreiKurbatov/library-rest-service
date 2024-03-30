@@ -47,7 +47,10 @@ public class DataImporter implements ApplicationRunner {
         Map<String, Book> books = new HashMap<>();
         List<BookRating> bookRatings = new ArrayList<>();
 
+        long startTime = System.nanoTime();
 		log.info("The process of importing publishers has begun");
+		log.info("The process of importing authors has begun");
+		log.info("The process of importing books has begun");
 		log.info("The process of importing book readers and locations has begun");
 		concurrentDataImporterService.importConcurrently(
 				() -> bookImporterService.importBooks(books, authors, publishers),
@@ -63,6 +66,12 @@ public class DataImporter implements ApplicationRunner {
 		bookRatingImporterService.importBookRatings(bookRatings, bookReaders, books);
 		log.info("%d book ratings were imported".formatted(bookRatings.size()));
 	
+        long endTime = System.nanoTime();
+        long elapsedTime = endTime - startTime;
+        double seconds = elapsedTime / 1_000_000_000.0;
+
+       	log.info("The data importing process has finished!\nExecution time: " + seconds + " seconds");
+		
 		log.info("The process of creating the relationship between books and book readers has begun");
 		bookImporterService.createBookToBookReaderRelationship(bookRatings, books, bookReaders);
 		log.info("The relationship between books and book readers has finished");
