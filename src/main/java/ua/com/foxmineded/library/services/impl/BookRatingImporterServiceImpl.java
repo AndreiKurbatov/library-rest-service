@@ -2,12 +2,12 @@ package ua.com.foxmineded.library.services.impl;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import ua.com.foxmineded.library.csvbeans.impl.BookRatingCsv;
 import ua.com.foxmineded.library.dao.BookRatingRepository;
-import ua.com.foxmineded.library.dao.BookReaderRepository;
-import ua.com.foxmineded.library.dao.BookRepository;
 import ua.com.foxmineded.library.entities.impl.Book;
 import ua.com.foxmineded.library.entities.impl.BookRating;
 import ua.com.foxmineded.library.entities.impl.BookReader;
@@ -19,8 +19,6 @@ import ua.com.foxmineded.library.utils.BookRatingCsvImporter;
 public class BookRatingImporterServiceImpl implements BookRatingImporterService {
 	private final BookRatingCsvImporter bookRatingCsvImporter;
 	private final BookRatingRepository bookRatingRepository;
-	private final BookRepository bookRepository;
-	private final BookReaderRepository bookReaderRepository;
 
 	@Override
 	public void importBookRatings(List<BookRating> bookRatings, Map<Long, BookReader> bookReaders, Map<String, Book> books) {
@@ -34,9 +32,9 @@ public class BookRatingImporterServiceImpl implements BookRatingImporterService 
                 isbn = isbn.substring(0, 10);
             }
             
-            if (books.containsKey(isbn) || bookReaders.containsKey(bookReaderId)) {
-            	Book book = bookRepository.findByIsbn(isbn).get();
-            	BookReader bookReader = bookReaderRepository.findByBookReaderId(bookReaderId).get();
+            Book book;
+            BookReader bookReader;
+            if (Objects.nonNull(book = books.get(isbn)) && Objects.nonNull(bookReader = bookReaders.get(bookReaderId))) {
             	BookRating bookRating = new BookRating(null, bookReader, book, rating);
             	bookRatings.add(bookRating);
             }

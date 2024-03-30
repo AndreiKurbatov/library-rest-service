@@ -1,9 +1,9 @@
 package ua.com.foxmineded.library.services.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
-import java.util.List;
-
-import org.junit.jupiter.api.Disabled;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -16,6 +16,7 @@ import org.springframework.test.context.jdbc.Sql;
 import ua.com.foxmineded.library.config.TypeMapConfig;
 import ua.com.foxmineded.library.dao.BookReaderRepository;
 import ua.com.foxmineded.library.entities.impl.BookReader;
+import ua.com.foxmineded.library.entities.impl.Location;
 import ua.com.foxmineded.library.services.BookReaderImporterService;
 import ua.com.foxmineded.library.utils.BookReaderCsvImporter;
 
@@ -27,18 +28,22 @@ class BookReaderImporterServiceImplTest {
 	@Autowired
 	BookReaderImporterService bookReaderImporterService;
 	
-	@Disabled
+	Map<Long, BookReader> bookReaders = new HashMap<>();
+	Map<Long, Set<Location>> locations = new HashMap<>();
+	
 	@Test
 	void testImportBookReaders() {
 		assertDoesNotThrow(() -> {
-			List<BookReader> list = bookReaderImporterService.importBookReaders();
-			System.out.println(list.get(1));
-			for (BookReader bookReader : list) {
+			bookReaderImporterService.importBookReaders(bookReaders, locations);
+			for (BookReader bookReader : bookReaders.values()) {
 				assertNotNull(bookReader.getId());
 				assertNotNull(bookReader.getBookReaderId());
-				assertNull(bookReader.getLocations());
+				assertNotNull(bookReader.getLocations());
+				for (Location location : bookReader.getLocations()) {
+					assertNotNull(location.getBookReader());
+				}
 			}
-			assertEquals(278858, list.size());
+			assertEquals(278858, bookReaders.size());
 		});
 	}
 }

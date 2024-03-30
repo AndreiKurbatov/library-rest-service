@@ -94,6 +94,13 @@ public class Book extends AbstractEntity<Long> {
 				: getClass().hashCode();
 	}
 	
+	public List<BookReader> getBookReaders() {
+		if (Objects.isNull(this.bookReaders)) {
+			this.bookReaders = new ArrayList<>();
+		}
+		return this.bookReaders;
+	}
+	
 	@PostPersist
 	private void assignBookToDependingEntity() {
 		if (Objects.isNull(this.getAuthor().getBooks())) {

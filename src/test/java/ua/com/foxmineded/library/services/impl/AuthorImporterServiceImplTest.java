@@ -1,10 +1,8 @@
 package ua.com.foxmineded.library.services.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.List;
-
-import org.junit.jupiter.api.Disabled;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -28,17 +26,18 @@ class AuthorImporterServiceImplTest {
 	@Autowired
 	AuthorImporterService authorImporterService;
 	
-	@Disabled
+	Map<String, Author> authors = new HashMap<>();
+	
 	@Test
 	void testImportAuthors() {
 			assertDoesNotThrow(() -> {
-				List<Author> list = authorImporterService.importAuthors();
-				for (Author author : list) {
+				authorImporterService.importAuthors(authors);
+				for (Author author : authors.values()) {
 					assertNotNull(author.getId());
 					assertNotNull(author.getAuthorName());
 					assertNull(author.getBooks());
 				}
-				assertEquals(102028, list.size());
+				assertEquals(102028, authors.size());
 			});
 	}
 }

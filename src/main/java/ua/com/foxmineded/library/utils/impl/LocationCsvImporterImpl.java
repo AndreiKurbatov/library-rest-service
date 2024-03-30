@@ -10,10 +10,12 @@ import ua.com.foxmineded.library.utils.LocationCsvImporter;
 
 @Component
 public class LocationCsvImporterImpl extends AbstractCsvImporter<LocationCsv, List<LocationCsv>> implements LocationCsvImporter {
-	private static final Path USERS_CSV = Paths.get("src", "main", "resources", "csv", "users.csv");
-
+    private static final Path ZIP_FILE_PATH = Paths.get("src", "main", "resources", "data", "book-dataset.zip");
+    private static final String INNER_ZIP_FILE = "users.csv.zip";
+    private static final String INNER_FILE = "users.csv";
+    
 	public LocationCsvImporterImpl() {
-		super(USERS_CSV, LocationCsv::csvBean);
+		super(ZIP_FILE_PATH, INNER_ZIP_FILE, INNER_FILE, LocationCsv::csvBean);
 	}
 
 	@Override

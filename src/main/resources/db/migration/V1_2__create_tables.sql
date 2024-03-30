@@ -36,12 +36,10 @@ CREATE TABLE IF NOT EXISTS library.book_ratings (
 	id BIGINT PRIMARY KEY,
 	book_reader_id BIGINT REFERENCES library.book_readers (book_reader_id),
 	isbn VARCHAR(10) REFERENCES library.books (isbn),
-	book_rating INTEGER,
-	CONSTRAINT one_book_one_book_reader_one_feedback UNIQUE (book_reader_id, isbn)
+	book_rating INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS library.book_readers_books (
 	isbn VARCHAR(10) REFERENCES library.books (isbn), 
-	book_reader_id BIGINT REFERENCES library.book_readers (book_reader_id),
-	CONSTRAINT pk_book_readers_books PRIMARY KEY (isbn, book_reader_id)
+	book_reader_id BIGINT REFERENCES library.book_readers (book_reader_id)
 );

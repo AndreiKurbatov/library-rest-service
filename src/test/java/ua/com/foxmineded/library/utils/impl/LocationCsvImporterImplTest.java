@@ -3,8 +3,6 @@ package ua.com.foxmineded.library.utils.impl;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.util.List;
-
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,7 +14,6 @@ class LocationCsvImporterImplTest {
 	@Autowired
 	LocationCsvImporter csvImporter;
 
-	@Disabled
 	@Test
 	void testImportAllLocationsFromCsvFile() {
 		List<LocationCsv> locations = csvImporter.read();

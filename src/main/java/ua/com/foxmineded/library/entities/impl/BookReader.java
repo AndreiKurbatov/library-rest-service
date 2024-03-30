@@ -1,5 +1,6 @@
 package ua.com.foxmineded.library.entities.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -72,6 +73,13 @@ public class BookReader extends AbstractEntity<Long> {
 		return this instanceof HibernateProxy
 				? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode()
 				: getClass().hashCode();
+	}
+	
+	public List<Book> getBooks() {
+		if (Objects.isNull(this.books)) {
+			this.books = new ArrayList<>();
+		}
+		return this.books;
 	}
 	
 	@PostPersist

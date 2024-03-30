@@ -2,8 +2,6 @@ package ua.com.foxmineded.library.utils.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
-
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +13,6 @@ class PublisherCsvImporterImplTest {
 	@Autowired
 	PublisherCsvImporter csvImporter;
 	
-	@Disabled
 	@Test
 	void testImportAllPublishersFromCsvFile() {
 		List<PublisherCsv> publishers = csvImporter.read();

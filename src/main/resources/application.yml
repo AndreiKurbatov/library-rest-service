@@ -15,8 +15,10 @@ spring:
     open-in-view: false
     properties:
       hibernate:
-        jdbc.batch_size: 10000
+        jdbc: 
+          batch_size: 10000
         generate_statistics: true
+        order_inserts: true
   main:
     allow-bean-definition-overriding: true 
   security:
