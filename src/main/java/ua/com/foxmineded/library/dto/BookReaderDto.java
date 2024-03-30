@@ -21,17 +21,15 @@ public class BookReaderDto extends AbstractDto<Long> {
 	private Long bookReaderId;
 	private Set<Long> locationIds;
 	private List<Long> bookRatingIds;
-	private List<Long> bookIds;
 	private Integer age;
 
 	@Builder(setterPrefix = "with")
 	@JsonCreator
-	public BookReaderDto(Long id, Long bookReaderId, Set<Long> locationIds, List<Long> bookRatingIds, List<Long> bookIds,  Integer age) {
+	public BookReaderDto(Long id, Long bookReaderId, Set<Long> locationIds, List<Long> bookRatingIds, Integer age) {
 		super(id);
 		this.bookReaderId = bookReaderId;
 		this.locationIds = locationIds;
 		this.bookRatingIds = bookRatingIds;
-		this.bookIds = bookIds;
 		this.age = age;
 	}
 
@@ -45,12 +43,11 @@ public class BookReaderDto extends AbstractDto<Long> {
 		return Objects.equals(id, bookReaderDto.id) && Objects.equals(bookReaderId, bookReaderDto.bookReaderId)
 				&& Objects.equals(locationIds, bookReaderDto.locationIds) 
 				&& Objects.equals(bookRatingIds, bookReaderDto.bookRatingIds)
-				&& Objects.equals(bookIds, bookReaderDto.bookIds)
 				&& Objects.equals(age, bookReaderDto.age);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, bookReaderId, locationIds, bookRatingIds, bookIds, age);
+		return Objects.hash(id, bookReaderId, locationIds, bookRatingIds, age);
 	}
 }

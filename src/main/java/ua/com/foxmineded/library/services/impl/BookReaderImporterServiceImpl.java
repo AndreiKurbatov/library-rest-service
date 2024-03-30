@@ -29,7 +29,7 @@ public class BookReaderImporterServiceImpl implements BookReaderImporterService 
 			Set<Location> locations = Arrays.stream(bookReaderCsv.getLocationName().split(", ")).map(str -> new Location(null, null, str)).collect(toCollection(HashSet::new));
 			locationsMap.put(bookReaderId, locations);
 			Integer age = bookReaderCsv.getAge();
-			BookReader bookReader = new BookReader(null, bookReaderId, locations, null, null, age);
+			BookReader bookReader = new BookReader(null, bookReaderId, locations,  null, age);
 			bookReaders.put(bookReaderId, bookReader);
 		}
 		bookReaderRepository.saveAll(bookReaders.values());

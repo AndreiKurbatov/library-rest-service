@@ -120,8 +120,5 @@ class BookImporterServiceImplTest {
 		for (Book book : books.values()) {
 			assertNotNull(book.getBookReaders());
 		}
-		for (BookReader bookReader : bookReaders.values()) {
-			assertNotNull(bookReader.getBooks());
-		}
 	}
 }

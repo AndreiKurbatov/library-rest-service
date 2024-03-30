@@ -37,7 +37,6 @@ class BookServiceImplTest {
 	@MockBean
 	BookRepository bookRepository;
 
-
 	@Test
 	void findTop10ByLocationAndAgeRange_AskFindTop10BooksByLocationAndNames_AllBooksShouldBeFound() {
 		Location location0 = new Location(1L, null, "location1");
@@ -72,23 +71,23 @@ class BookServiceImplTest {
 		set6.add(location10);
 		set6.add(location11);
 		
-		BookReader bookReader0 = new BookReader(1l, 1l, set1, null, null,10);
+		BookReader bookReader0 = new BookReader(1l, 1l, set1, null,10);
 		location0.setBookReader(bookReader0);
 		location1.setBookReader(bookReader0);
-		BookReader bookReader1 = new BookReader(2l, 2l, set2, null, null,20);
+		BookReader bookReader1 = new BookReader(2l, 2l, set2,  null,20);
 		location2.setBookReader(bookReader1);
 		location3.setBookReader(bookReader1);
-		BookReader bookReader2 = new BookReader(3l, 3l, set3, null, null,30);
+		BookReader bookReader2 = new BookReader(3l, 3l, set3,  null,30);
 		location4.setBookReader(bookReader2);
 		location5.setBookReader(bookReader2);
 		
-		BookReader bookReader3 = new BookReader(4l, 4l, set4, null, null,15);
+		BookReader bookReader3 = new BookReader(4l, 4l, set4,  null,15);
 		location6.setBookReader(bookReader3);
 		location7.setBookReader(bookReader3);
-		BookReader bookReader4 = new BookReader(5l, 5l, set5, null, null,25);
+		BookReader bookReader4 = new BookReader(5l, 5l, set5,  null,25);
 		location8.setBookReader(bookReader4);
 		location9.setBookReader(bookReader4);
-		BookReader bookReader5 = new BookReader(6l, 6l, set6, null, null,35);
+		BookReader bookReader5 = new BookReader(6l, 6l, set6,  null,35);
 		location10.setBookReader(bookReader5);
 		location11.setBookReader(bookReader5);
 		
@@ -107,23 +106,17 @@ class BookServiceImplTest {
 		bookReader5.setBookRatings(Stream.of(bookRating5).toList());
 		
 		Book book0 = new Book(1L, "isbn1", "book1", null, null,  Stream.of(bookRating0).toList(), Stream.of(bookReader0).toList(), 2002 , "image1", "image2", "image3");
-		bookReader0.setBooks(Stream.of(book0).toList());
 		bookRating0.setBook(book0);
 		Book book1 = new Book(2L, "isbn2", "book2", null, null, Stream.of(bookRating1).toList(), Stream.of(bookReader1).toList(), 2003 , "image1", "image2", "image3");
-		bookReader1.setBooks(Stream.of(book1).toList());
 		bookRating1.setBook(book1);
 		Book book2 = new Book(3L, "isbn3", "book3", null, null, Stream.of(bookRating2).toList(), Stream.of(bookReader2).toList(), 2004  , "image1", "image2", "image3");
-		bookReader2.setBooks(Stream.of(book2).toList());
 		bookRating2.setBook(book2);
 		
 		Book book3 = new Book(4L, "isbn4", "book4", null, null, Stream.of(bookRating3).toList(), Stream.of(bookReader3).toList(), 2006 , "image1", "image2", "image3");
-		bookReader3.setBooks(Stream.of(book3).toList());
 		bookRating3.setBook(book3);
 		Book book4 = new Book(5L, "isbn5", "book5", null, null, Stream.of(bookRating4).toList(), Stream.of(bookReader4).toList(), 2003 ,"image1", "image2", "image3");
-		bookReader4.setBooks(Stream.of(book4).toList());
 		bookRating4.setBook(book4);
 		Book book5 = new Book(6L, "isbn6", "book6", null, null,Stream.of(bookRating5).toList(), Stream.of(bookReader5).toList(), 2004 ,"image1", "image2", "image3");
-		bookReader5.setBooks(Stream.of(book5).toList());
 		bookRating5.setBook(book5);
 		
 		when(bookRepository.findAllByLocationName(any(Pageable.class), anyString())).thenReturn(new PageImpl<>(Stream.of(book0, book1, book3).toList()));

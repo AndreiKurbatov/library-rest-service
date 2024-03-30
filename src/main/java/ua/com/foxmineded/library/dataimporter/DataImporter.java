@@ -65,15 +65,15 @@ public class DataImporter implements ApplicationRunner {
 		log.info("The process of importing book ratings has begun");
 		bookRatingImporterService.importBookRatings(bookRatings, bookReaders, books);
 		log.info("%d book ratings were imported".formatted(bookRatings.size()));
-	
+		
+		log.info("The process of creating the relationship between books and book readers has begun");
+		bookImporterService.createBookToBookReaderRelationship(bookRatings, books, bookReaders);
+		log.info("The relationship between books and book readers has finished");
+		
         long endTime = System.nanoTime();
         long elapsedTime = endTime - startTime;
         double seconds = elapsedTime / 1_000_000_000.0;
 
        	log.info("The data importing process has finished!\nExecution time: " + seconds + " seconds");
-		
-		log.info("The process of creating the relationship between books and book readers has begun");
-		bookImporterService.createBookToBookReaderRelationship(bookRatings, books, bookReaders);
-		log.info("The relationship between books and book readers has finished");
 	}
 }

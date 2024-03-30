@@ -9,7 +9,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PostPersist;
@@ -41,7 +40,7 @@ public class Book extends AbstractEntity<Long> {
 	@OneToMany(cascade = {CascadeType.DETACH, CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "book")
 	private List<BookRating> bookRatings;
 	@ToString.Exclude
-	@ManyToMany(cascade = {CascadeType.DETACH, CascadeType.REFRESH, CascadeType.REMOVE})
+	@OneToMany(cascade = {CascadeType.DETACH, CascadeType.REFRESH, CascadeType.REMOVE})
 	@JoinTable(schema = "library", name = "book_readers_books", joinColumns = @JoinColumn(name = "isbn", referencedColumnName = "isbn"), inverseJoinColumns = @JoinColumn(name = "book_reader_id", referencedColumnName = "book_reader_id"))
 	private List<BookReader> bookReaders;
 	@Column(name = "publication_year")

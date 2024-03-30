@@ -5,7 +5,6 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import ua.com.foxmineded.library.csvbeans.impl.BookCsv;
-import ua.com.foxmineded.library.dao.BookReaderRepository;
 import ua.com.foxmineded.library.dao.BookRepository;
 import ua.com.foxmineded.library.entities.impl.Author;
 import ua.com.foxmineded.library.entities.impl.Book;
@@ -22,7 +21,6 @@ import ua.com.foxmineded.library.utils.BookCsvImporter;
 public class BookImporterServiceImpl implements BookImporterService {
 	private final BookCsvImporter booksCsvReader;
 	private final BookRepository bookRepository;
-	private final BookReaderRepository bookReaderRepository;	
 	private final PublisherImporterService publisherImporterService;
 	private final AuthorImporterService authorImporterService;
 
@@ -64,14 +62,10 @@ public class BookImporterServiceImpl implements BookImporterService {
 			Long bookReaderId = bookRating.getBookReader().getBookReaderId();
 			Book book = books.get(isbn);
 			BookReader bookReader = bookReaders.get(bookReaderId);
-			book.getBookReaders().add(bookReader);
-			bookReader.getBooks().add(book);	
+			book.getBookReaders().add(bookReader);	
 		}
 		bookRepository.saveAll(books.values());
 		bookRepository.flush();
-		System.out.println("--------------");
-		bookReaderRepository.saveAll(bookReaders.values());
-		bookReaderRepository.flush();
 	}
 
 	@Override

@@ -1,6 +1,5 @@
 package ua.com.foxmineded.library.entities.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -8,9 +7,6 @@ import org.hibernate.proxy.HibernateProxy;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.Table;
@@ -33,20 +29,15 @@ public class BookReader extends AbstractEntity<Long> {
 	@ToString.Exclude
 	@OneToMany(mappedBy = "bookReader")
 	private List<BookRating> bookRatings;
-	@ToString.Exclude
-	@ManyToMany
-	@JoinTable(schema = "library", name = "book_readers_books", joinColumns = @JoinColumn(name = "book_reader_id", referencedColumnName = "book_reader_id"), inverseJoinColumns = @JoinColumn(name = "isbn", referencedColumnName = "isbn"))
-	private List<Book> books;
 	@Column(name = "age")
 	private Integer age;
 
 	public BookReader(Long id, Long bookReaderId, Set<Location> locations, List<BookRating> bookRatings,
-			List<Book> books, Integer age) {
+			Integer age) {
 		super(id);
 		this.bookReaderId = bookReaderId;
 		this.locations = locations;
 		this.bookRatings = bookRatings;
-		this.books = books;
 		this.age = age;
 	}
 
@@ -73,13 +64,6 @@ public class BookReader extends AbstractEntity<Long> {
 		return this instanceof HibernateProxy
 				? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode()
 				: getClass().hashCode();
-	}
-	
-	public List<Book> getBooks() {
-		if (Objects.isNull(this.books)) {
-			this.books = new ArrayList<>();
-		}
-		return this.books;
 	}
 	
 	@PostPersist

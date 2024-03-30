@@ -63,7 +63,6 @@ public class TypeMapConfig {
 				map().setBookReaderId(source.getBookReaderId());
 				skip(destination.getLocations());
 				skip(destination.getBookRatings());
-				skip(destination.getBooks());
 			}
 		};
 
@@ -115,10 +114,6 @@ public class TypeMapConfig {
 				.collect(toCollection(ArrayList::new));
 		bookReaderToDto.addMappings(mapper -> mapper.using(bookRatingToIds).map(BookReader::getBookRatings,
 				BookReaderDto::setBookRatingIds));
-		Converter<List<Book>, List<Long>> booksToIds1 = ctx -> ctx.getSource().stream().map(Book::getId)
-				.collect(toCollection(ArrayList::new));
-		bookReaderToDto
-				.addMappings(mapper -> mapper.using(booksToIds1).map(BookReader::getBooks, BookReaderDto::setBookIds));
 
 		TypeMap<Publisher, PublisherDto> publisherToDtoTypeMap = modelMapper.createTypeMap(Publisher.class,
 				PublisherDto.class);
