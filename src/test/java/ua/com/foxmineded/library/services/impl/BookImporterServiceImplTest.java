@@ -66,17 +66,11 @@ class BookImporterServiceImplTest {
 	@Autowired
 	BookRatingImporterService bookRatingImporterService;
 	
-	@Disabled
 	@Test
 	void testImportBooks() {
 	    Map<String, Publisher> publishers = new HashMap<>();
 	    Map<String, Author> authors = new HashMap<>();
 	    Map<String, Book> books = new HashMap<>();
-	    
-    	authorImporterService.importAuthors(authors);
-    	log.info("%d authors were imported".formatted(authors.size()));
-    	publisherImporterService.importPublishers(publishers);
-    	log.info("%d publishers were imported".formatted(publishers.size()));
 		
 		bookImporterService.importBooks(books, authors, publishers);
 		for (Book book : books.values()) {
@@ -99,6 +93,7 @@ class BookImporterServiceImplTest {
 		assertEquals(271377, books.size());
 	}
 	
+	@Disabled
 	@Test
 	void testPersistAllEntitiesAndCreateRelationBetweenThem() {
 	    Map<Long, Set<Location>> locations = new HashMap<>();

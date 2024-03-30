@@ -73,15 +73,13 @@ class BookRatingImporterServiceImplTest {
 	
 	@BeforeEach
 	void setup() {
-		publisherImporterService.importPublishers(publishers);
-		log.info("%d publishers were imported".formatted(publishers.size()));
-		authorImporterService.importAuthors(authors);
-		log.info("%d authors were imported".formatted(authors.size()));
 		bookImporterService.importBooks(books, authors, publishers);
 		log.info("%d books were imported".formatted(books.size()));
 		bookReaderImporterService.importBookReaders(bookReaders, locations);
 		log.info("%d book readers were imported".formatted(bookReaders.size()));
 		log.info("%d locations were imported".formatted(locations.values().stream().flatMap(location -> location.stream().map(entity -> entity.getLocationName())).count()));
+		log.info("%d authors were imported".formatted(authorImporterService.countAll()));
+		log.info("%d publishers were imported".formatted(publisherImporterService.countAll()));
 	}
 	
 	@Test
