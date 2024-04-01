@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -17,7 +15,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import lombok.extern.slf4j.Slf4j;
 import ua.com.foxmineded.library.dao.AuthorRepository;
 import ua.com.foxmineded.library.dao.BookRatingRepository;
@@ -53,7 +50,7 @@ import ua.com.foxmineded.library.utils.PublisherCsvImporter;
 		}))
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @ActiveProfiles("test")
-@Sql(scripts = { "/test/sql/clear-tables.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_CLASS)
+@Sql(scripts = { "/test/sql/clear-tables.sql" })
 class BookImporterServiceImplTest {
 	@Autowired
 	PublisherImporterService publisherImporterService;
@@ -93,7 +90,6 @@ class BookImporterServiceImplTest {
 		assertEquals(271377, books.size());
 	}
 	
-	@Disabled
 	@Test
 	void testPersistAllEntitiesAndCreateRelationBetweenThem() {
 	    Map<Long, Set<Location>> locations = new HashMap<>();
@@ -103,12 +99,10 @@ class BookImporterServiceImplTest {
 	    Map<String, Book> books = new HashMap<>();
 	    List<BookRating> bookRatings = new ArrayList<>();
 	    
-		publisherImporterService.importPublishers(publishers);
-		log.info("%d publishers were imported".formatted(publishers.size()));
-		authorImporterService.importAuthors(authors);
-		log.info("%d authors were imported".formatted(authors.size()));
 		bookImporterService.importBooks(books, authors, publishers);
 		log.info("%d books were imported".formatted(books.size()));
+		log.info("%d publishers were imported".formatted(publisherImporterService.countAll()));
+		log.info("%d authors were imported".formatted(authorImporterService.countAll()));
 		bookReaderImporterService.importBookReaders(bookReaders, locations);
 		log.info("%d book readers were imported".formatted(bookReaders.size()));
 		log.info("%d locations were imported".formatted(locations.values().stream().flatMap(location -> location.stream().map(entity -> entity.getLocationName())).count()));

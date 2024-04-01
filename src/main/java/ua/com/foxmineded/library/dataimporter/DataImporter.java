@@ -68,12 +68,12 @@ public class DataImporter implements ApplicationRunner {
 		
 		log.info("The process of creating the relationship between books and book readers has begun");
 		bookImporterService.createBookToBookReaderRelationship(bookRatings, books, bookReaders);
-		log.info("The relationship between books and book readers has finished");
+		log.info("The relationship between books and book readers is completed");
 		
         long endTime = System.nanoTime();
         long elapsedTime = endTime - startTime;
         double seconds = elapsedTime / 1_000_000_000.0;
 
-       	log.info("The data importing process has finished!\nExecution time: " + seconds + " seconds");
+       	log.info("The data importing process is completed!\nExecution time: " + seconds + " seconds");
 	}
 }

@@ -26,47 +26,31 @@ public class SecurityConfig {
 
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		return http.authorizeHttpRequests(
-				authz -> 
-				authz.requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
-				.anyRequest()
-				.authenticated())
-				.cors(
-						cors -> cors 
-						.configurationSource(corsConfigurationSource())
-						)
-				.oauth2ResourceServer(
-						oauth2ResourceServer -> oauth2ResourceServer
-					
-						.jwt(
-								jwt -> jwt.decoder(jwtDecoder())
-								)
-						)
+		return http
+				.authorizeHttpRequests(authz -> authz.requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
+						.anyRequest().authenticated())
+				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
+				.oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer
+						.jwt(jwt -> jwt.decoder(jwtDecoder())))
 				.build();
 	}
 
 	@Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedMethods(List.of(
-                HttpMethod.GET.name(),
-                HttpMethod.PUT.name(),
-                HttpMethod.POST.name(),
-                HttpMethod.DELETE.name()
-        ));
+	CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.setAllowedMethods(List.of(HttpMethod.GET.name(), HttpMethod.PUT.name(), HttpMethod.POST.name(),
+				HttpMethod.DELETE.name()));
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration.applyPermitDefaultValues());
-        return source;
-    }
-	
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration.applyPermitDefaultValues());
+		return source;
+	}
+
 	@Bean
 	JwtDecoder jwtDecoder() {
 		OAuth2TokenValidator<Jwt> withAudience = new AudienceValidator(audience);
 		OAuth2TokenValidator<Jwt> withIssuer = JwtValidators.createDefaultWithIssuer(issuer);
 		OAuth2TokenValidator<Jwt> validator = new DelegatingOAuth2TokenValidator<>(withAudience, withIssuer);
-		System.out.println(audience);
-		System.out.println(issuer);
 		NimbusJwtDecoder jwtDecoder = (NimbusJwtDecoder) JwtDecoders.fromOidcIssuerLocation(issuer);
 		jwtDecoder.setJwtValidator(validator);
 		return jwtDecoder;

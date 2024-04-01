@@ -1,3 +1,7 @@
+auth0:
+  audience: https://dev-gip7l08opj04hxst.us.auth0.com/api/v2/
+  domain: dev-gip7l08opj04hxst.us.auth0.com
+
 spring:
   datasource:
     url: jdbc:tc:postgresql:15:///databasename?TC_DAEMON=true

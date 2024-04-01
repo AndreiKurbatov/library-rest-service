@@ -95,7 +95,7 @@ public class BookController {
 
 	@DeleteMapping(value = "/deletion/{id}")
 	ResponseEntity<Object> deleteById(@PathVariable Long id) {
-		bookService.findById(id).ifPresentOrElse((value) -> bookService.deleteById(id), () -> {
+		bookService.findById(id).ifPresentOrElse(value -> bookService.deleteById(id), () -> {
 			String message = "The book with id = %d was not found".formatted(id);
 			log.error(message);
 			throw new ResourceNotFoundException(message);
