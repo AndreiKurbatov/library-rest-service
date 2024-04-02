@@ -1,5 +1,5 @@
 auth0:
-  audience: https://my-auth0-tenant.com/library
+  audience: https://dev-gip7l08opj04hxst.us.auth0.com/api/v2/
   domain: dev-gip7l08opj04hxst.us.auth0.com
   
 springdoc:

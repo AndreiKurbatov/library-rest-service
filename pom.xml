@@ -55,6 +55,11 @@
 			<version>6.2.3</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
 		<dependency>
+			<groupId>org.hibernate.orm.tooling</groupId>
+			<artifactId>hibernate-enhance-maven-plugin</artifactId>
+			<version>6.4.4.Final</version><!--$NO-MVN-MAN-VER$-->
+		</dependency>
+		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
 		</dependency>
