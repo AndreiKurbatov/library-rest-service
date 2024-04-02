@@ -27,7 +27,8 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		return http
-				.authorizeHttpRequests(authz -> authz.requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
+				.authorizeHttpRequests(authz -> authz
+						.requestMatchers(HttpMethod.GET, "/swagger-ui/**", "/api-docs","/api-docs.yaml", "/api/v1/**").permitAll()
 						.anyRequest().authenticated())
 				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 				.oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer

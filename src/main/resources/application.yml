@@ -1,6 +1,10 @@
 auth0:
   audience: https://my-auth0-tenant.com/library
   domain: dev-gip7l08opj04hxst.us.auth0.com
+  
+springdoc:
+  api-docs:
+    path: /api-docs
 
 spring:
   datasource:

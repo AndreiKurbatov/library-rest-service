@@ -1,16 +1,14 @@
 package ua.com.foxmineded.library.controllers;
 
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.fasterxml.jackson.core.JsonProcessingException;
-
 import ua.com.foxmineded.library.exceptions.ServiceException;
-
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 	
 	@ExceptionHandler(ResourceNotFoundException.class)
@@ -20,6 +18,6 @@ public class GlobalExceptionHandler {
 	
 	@ExceptionHandler(ServiceException.class) 
 	public ResponseEntity<String> handleServiceException(ServiceException ex) throws JsonProcessingException {
-		return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body(ex.getMessage());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
 	}
 }
