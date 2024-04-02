@@ -19,6 +19,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ua.com.foxmineded.library.dto.BookDto;
@@ -112,29 +113,35 @@ public class BookController {
 		});
 	}
 
-	@Operation(summary = "Create a new book")
+	@Operation(summary = "Create a new book",  security = @SecurityRequirement(name = "bearerAuth"))
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "201", description = "Book was created", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json",schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = BookDto.class))),
-			@ApiResponse(responseCode = "400", description = "Book was not created", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json",schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = String.class)) ) })
+			@ApiResponse(responseCode = "400", description = "Book was not created", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json",schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = String.class))),
+			@ApiResponse(responseCode = "401", description = "The user is unauthorized", content = @io.swagger.v3.oas.annotations.media.Content) 
+	})
 	@PostMapping(value = "/creation")
 	ResponseEntity<BookDto> create(@Parameter(description = "The new book dto") @RequestBody BookDto book) throws ServiceException {
 		BookDto result = bookService.save(book);
 		return ResponseEntity.status(HttpStatus.CREATED).body(result);
 	}
 
-	@Operation(summary = "Update a book")
+	@Operation(summary = "Update a book", security = @SecurityRequirement(name = "bearerAuth"))
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Book was updated", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json",schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = BookDto.class))),
-			@ApiResponse(responseCode = "400", description = "Book was not updated", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json",schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = String.class)) ) })
+			@ApiResponse(responseCode = "400", description = "Book was not updated", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json",schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = String.class))),
+			@ApiResponse(responseCode = "401", description = "The user is unauthorized", content = @io.swagger.v3.oas.annotations.media.Content) 
+	})
 	@PutMapping(value = "/update")
 	BookDto update(@Parameter(description = "The book dto to update") @RequestBody BookDto book) throws ServiceException {
 		return bookService.save(book);
 	}
 
-	@Operation(summary = "Delete a book")
+	@Operation(summary = "Delete a book", security = @SecurityRequirement(name = "bearerAuth"))
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "204", description = "Book was deleted", content = @io.swagger.v3.oas.annotations.media.Content),
-			@ApiResponse(responseCode = "404", description = "Book was not deleted", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json",schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = String.class)) ) })
+			@ApiResponse(responseCode = "404", description = "Book was not deleted", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json",schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = String.class))),
+			@ApiResponse(responseCode = "401", description = "The user is unauthorized", content = @io.swagger.v3.oas.annotations.media.Content) 
+	})
 	@DeleteMapping(value = "/deletion/{id}")
 	ResponseEntity<Object> deleteById(@Parameter(description = "The id of the book to delete") @PathVariable Long id) {
 		bookService.findById(id).ifPresentOrElse(value -> bookService.deleteById(id), () -> {

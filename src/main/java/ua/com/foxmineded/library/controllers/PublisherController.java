@@ -20,6 +20,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ua.com.foxmineded.library.dto.PublisherDto;
@@ -89,29 +90,35 @@ public class PublisherController {
 		});
 	}
 
-	@Operation(summary = "Create a new publisher")
+	@Operation(summary = "Create a new publisher", security = @SecurityRequirement(name = "bearerAuth"))
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "201", description = "Publisher was created", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json",schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = PublisherDto.class))),
-			@ApiResponse(responseCode = "400", description = "Publisher was not created", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json",schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = String.class)) ) })
+			@ApiResponse(responseCode = "400", description = "Publisher was not created", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json",schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = String.class))),
+			@ApiResponse(responseCode = "401", description = "The user is unauthorized", content = @io.swagger.v3.oas.annotations.media.Content) 
+	})
 	@PostMapping(value = "/creation")
 	public ResponseEntity<Object> create(@Parameter(description = "The new publisher dto") @RequestBody PublisherDto publisherDto) throws ServiceException {
 		PublisherDto result = publisherService.save(publisherDto);
 		return ResponseEntity.status(HttpStatus.CREATED).body(result);
 	}
 
-	@Operation(summary = "Update a publisher")
+	@Operation(summary = "Update a publisher", security = @SecurityRequirement(name = "bearerAuth"))
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Publisher was updated", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json",schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = PublisherDto.class))),
-			@ApiResponse(responseCode = "400", description = "Publisher was not updated", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json",schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = String.class)) ) })
+			@ApiResponse(responseCode = "400", description = "Publisher was not updated", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json",schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = String.class))),
+			@ApiResponse(responseCode = "401", description = "The user is unauthorized", content = @io.swagger.v3.oas.annotations.media.Content) 	
+	})
 	@PutMapping(value = "/update")
 	public PublisherDto update(@Parameter(description = "The publisher dto to update") @RequestBody PublisherDto publisherDto) throws ServiceException {
 		return publisherService.save(publisherDto);
 	}
 
-	@Operation(summary = "Delete a publisher")
+	@Operation(summary = "Delete a publisher", security = @SecurityRequirement(name = "bearerAuth"))
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "204", description = "Publisher was deleted", content = @io.swagger.v3.oas.annotations.media.Content),
-			@ApiResponse(responseCode = "404", description = "Publisher was not deleted", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json",schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = String.class)) ) })
+			@ApiResponse(responseCode = "404", description = "Publisher was not deleted", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json",schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = String.class))),
+			@ApiResponse(responseCode = "401", description = "The user is unauthorized", content = @io.swagger.v3.oas.annotations.media.Content) 
+	})
 	@DeleteMapping(value = "/deletion/{id}")
 	public ResponseEntity<Object> deleteById(@Parameter(description = "The id of the publisher to delete") @PathVariable Long id) {
 		publisherService.findById(id).ifPresentOrElse(value -> publisherService.deleteById(id), () -> {

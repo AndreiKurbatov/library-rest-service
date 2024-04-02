@@ -14,10 +14,20 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import ua.com.foxmineded.library.models.AudienceValidator;
 
 @EnableWebSecurity
 @Configuration
+@OpenAPIDefinition(info = @io.swagger.v3.oas.annotations.info.Info(title = "My library API", version = "v1"))
+@SecurityScheme(
+    name = "bearerAuth",
+    type = SecuritySchemeType.HTTP,
+    bearerFormat = "JWT",
+    scheme = "bearer"
+)
 public class SecurityConfig {
 	@Value("${auth0.audience}")
 	private String audience;
@@ -28,7 +38,7 @@ public class SecurityConfig {
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		return http
 				.authorizeHttpRequests(authz -> authz
-						.requestMatchers(HttpMethod.GET, "/swagger-ui/**", "/api-docs","/api-docs.yaml", "/api/v1/**").permitAll()
+						.requestMatchers(HttpMethod.GET, "/swagger-ui/**", "/api-docs/**", "/api/v1/**").permitAll()
 						.anyRequest().authenticated())
 				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 				.oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer

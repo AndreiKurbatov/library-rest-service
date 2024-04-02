@@ -19,6 +19,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ua.com.foxmineded.library.dto.BookRatingDto;
@@ -49,29 +50,35 @@ public class BookRatingController {
 		return bookRatingService.findAllByBookId(pageable, id);
 	}
 
-	@Operation(summary = "Create a new book rating")
+	@Operation(summary = "Create a new book rating", security = @SecurityRequirement(name = "bearerAuth"))
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "201", description = "The book rating was created", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json",schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = BookRatingDto.class))),
-			@ApiResponse(responseCode = "400", description = "The book rating was not created", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json",schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = String.class)) ) })
-		@PostMapping(value = "/creation")
+			@ApiResponse(responseCode = "400", description = "The book rating was not created", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json",schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = String.class))),
+			@ApiResponse(responseCode = "401", description = "The user is unauthorized", content = @io.swagger.v3.oas.annotations.media.Content) 
+	})
+	@PostMapping(value = "/creation")
 	public ResponseEntity<BookRatingDto> create(@Parameter(description = "The new book rating dto") @RequestBody BookRatingDto bookRatingDto) throws ServiceException {
 		BookRatingDto result = bookRatingService.save(bookRatingDto);
 		return ResponseEntity.status(HttpStatus.CREATED).body(result);
 	}
 
-	@Operation(summary = "Update a book rating")
+	@Operation(summary = "Update a book rating", security = @SecurityRequirement(name = "bearerAuth"))
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "The book rating was updated", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json",schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = BookRatingDto.class))),
-			@ApiResponse(responseCode = "400", description = "The book rating was not updated", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json",schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = String.class)) ) })
+			@ApiResponse(responseCode = "400", description = "The book rating was not updated", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json",schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = String.class))),
+			@ApiResponse(responseCode = "401", description = "The user is unauthorized", content = @io.swagger.v3.oas.annotations.media.Content) 
+	})
 	@PutMapping(value = "/update")
 	public BookRatingDto update(@Parameter(description = "The book rating dto to update") @RequestBody BookRatingDto bookRatingDto) throws ServiceException {
 		return bookRatingService.save(bookRatingDto);
 	}
 
-	@Operation(summary = "Delete a book rating")
+	@Operation(summary = "Delete a book rating", security = @SecurityRequirement(name = "bearerAuth"))
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "204", description = "The book rating was deleted", content = @io.swagger.v3.oas.annotations.media.Content),
-			@ApiResponse(responseCode = "404", description = "The book rating was not deleted", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json",schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = String.class)) ) })
+			@ApiResponse(responseCode = "404", description = "The book rating was not deleted", content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json",schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = String.class))),
+			@ApiResponse(responseCode = "401", description = "The user is unauthorized", content = @io.swagger.v3.oas.annotations.media.Content) 
+	})
 	@DeleteMapping(value = "/deletion/{id}")
 	public ResponseEntity<Object> deleteById(@Parameter(description = "The id of the book rating to delete") @PathVariable Long id) {
 		bookRatingService.findById(id).ifPresentOrElse((v) -> bookRatingService.deleteById(id), () -> {
