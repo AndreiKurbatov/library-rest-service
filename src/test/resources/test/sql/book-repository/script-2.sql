@@ -21,7 +21,7 @@ INSERT INTO library.locations (id, book_reader_id, location_name) VALUES
 (10013, 4, 'location3'),
 (10014, 4, 'location4');
 
-INSERT INTO library.book_readers_books (isbn, book_reader_id) VALUES 
-('1234567890', 1),
-('0987654321', 2),
-('5432109876', 3);
+INSERT INTO library.book_ratings (id, isbn, book_reader_id) VALUES 
+(10015, '1234567890', 1),
+(10016, '0987654321', 2),
+(10017, '5432109876', 3);

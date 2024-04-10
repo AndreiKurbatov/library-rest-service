@@ -1,0 +1,15 @@
+auth0:
+  audience: https://dev-gip7l08opj04hxst.us.auth0.com/api/v2/
+  domain: dev-gip7l08opj04hxst.us.auth0.com
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/database
+    username: newuser
+    password: 1234
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://${auth0.domain}/
+    
