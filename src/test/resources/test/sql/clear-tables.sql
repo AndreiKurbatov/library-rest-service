@@ -4,4 +4,3 @@ DELETE FROM library.authors;
 DELETE FROM library.publishers;
 DELETE FROM library.books;
 DELETE FROM library.book_ratings;
-DELETE FROM library.book_readers_books;

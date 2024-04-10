@@ -38,8 +38,3 @@ CREATE TABLE IF NOT EXISTS library.book_ratings (
 	isbn VARCHAR(10) REFERENCES library.books (isbn),
 	book_rating INTEGER
 );
-
-CREATE TABLE IF NOT EXISTS library.book_readers_books (
-	isbn VARCHAR(10) REFERENCES library.books (isbn), 
-	book_reader_id BIGINT REFERENCES library.book_readers (book_reader_id)
-);

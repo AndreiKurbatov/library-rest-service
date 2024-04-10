@@ -1,6 +1,6 @@
 auth0:
-  audience: https://dev-gip7l08opj04hxst.us.auth0.com/api/v2/
-  domain: dev-gip7l08opj04hxst.us.auth0.com
+  audience: ${AUTH0_AUDIENCE}
+  domain: ${AUTH0_DOMAIN}
   
 springdoc:
   api-docs:
@@ -8,9 +8,9 @@ springdoc:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/database
-    username: newuser
-    password: 1234
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     hikari:
       connection-timeout: 20000
       maximum-pool-size: 5
@@ -29,7 +29,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: https://${auth0.domain}/
+          issuer-uri: https://${AUTH0_DOMAIN}/
     
 logging:
   level:
